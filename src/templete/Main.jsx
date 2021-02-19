@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react'
 import {useDispatch} from 'react-redux'
+import {Header} from '../component/Header'
 import {EditPositionMap,PositionMap} from '../component/PositionMap/index'
 import {updateMapSize,fetchCards} from '../reducks/pMap/operations'
 const Main = () => {
@@ -19,7 +20,7 @@ const Main = () => {
     return(
         <>
           <div id="header">
-            header
+            <Header />
           </div>
 
           <div id="main">
