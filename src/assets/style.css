@@ -14,6 +14,7 @@
   font-size: 3rem;
   height: 10vh;
   box-sizing: border-box;
+  vertical-align: center;
 }
 #main {
   margin: 0 5px;

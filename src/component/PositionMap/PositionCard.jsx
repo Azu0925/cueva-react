@@ -43,7 +43,6 @@ const PositionCard = (props) => {
     const classes = useStyles()
     
     const unsetRefCurrent = props.unsetRefCurrent
-    console.log('pcCurrent',unsetRefCurrent)
     const interact = useInteractJS(props.card,unsetRefCurrent);//props受け取ったcardの位置情報をinteract.jsのカスタムフックに渡す。
     const dispatch = useDispatch()
     //interact.jsにより作成された動く要素の情報をinteractのオブジェクトから取得
@@ -88,7 +87,6 @@ const PositionCard = (props) => {
 
     const handleDeleteIcon = (e) => {
         e.stopPropagation()
-        console.log('押された！！！！！')
         //interact.disable()
         dispatch(deleteCard(cardId,interact.ref.current))
     }

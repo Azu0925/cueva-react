@@ -55,8 +55,23 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                 ...state,
                 size:{...action.payload}
             }
-    
-
+            
+        case Actions.CHANGE_MAP_ACTION:
+            return{
+                ...action.payload
+            }
+        case Actions.FETCH_MAP_DETAIL_ACTION:
+            return{
+                ...state,
+                ...action.payload
+            }
+        
+        case Actions.UPDATE_MAP_ACTION:
+            return{
+                ...state,
+                ...action.payload
+            }
+        
         default:
             console.log('defaultを通過');
             return state

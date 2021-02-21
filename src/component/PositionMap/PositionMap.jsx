@@ -20,7 +20,7 @@ const PositionMap= () => {
     const Cards = getCards(selector);//storeのcardsを取得
     const selectedCardId = getSelectedCardId(selector)//storeのselectedCardIdを取得
     const unsetRefCurrent = getUnsetRefCurrent(selector)
-    console.log('pmCurrent',unsetRefCurrent)
+    
     const generateCard = useCallback((e) => {//ダブルクリックで座標を取得してカードを追加
         const newPosition = {
             x:e.offsetX,
@@ -29,12 +29,12 @@ const PositionMap= () => {
         dispatch(addCard("","",newPosition.x,newPosition.y,100,100));
     },[dispatch])
 
+    
+
     useEffect(() => {//最初にダブルクリックのイベントリスナーを登録。
         let target = document.getElementById('generateCardArea');
         target.addEventListener('dblclick',(e) => generateCard(e));
     },[generateCard])
-
-    console.log('cards',Cards)
 
     const handleClick = () => {
         dispatch(deselectCard())

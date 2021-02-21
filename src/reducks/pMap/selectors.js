@@ -25,3 +25,13 @@ export const getUnsetRefCurrent = createSelector(
     [pMapSelector],
     state => state.pMap.unsetRefCurrent
 )
+
+export const getMapHostId = createSelector(
+    [pMapSelector],
+    state => state.pMap.hostId
+)
+
+export const getMapNameAndDetail = createSelector(
+    [pMapSelector],
+    state => [state.pMap.mapName,state.pMap.mapDetail]
+)

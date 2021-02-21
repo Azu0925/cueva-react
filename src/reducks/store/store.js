@@ -4,7 +4,9 @@ import{
     applyMiddleware,
     compose
 }from 'redux';
-import{PMapReducer} from '../pMap/reducers';
+import {PMapReducer} from '../pMap/reducers';
+import {TeamReducer} from '../team/reducers';
+import {UserReducer} from '../user/reducers';
 import {connectRouter,routerMiddleware} from "connected-react-router";
 import thunk from 'redux-thunk';
 
@@ -14,7 +16,9 @@ export default function createStore(history){
     return reduxCreateStore(
         combineReducers({
             router:connectRouter(history),
-            pMap:PMapReducer
+            pMap:PMapReducer,
+            team:TeamReducer,
+            user:UserReducer
         }),
         composeEnhancers(
             applyMiddleware(

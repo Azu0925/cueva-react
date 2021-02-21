@@ -15,6 +15,7 @@ const Main = () => {
 
   useEffect(() => {//Cardsをさーばーから毎回フェッチ。この処理はMainに書いたほうが良いかも
     dispatch(fetchCards())
+    console.log('カードフェッチ')
 },[dispatch])
 
     return(

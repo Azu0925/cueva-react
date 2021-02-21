@@ -60,3 +60,27 @@ export const updateMapSizeAction = (size) => {
         payload:size
     }
 }
+
+export const CHANGE_MAP_ACTION = 'CHANGE_MAP_ACTION';
+export const changeMapAction = (pMap) => {
+    return{
+        type:'CHANGE_MAP_ACTION',
+        payload:pMap
+    }
+}
+
+export const FETCH_MAP_DETAIL_ACTION = 'FETCH_MAP_DETAIL_ACTION';
+export const fetchMapDetailAction = (detail) => {
+    return{
+        type:'FETCH_MAP_DETAIL_ACTION',
+        payload:detail
+    }
+}
+
+export const UPDATE_MAP_ACTION = 'UPDATE_MAP_ACTION';
+export const updateMapAction = (mapInfo) => {
+    return{
+        type:'UPDATE_MAP_ACTION',
+        payload:mapInfo
+    }
+}
