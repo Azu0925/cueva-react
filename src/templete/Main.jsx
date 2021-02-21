@@ -20,10 +20,6 @@ const Main = () => {
 
     return(
         <>
-          <div id="header">
-            <Header />
-          </div>
-
           <div id="main">
             <div id="map">
               <PositionMap />

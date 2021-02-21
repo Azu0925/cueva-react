@@ -76,7 +76,7 @@ const InvitedListDialog = (props) => {
         keepMounted
         aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">ポジショニングマップ詳細</DialogTitle>
+            <DialogTitle id="form-dialog-title">あなたへの招待一覧</DialogTitle>
             <DialogContent className={classes.root}>
                 <List>
                     {invitedList.length > 0 && (

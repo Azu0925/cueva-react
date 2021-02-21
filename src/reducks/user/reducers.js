@@ -14,6 +14,19 @@ export const UserReducer = (state = initialState.user,action) => {
                 ...state,
                 userName:action.payload
             }
+        case Actions.SIGN_UP_ACTION:
+            return{
+                ...state,
+                isSignIn:true,
+                ...action.payload
+            }
+        
+            case Actions.SIGN_IN_ACTION:
+                return{
+                    ...state,
+                    isSignIn:true,
+                    ...action.payload
+                }
         
             default:
                 return state;
