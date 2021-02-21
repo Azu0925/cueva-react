@@ -2,6 +2,7 @@ const initialState = {
 
     
     user:{
+        isSignIn:false,
         userId:"",
         userName:"",
         belongTeams:[

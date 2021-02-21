@@ -12,3 +12,19 @@ export const changeUserInfoAction = (name) => {
         payload:name
     }
 }
+
+export const SIGN_UP_ACTION = 'SIGN_UP_ACTION'
+export const signUpAction = (userInfo) => {
+    return{
+        type:'SIGN_UP_ACTION',
+        payload:userInfo
+    }
+}
+
+export const SIGN_IN_ACTION = 'SIGN_IN_ACTION'
+export const signInAction = (userInfo) => {
+    return{
+        type:'SIGN_IN_ACTION',
+        payload:userInfo
+    }
+}

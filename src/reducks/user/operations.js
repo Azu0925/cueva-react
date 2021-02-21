@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {fetchBelongTeamsAction,changeUserInfoAction} from './actions';
+import {fetchBelongTeamsAction,changeUserInfoAction,signUpAction,signInAction} from './actions';
 
 export const fetchBelongTeams = (userId) => {
 
@@ -38,5 +38,33 @@ export const joinTeam = (teamId) => {
 export const rejectInvitation = (teamId) => {
     return async(dispatch,getState) => {
         console.log('rejectTeam',teamId)//userIdとteamIdで招待拒否非同期処理
+    }
+}
+
+export const signUp = (name,email,password) => {
+
+    return async(dispatch,getState) => {
+        
+        //サインアップの非同期処理
+        //デモ
+        const userInfo = {
+            userName:name,
+        }
+        dispatch(signUpAction(userInfo))
+        dispatch(push('/'))
+    }
+
+}
+
+export const signIn = (email,password) => {
+    return async(dispatch,getState) => {
+        
+        const name = "非同期で取得したユーザー名"
+        const userInfo = {
+            userName:name,
+        }
+        dispatch(signInAction(userInfo))
+        dispatch(push('/'))
+
     }
 }
