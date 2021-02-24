@@ -23,10 +23,10 @@ export const selectCardAction = (selectedCardId) => {
 }
 
 export const DELETE_CARD_ACTION = 'DELETE_CARD_ACTION'
-export const deleteCardAction = (deleteMaterial) => {
+export const deleteCardAction = (deleteCard) => {
     return{
         type:'DELETE_CARD_ACTION',
-        payload:deleteMaterial
+        payload:deleteCard
     }
 }
 

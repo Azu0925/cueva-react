@@ -7,16 +7,12 @@ import Button from "@material-ui/core/Button";
 import {InputText,CompleteButton,ErrorMessage} from '../component/UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
-
-
-
 const useStyles = makeStyles({
     root:{
         width:'40%',
         height:'70%',
         padding:'2rem',
         margin: '2rem auto',
-        
     },
     title:{
         marginLeft:'3rem',
@@ -76,7 +72,7 @@ const SignIn = () => {
     const isDisabled = (emailErr || passwordErr) ? true : false
     return(
         <div id="authMain">
-            <Paper elevation={7} className={classes.root}>
+            <Paper elevation={7} className={classes.root} onSelectStart={() => {return false}}>
                 <h1 className={classes.title}>ログイン</h1>
                 <div className={classes.formGroup}>
                     <InputText

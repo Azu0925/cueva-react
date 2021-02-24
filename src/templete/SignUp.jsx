@@ -93,6 +93,7 @@ const SignUp = () => {
     const isDisabled = (nameErr || emailErr || passwordErr) ? true : false
     return(
         <div id="authMain">
+            
             <Paper elevation={7} className={classes.root}>
                 <h1 className={classes.title}>会員登録</h1>
 
@@ -167,6 +168,7 @@ const SignUp = () => {
                     ログインはこちら
                 </Button>
             </Paper>
+           
         </div>
     )
 

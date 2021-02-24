@@ -54,20 +54,21 @@ export const updateCard = (id,name,detail,x,y,width,height) => {
 export const deleteCard = (deleteCardId,unsetRefCurrent) => {
     return async(dispatch,getState) => {
 
-        const prevCards = getState().pMap.cards
+        /*const prevCards = getState().pMap.cards
         const sortCard = prevCards[deleteCardId]
         const delCards = prevCards.filter((card,i) => i !== deleteCardId);
         const nextCards = [...delCards,{...sortCard}]
         
-        dispatch(sortCardsAction(nextCards))
+        dispatch(sortCardsAction(nextCards))*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /*const nextCards = prevCards.filter((card,i) => i !== deleteCardId);
+        const prevCards = getState().pMap.cards
+        const nextCards = prevCards.filter((card,i) => i !== deleteCardId);
 
-        const deleteMaterial = {
+        /*const deleteMaterial = {
             cards:nextCards,
             unsetRefCurrent:unsetRefCurrent
         }*/
-        //dispatch(deleteCardAction(deleteMaterial))
+        dispatch(deleteCardAction(nextCards))
         console.log('到達してる')
 
 

@@ -27,9 +27,8 @@ export const PMapReducer = (state = initialState.pMap,action) => {
         case Actions.DELETE_CARD_ACTION:
             return{
                 ...state,
-                cards:[...action.payload.cards],
-                selectedCardId:"",
-                unsetRefCurrent:action.payload.unsetRefCurrent
+                cards:[...action.payload],
+                selectedCardId:""
             }
         
         case Actions.SORT_CARDS_ACTION:
