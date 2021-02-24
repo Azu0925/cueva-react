@@ -1,11 +1,12 @@
 import React,{useState,useCallback,useEffect} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/styles';
 import {InputText,ErrorMessage} from '../UIKit/index'
 import {updateCard} from '../../reducks/pMap/operations'
 import {getSelectedCard,getSelectedCardId,getMapSize} from '../../reducks/pMap/selectors'
-
+import {CardListArea} from './index'
 
 const useStyles = makeStyles({
     root:{
@@ -271,7 +272,10 @@ const EditPositionMap = () => {
                     <ErrorMessage msg={heightErr} />
                 </div>
             </div>
-
+            <div className="spacer--medium" />
+            <Divider />
+            <div className="spacer--small" />
+            <CardListArea />
         </Paper>
     )
 }
