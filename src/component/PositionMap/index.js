@@ -1,3 +1,5 @@
 export {default as EditPositionMap} from './EditPositionMap'
 export {default as PositionMap} from './PositionMap'
 export {default as PositionCard} from './PositionCard'
+export {default as VanillaDraggableCard} from './VanillaDraggableCard'
+export {default as DraggableCard} from './DraggableCard'

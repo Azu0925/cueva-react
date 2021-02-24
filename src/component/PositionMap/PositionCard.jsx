@@ -64,6 +64,13 @@ const PositionCard = (props) => {
         setDetail(d)
     },[n,d])
 
+    useEffect(() => {
+        console.log('didmount')
+        return () => {
+            console.log('unmount')
+        }
+    },[])
+
     const inputName = useCallback((e) => {
         setName(e.target.value)
     },[])
@@ -73,6 +80,7 @@ const PositionCard = (props) => {
     }
 
     const handleMouseUp = () => {//要素をドラッグして離した時に新しい座標またはサイズをstoreに更新
+
         dispatch(updateCard(cardId,name,detail,Math.floor(x),Math.floor(y),Math.floor(width),Math.floor(height)))
     }
 
