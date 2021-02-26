@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import {InputText} from '../../UIKit'
+import {InputText,ErrorMessage} from '../../UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -30,12 +30,23 @@ const CreateTeamDialog = (props) => {
     const [teamName,setTeamName] = useState("")
     const [teamDetail,setTeamDetail] = useState("")
 
+    const [teamNameErr,setTeamNameErr] = useState(true)
+
     const inputTeamName = useCallback((e) => {
         setTeamName(e.target.value)
     },[])
     const inputTeamDetail = useCallback((e) => {
         setTeamDetail(e.target.value)
     },[])
+
+    const handleOnBlue = (e) => {
+        const name = e.target.value
+        if(!name || name === ""){
+            setTeamNameErr('チーム名を入力してください')
+            return
+        }
+        setTeamNameErr(false)
+    }
 
     useEffect(() => {
     setOpen(isOpen);
@@ -47,7 +58,13 @@ const CreateTeamDialog = (props) => {
     };
 
     const handleSendButton = () => {
+        if(!teamName || teamName === ""){
+            setTeamNameErr('チーム名を入力してください')
+            return
+        }
         dispatch(createTeam(teamName,teamDetail))
+        setTeamName('')
+        setTeamDetail('')
         setOpen(false);
         doClose();
     }
@@ -71,7 +88,9 @@ const CreateTeamDialog = (props) => {
                     type={"text"}
                     value={teamName}
                     onChange={(e) => inputTeamName(e)}
+                    onBlur={(e) => handleOnBlue(e)}
                 />
+                <ErrorMessage msg={teamNameErr} />
                 <InputText
                     fullWidth={true}
                     label={"チームの説明を入力してください"}
@@ -87,7 +106,7 @@ const CreateTeamDialog = (props) => {
                 <Button onClick={handleCancel} color="primary">
                     キャンセル
                 </Button>
-                <Button onClick={() => handleSendButton()} color="primary">
+                <Button onClick={() => handleSendButton()} color="primary" disabled={(teamNameErr) ? true : false} >
                     作成
                 </Button>
             </DialogActions>

@@ -8,7 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import {InputText} from '../../UIKit'
+import {InputText,ErrorMessage} from '../../UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -33,6 +33,8 @@ const UpdateMapDialog = (props) => {
     const [newName,setNewName] = useState("")
     const [newDetail,setNewDetail] = useState("")
 
+    const [newNameErr,setNewNameErr] = useState(true)
+
     const inputNewName = useCallback((e) => {
         setNewName(e.target.value)
     },[])
@@ -42,6 +44,15 @@ const UpdateMapDialog = (props) => {
 
     const name = map.mapName
     const detail = map.mapDetail
+
+    const handleOnBlue = (e) => {
+        const checkName = e.target.value
+        if(!checkName || checkName === ""){
+            setNewNameErr('チーム名を入力してください')
+            return
+        }
+        setNewNameErr(false)
+    }
 
     useEffect(() => {
         if(isOpen){
@@ -57,7 +68,13 @@ const UpdateMapDialog = (props) => {
     };
 
     const handleSendButton = () => {
+        if(!newName || newName === ""){
+            setNewNameErr('マップ名を入力してください')
+            return
+        }
         dispatch(updateMap(newName,newDetail))
+        setNewName('')
+        setNewDetail('')
         setOpen(false);
         doClose();
     }
@@ -81,7 +98,9 @@ const UpdateMapDialog = (props) => {
                         type={"text"}
                         value={newName}
                         onChange={(e) => inputNewName(e)}
+                        onBlur={(e) => handleOnBlue(e)}
                 />
+                <ErrorMessage msg={newNameErr} />
                 <InputText
                         fullWidth={true}
                         label={"チーム詳細"}
@@ -97,7 +116,7 @@ const UpdateMapDialog = (props) => {
                 <Button onClick={handleCancel} color="primary">
                     キャンセル
                 </Button>
-                <Button onClick={() => handleSendButton()} color="primary">
+                <Button onClick={() => handleSendButton()} color="primary" disabled={(newNameErr) ? true : false} >
                     変更する
                 </Button>
             </DialogActions>

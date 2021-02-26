@@ -71,6 +71,12 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                 ...action.payload
             }
         
+        case Actions.UPDATE_NAP_AXIS:
+            return{
+                ...state,
+                axis:{...action.payload}
+            }
+
         default:
             console.log('defaultを通過');
             return state

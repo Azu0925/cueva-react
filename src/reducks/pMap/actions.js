@@ -84,3 +84,11 @@ export const updateMapAction = (mapInfo) => {
         payload:mapInfo
     }
 }
+
+export const  UPDATE_NAP_AXIS = 'UPDATE_NAP_AXIS';
+export const updateMapAxisAction = (axis) => {
+    return{
+        type:'UPDATE_NAP_AXIS',
+        payload:axis
+    }
+}

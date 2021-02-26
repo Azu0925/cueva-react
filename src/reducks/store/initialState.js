@@ -5,6 +5,7 @@ const initialState = {
         isSignIn:false,
         userId:"",
         userName:"",
+        userRmail:"",
         belongTeams:[
             {id:"1",name:"testTeam1"},
             {id:"2",name:"testTeam2"},
@@ -43,6 +44,12 @@ const initialState = {
         hostId:"",
         mapName:"",
         mapDetail:"",
+        axis:{
+            vaHigh:"",
+            vaLow:"",
+            haHigh:"",
+            haLow:"",
+        },
         size:{},
         cards:[],
         selectedCardId:"",

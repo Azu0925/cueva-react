@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import {InputText} from '../../UIKit'
+import {InputText,ErrorMessage} from '../../UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -29,9 +29,20 @@ const InviteTeamDialog = (props) => {
     const [open, setOpen] = useState(false);
     const [userId,setUserId] = useState("")
 
+    const [userIdErr,setUserIdErr] = useState(true)
+
     const inputUserId = useCallback((e) => {
         setUserId(e.target.value)
     },[])
+
+    const handleOnBlur = (e) => {
+        const id = e.target.value
+        if(!id || id === ""){
+            setUserIdErr('招待するユーザーのIDを入力してください')
+            return
+        }
+        setUserIdErr(false)
+    }
 
     useEffect(() => {
     setOpen(isOpen);
@@ -43,7 +54,13 @@ const InviteTeamDialog = (props) => {
     };
 
     const handleSendButton = () => {
+        if(!userId || userId === ""){
+            console.log('通過')
+            setUserIdErr('招待するユーザーのIDを入力してください')
+            return
+        }
         dispatch(inviteTeam(userId))
+        setUserId('')
         setOpen(false);
         doClose();
     }
@@ -67,13 +84,15 @@ const InviteTeamDialog = (props) => {
                         type={"text"}
                         value={userId}
                         onChange={(e) => inputUserId(e)}
+                        onBlur={(e) => handleOnBlur(e)}
                     />
+                    <ErrorMessage msg={userIdErr} />
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >
                 <Button onClick={handleCancel} color="primary">
                     キャンセル
                 </Button>
-                <Button onClick={() => handleSendButton()} color="primary">
+                <Button onClick={() => handleSendButton()} color="primary" disabled={(userIdErr) ? true : false}>
                     招待メッセージを送信
                 </Button>
             </DialogActions>

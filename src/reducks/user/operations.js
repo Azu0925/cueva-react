@@ -23,9 +23,15 @@ export const withdrawal = (email,password) => {
     }
 }
 
-export const changeUserInfo = (name) => {
+export const changeUserInfo = (name,email) => {
     return async(dispatch,getState) => {
-        dispatch(changeUserInfoAction(name))
+
+        const newUserInfo = {
+            name:name,
+            email:email
+        }
+
+        dispatch(changeUserInfoAction(newUserInfo))
     }
 }
 

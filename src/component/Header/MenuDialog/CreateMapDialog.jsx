@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import {InputText} from '../../UIKit'
+import {InputText,ErrorMessage} from '../../UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -30,12 +30,24 @@ const CreateMapDialog = (props) => {
     const [mapName,setMapName] = useState("")
     const [mapDetail,setMapDetail] = useState("")
 
+    const [mapNameErr,setMapNameErr] = useState(true)
+
     const inputMapName = useCallback((e) => {
         setMapName(e.target.value)
     },[])
     const inputMapDetail = useCallback((e) => {
         setMapDetail(e.target.value)
     },[])
+
+
+    const handleOnBlue = (e) => {
+        const name = e.target.value
+        if(!name || name === ""){
+            setMapNameErr('マップ名を入力してください')
+            return
+        }
+        setMapNameErr(false)
+    }
 
     useEffect(() => {
     setOpen(isOpen);
@@ -47,7 +59,13 @@ const CreateMapDialog = (props) => {
     };
 
     const handleSendButton = () => {
+        if(!mapName || mapName === ""){
+            setMapNameErr('マップ名を入力してください')
+            return
+        }
         dispatch(createMap(mapName,mapDetail))
+        setMapName('')
+        setMapDetail('')
         setOpen(false);
         doClose();
     }
@@ -71,7 +89,9 @@ const CreateMapDialog = (props) => {
                     type={"text"}
                     value={mapName}
                     onChange={(e) => inputMapName(e)}
+                    onBlur={(e) => handleOnBlue(e)}
                 />
+                <ErrorMessage msg={mapNameErr} />
                 <InputText
                     fullWidth={true}
                     label={"ポジショニングマップの説明を入力してください"}
@@ -87,7 +107,7 @@ const CreateMapDialog = (props) => {
                 <Button onClick={handleCancel} color="primary">
                     キャンセル
                 </Button>
-                <Button onClick={() => handleSendButton()} color="primary">
+                <Button onClick={() => handleSendButton()} color="primary" disabled={(mapNameErr) ? true : false}>
                     作成
                 </Button>
             </DialogActions>

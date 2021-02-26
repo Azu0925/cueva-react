@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {addCardAction,updateCardAction,selectCardAction,fetchCardsAction,updateMapSizeAction,deselectCardAction,sortCardsAction,deleteCardAction,changeMapAction,updateMapAction} from './actions';
+import {addCardAction,updateCardAction,selectCardAction,fetchCardsAction,updateMapSizeAction,deselectCardAction,sortCardsAction,deleteCardAction,changeMapAction,updateMapAction,updateMapAxisAction} from './actions';
 
 export const addCard = (name,detail,x,y,height,width) => {
     return async(dispatch,getState) => {
@@ -148,5 +148,20 @@ export const createMap = (name,detail) => {
     return async(dispatch,getState) => {
         const userId = getState().user.userId
         console.log('createMap',userId,name,detail)
+    }
+}
+
+export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow) => {
+    return(dispatch,getState) => {
+
+        const newAxis = {
+            vaHigh:vaHigh,
+            vaLow:vaLow,
+            haHigh:haHigh,
+            haLow:haLow
+        }
+
+        dispatch(updateMapAxisAction(newAxis))
+
     }
 }

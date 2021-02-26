@@ -166,112 +166,121 @@ const EditPositionMap = () => {
 
     return(
         <Paper elevation={3} className={classes.root}>
-            <InputText
-                fullWidth={true}
-                label={"カード名"}
-                multiline={true}
-                required={true}
-                rows={1}
-                type={"number"}
-                shrink={true}
-                //defaultValue={name}
-                value={name}
-                onChange={(e) => inputName(e)}
-                onBlur={(e) => handleBlurOfName(e)}
-                onKeyDown={(e) => handleKeyDown(e)}
-            />
-            <div className="spacer--medium" />
-            <InputText
-                fullWidth={true}
-                label={"カード詳細（KBF）"}
-                multiline={true}
-                required={true}
-                rows={2}
-                type={"text"}
-                shrink={true}
-                //defaultValue={detail}
-                value={detail}
-                onChange={(e) => inputDetail(e)}
-                onBlur={(e) => handleBlurOfDetail(e)}
-                onKeyDown={(e) => handleKeyDown(e)}
-            />
-            <div className="spacer--medium" />
-            <div className={classes.between}>
-                <div>
+            {(selectedCardId !== "") ?
+                (
+                <>
                     <InputText
                         fullWidth={true}
-                        label={"x座標"}
+                        label={"カード名"}
                         multiline={true}
                         required={true}
                         rows={1}
                         type={"number"}
                         shrink={true}
-                        variant={"outlined"}
-                        //defaultValue={detail}
-                        value={x}
-                        onChange={(e) => inputX(e)}
-                        onBlur={(e) => handleBlurOfX(e)}
+                        //defaultValue={name}
+                        value={name}
+                        onChange={(e) => inputName(e)}
+                        onBlur={(e) => handleBlurOfName(e)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     />
-                    <ErrorMessage msg={xErr} />
-                </div>
-                <div>
+                    <div className="spacer--medium" />
                     <InputText
                         fullWidth={true}
-                        label={"y座標"}
+                        label={"カード詳細（KBF）"}
                         multiline={true}
                         required={true}
-                        rows={1}
-                        type={"number"}
+                        rows={2}
+                        type={"text"}
                         shrink={true}
-                        variant={"outlined"}
                         //defaultValue={detail}
-                        value={y}
-                        onChange={(e) => inputY(e)}
-                        onBlur={(e) => handleBlurOfY(e)}
+                        value={detail}
+                        onChange={(e) => inputDetail(e)}
+                        onBlur={(e) => handleBlurOfDetail(e)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     />
-                    <ErrorMessage msg={yErr} />
-                </div>
-            </div>
-            <div className={classes.between}>
-                <div>
-                    <InputText
-                        fullWidth={true}
-                        label={"横幅"}
-                        multiline={true}
-                        required={true}
-                        rows={1}
-                        type={"number"}
-                        shrink={true}
-                        variant={"outlined"}
-                        //defaultValue={detail}
-                        value={width}
-                        onChange={(e) => inputWidth(e)}
-                        onBlur={(e) => handleBlurOfWidth(e)}
-                        onKeyDown={(e) => handleKeyDown(e)}
-                    />
-                    <ErrorMessage msg={widthErr} />
-                </div>
-                <div>
-                    <InputText
-                        fullWidth={true}
-                        label={"縦幅"}
-                        multiline={true}
-                        required={true}
-                        rows={1}
-                        type={"number"}
-                        shrink={true}
-                        variant={"outlined"}
-                        //defaultValue={detail}
-                        value={height}
-                        onChange={(e) => inputHeight(e)}
-                        onBlur={(e) => handleBlurOfHeight(e)}
-                        onKeyDown={(e) => handleKeyDown(e)}
-                    />
-                    <ErrorMessage msg={heightErr} />
-                </div>
-            </div>
+                    <div className="spacer--medium" />
+                    <div className={classes.between}>
+                        <div>
+                            <InputText
+                                fullWidth={true}
+                                label={"x座標"}
+                                multiline={true}
+                                required={true}
+                                rows={1}
+                                type={"number"}
+                                shrink={true}
+                                variant={"outlined"}
+                                value={x}
+                                onChange={(e) => inputX(e)}
+                                onBlur={(e) => handleBlurOfX(e)}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                            />
+                            <ErrorMessage msg={xErr} />
+                        </div>
+                        <div>
+                            <InputText
+                                fullWidth={true}
+                                label={"y座標"}
+                                multiline={true}
+                                required={true}
+                                rows={1}
+                                type={"number"}
+                                shrink={true}
+                                variant={"outlined"}
+                                value={y}
+                                onChange={(e) => inputY(e)}
+                                onBlur={(e) => handleBlurOfY(e)}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                            />
+                            <ErrorMessage msg={yErr} />
+                        </div>
+                    </div>
+                    <div className={classes.between}>
+                        <div>
+                            <InputText
+                                fullWidth={true}
+                                label={"横幅"}
+                                multiline={true}
+                                required={true}
+                                rows={1}
+                                type={"number"}
+                                shrink={true}
+                                variant={"outlined"}
+                                value={width}
+                                onChange={(e) => inputWidth(e)}
+                                onBlur={(e) => handleBlurOfWidth(e)}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                            />
+                            <ErrorMessage msg={widthErr} />
+                        </div>
+                        <div>
+                            <InputText
+                                fullWidth={true}
+                                label={"縦幅"}
+                                multiline={true}
+                                required={true}
+                                rows={1}
+                                type={"number"}
+                                shrink={true}
+                                variant={"outlined"}
+                                value={height}
+                                onChange={(e) => inputHeight(e)}
+                                onBlur={(e) => handleBlurOfHeight(e)}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                            />
+                            <ErrorMessage msg={heightErr} />
+                        </div>
+                    </div>
+                </>
+                )
+                :
+                (
+                <p>
+                    カードを作成・選択してください
+                </p>
+                )
+            }
+            
             <div className="spacer--medium" />
             <Divider />
             <div className="spacer--small" />

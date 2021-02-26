@@ -12,7 +12,8 @@ export const UserReducer = (state = initialState.user,action) => {
         case Actions.CHANGE_USER_INFO_ACTION:
             return{
                 ...state,
-                userName:action.payload
+                userName:action.payload.name,
+                userEmail:action.payload.email
             }
         case Actions.SIGN_UP_ACTION:
             return{
