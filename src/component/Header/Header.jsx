@@ -1,8 +1,10 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import {makeStyles} from '@material-ui/styles';
 import {HeaderMenuArea} from './index'
+import {getIsSignedIn} from '../../reducks/user/selectors'
 
 const useStyles = makeStyles({
     tool:{
@@ -14,13 +16,14 @@ const useStyles = makeStyles({
 
 const Header = () => {
     const classes = useStyles()
-    const IsSignedIn = true;//selectorで参照してサインインしてるかどうか。今は仮でtrue
+    const selector = useSelector(state => state)
 
+    let IsSignedIn = getIsSignedIn(selector)
+    IsSignedIn = true
         return (
             <AppBar>
                 <Toolbar className={classes.tool}>
-
-                    {IsSignedIn && (
+                    {IsSignedIn && (//サインインしていないなら各種ツールは全て使用不可にする
                         <HeaderMenuArea />
                     )}
                 </Toolbar>

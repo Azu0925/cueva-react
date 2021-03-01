@@ -11,8 +11,8 @@ import Badge from '@material-ui/core/Badge';
 import {fetchTeamMaps} from '../../reducks/team/operations'
 import {fetchBelongTeams} from '../../reducks/user/operations'
 import {getUserId} from '../../reducks/user/selectors'
-import {getTeamId,getTeamHostId} from '../../reducks/team/selectors'
-import {getMapHostId} from '../../reducks/pMap/selectors'
+import {getTeamId} from '../../reducks/team/selectors'
+import {getMapId} from '../../reducks/pMap/selectors'
 import {ToggleMenu} from '../../component/UIKit'
 import {InviteTeamDialog,MapDetailDialog,DeleteTeamDialog,DeleteMapDialog,UpdateMapDialog,UpdateTeamDialog,ExitTeamDialog,LogoutDialog,WithdrawalDialog,ChangeUserInfoDialog,CreateTeamDialog,CreateMapDialog,InvitedListDialog} from '../../component/Header/MenuDialog'
 
@@ -20,10 +20,10 @@ const HeaderMenuArea = () => {
     console.log('HeaderMenu生成')
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+
     const userId = getUserId(selector)
     const teamId = getTeamId(selector)
-    const teamHostId = getTeamHostId(selector)
-    const mapHostId = getMapHostId(selector)
+    const mapId = getMapId(selector)
 
     //招待通知のバッジ取得。
     const [invitedCount,setInvitedCount] = useState(0)
@@ -116,6 +116,7 @@ const HeaderMenuArea = () => {
 
     //新規チーム作成ダイアログ
     const [createTeamOpen, setCreateTeamOpen] = useState(false);
+
     const handleCreateTeamOpen = () => {
         setCreateTeamOpen(true);
     };
@@ -140,35 +141,39 @@ const HeaderMenuArea = () => {
         setInvitedListOpen(false);
     };
 
-    const teamDialogMenus = [
-        {label:"チームに招待",openFunc:handleInviteTeamOpen},
-        {label:"マップ詳細",openFunc:handleMapDetailOpen},
-        {label:"チーム退出",openFunc:handleExitTeamOpen}
-    ]
-    //ユーザーがチームまたはホストの場合操作できる処理を追加
-    if(userId === teamHostId){
-        teamDialogMenus.push(
-            {label:"チームの削除【ホスト権限】",openFunc:handleDeleteTeamOpen},
-            {label:"チームの変更【ホスト権限】",openFunc:handleUpdateTeamOpen}
-        )
-    }
-    if(userId === mapHostId){
-        teamDialogMenus.push(
-            {label:"マップの削除【ホスト権限】",openFunc:handleDeleteMapOpen},
-            {label:"マップの変更【ホスト権限】",openFunc:handleUpdateMapOpen},
-        )
-    }
-
+    //各toggleメニューの初期値を設定。（チーム非選択状態）
+    const teamDialogMenus = []
     const userDialogMenus = [
         {label:"ログアウト",openFunc:handleLogoutOpen},
         {label:"退会",openFunc:handleWithdrawalOpen},
         {label:"ユーザー設定",openFunc:handleChangeUserInfoOpen}
     ]
-
     const createDialogMenus = [
         {label:"新規チーム作成",openFunc:handleCreateTeamOpen},
-        {label:"新規マップ作成",openFunc:handleCreateMapOpen}
     ]
+
+    //チーム選択かつマップ非選択
+    if(teamId != ""){
+        teamDialogMenus.push(
+            {label:"チームに招待",openFunc:handleInviteTeamOpen},
+            {label:"チーム退出",openFunc:handleExitTeamOpen},
+            {label:"チームの削除【ホスト権限】",openFunc:handleDeleteTeamOpen},
+            {label:"チームの変更【ホスト権限】",openFunc:handleUpdateTeamOpen},
+        )
+        createDialogMenus.push(
+            {label:"新規マップ作成",openFunc:handleCreateMapOpen}
+        )
+        //チームもマップも選択
+        if(mapId != ""){
+            teamDialogMenus.push(
+                {label:"マップ詳細",openFunc:handleMapDetailOpen},
+                {label:"マップの削除【ホスト権限】",openFunc:handleDeleteMapOpen},
+                {label:"マップの変更【ホスト権限】",openFunc:handleUpdateMapOpen},
+            )
+        }
+    }
+
+
 
 //drawerメニューの処理////////////////////////////////////////////////////////////////
     const [isOpen,setIsOpen] = useState(false)
@@ -184,7 +189,7 @@ const HeaderMenuArea = () => {
     },[isOpen,setIsOpen,dispatch,userId,teamId])
 
     return(
-        <>  
+        <>
             <InviteTeamDialog isOpen={inviteTeamOpen} doClose={() => handleInviteTeamClose()} />
             <MapDetailDialog isOpen={mapDetailOpen} doClose={() => handleMapDetailClose()} />
             <DeleteTeamDialog isOpen={deleteTeamOpen} doClose={() => handleDeleteTeamClose()} />

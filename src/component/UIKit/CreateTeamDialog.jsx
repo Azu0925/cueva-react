@@ -1,6 +1,7 @@
 import React, { useState,useEffect,useCallback } from "react";
-import {useDispatch} from 'react-redux'
-import {createTeam} from '../../../reducks/team/operations'
+import {useDispatch,useSelector} from 'react-redux'
+import {createTeam} from '../../reducks/team/operations'
+import {getBelongTeamInfoLength} from '../../reducks/user/selectors'
 import Button from "@material-ui/core/Button";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,7 +10,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import {InputText,ErrorMessage} from '../../UIKit'
+import {InputText,ErrorMessage} from '../UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -22,14 +23,13 @@ const useStyles = makeStyles({
     }
 })
 
-const CreateTeamDialog = (props) => {
+const CreateTeamDialog = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const isOpen = props.isOpen
-    const doClose = props.doClose
-
-    const [open, setOpen] = useState(false);
-
+    const selector = useSelector(state => state)
+    
+    const belongTeamLength = getBelongTeamInfoLength(selector)
+    const [open, setOpen] = useState(false)
     const [teamName,setTeamName] = useState("")
     const [teamDetail,setTeamDetail] = useState("")
 
@@ -78,19 +78,21 @@ const CreateTeamDialog = (props) => {
         setMapNameErr(false)
     }
 
-    useEffect(() => {
-    setOpen(isOpen);
-    }, [isOpen]);
-
-    const handleCancel = () => {
-    setOpen(false);
-    doClose();
-    };
-
     const handleDisabledOfButton = () => {
         if(isCreateMap) return (teamNameErr || mapNameErr) ? true : false
         return (teamNameErr) ? true : false
     }
+
+
+    useEffect(() => {
+        if(belongTeamLength === 0){
+            setOpen(true)
+        }
+    },[belongTeamLength])
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleSendButton = () => {
         if(!teamName || teamName === ""){
@@ -105,19 +107,19 @@ const CreateTeamDialog = (props) => {
         setMapName('')
         setMapDetail('')
         setOpen(false);
-        doClose();
     }
 
     return (
     <div>
         <Dialog
         open={open}
-        onClose={handleCancel}
+        onClose={handleClose}
         TransitionComponent={Transition}
         keepMounted
+        aria-labelledby="form-dialog-title"
         >
-            <DialogTitle>新規チーム作成</DialogTitle>
-            <DialogContent className={classes.root}>
+            <DialogTitle id="form-dialog-title">チームを作成しましょう</DialogTitle>
+            <DialogContent>
                 <InputText
                     fullWidth={true}
                     label={"チーム名を入力してください"}
@@ -181,7 +183,7 @@ const CreateTeamDialog = (props) => {
                 />
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >
-                <Button onClick={handleCancel} color="primary">
+                <Button onClick={handleClose} color="primary">
                     キャンセル
                 </Button>
                 <Button onClick={() => handleSendButton()} color="primary" disabled={handleDisabledOfButton()} >
@@ -195,5 +197,5 @@ const CreateTeamDialog = (props) => {
     export default CreateTeamDialog;
 
     const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />;
+    return <Slide direction="up" ref={ref} {...props} />;
     });

@@ -55,9 +55,13 @@ export const exitTeam = () => {
     }
 }
 
-export const createTeam = (name,detail) => {
+export const createTeam = (tamName,teamDetail,mapName,mapDetail,isCreateMap) => {
     return async(dispatch,getState) => {
-        const userId = getState().user.userId
-        console.log('createTeam',name,detail)
+
+        if(isCreateMap){//マップも作成
+
+        }else{//チームのみ作成
+
+        }
     }
 }

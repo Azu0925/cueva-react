@@ -1,9 +1,11 @@
 import React,{useEffect,useCallback} from 'react'
 import {useDispatch,useSelector} from 'react-redux';
-import {PositionCard,DraggableCard} from './index'
+import {DraggableCard} from './index'
 import {makeStyles} from '@material-ui/styles';
-import {addCard,deselectCard,fetchCards,updateMapAxis} from '../../reducks/pMap/operations';
-import {getCards,getSelectedCardId,getUnsetRefCurrent,getMapAxis} from '../../reducks/pMap/selectors'
+import {addCard} from '../../reducks/card/operations';
+import {getCards,getSelectedCardId} from '../../reducks/card/selectors'
+import {updateMapAxis} from '../../reducks/pMap/operations';
+import {getUnsetRefCurrent,getMapAxis,getMapId} from '../../reducks/pMap/selectors'
 import {InputText} from '../../component/UIKit'
 
 const useStyles = makeStyles({
@@ -49,7 +51,8 @@ const PositionMap= () => {
     const Cards = getCards(selector);//storeのcardsを取得
     const selectedCardId = getSelectedCardId(selector)//storeのselectedCardIdを取得
     const unsetRefCurrent = getUnsetRefCurrent(selector)
-    
+    const mapId = getMapId(selector)
+
     //////////マップ上軸のタイトル
     const vaHigh = axis.vaHigh
     const vaLow = axis.vaLow
@@ -71,6 +74,7 @@ const PositionMap= () => {
 
     //////////マップ上カード
     const generateCard = useCallback((e) => {//ダブルクリックで座標を取得してカードを追加
+        if(mapId === "") return//マップ非選択時にカードを生成してはいけないのでリターン
         const newPosition = {
             x:e.offsetX,
             y:e.offsetY
@@ -86,6 +90,7 @@ const PositionMap= () => {
     return(
         <>
             <div id="generateCardArea">
+                
                 {
                     //縦軸(高)///////////////////////////////////////////
                 }

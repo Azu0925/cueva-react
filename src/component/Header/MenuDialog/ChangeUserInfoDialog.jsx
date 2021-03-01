@@ -10,7 +10,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import {InputText,ErrorMessage} from '../../UIKit'
 import { makeStyles } from '@material-ui/core/styles';
-import { indigo } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
     root:{

@@ -4,7 +4,7 @@ import {push} from "connected-react-router";
 import {signIn} from '../reducks/user/operations'
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
-import {InputText,CompleteButton,ErrorMessage} from '../component/UIKit'
+import {InputText,CompleteButton,ErrorMessage,RequestErrorDialog} from '../component/UIKit'
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -70,9 +70,10 @@ const SignIn = () => {
         }else setPasswordErr()
     }
     const isDisabled = (emailErr || passwordErr) ? true : false
+
     return(
         <div id="authMain">
-            <Paper elevation={7} className={classes.root} onSelectStart={() => {return false}}>
+            <Paper elevation={7} className={classes.root}>
                 <h1 className={classes.title}>ログイン</h1>
                 <div className={classes.formGroup}>
                     <InputText
@@ -108,7 +109,7 @@ const SignIn = () => {
                         color={'primary'}
                         variant={'outlined'}
                         disabled={isDisabled}
-                        onClick={() => dispatch(signIn(email.password))}
+                        onClick={() => dispatch(signIn(email,password))}
                     />
                 </div>
                 <Button color="primary"
@@ -118,6 +119,7 @@ const SignIn = () => {
                     会員登録はこちら
                 </Button>
             </Paper>
+            <RequestErrorDialog />
         </div>
     )
 
