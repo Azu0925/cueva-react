@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/styles';
-import logo from '../../assets/logo/cueva_logo_text.webp';
+import logo from '../../assets/logo/cueva_logo_text3.webp';
 
 const useStyles = makeStyles({
     logo: {
