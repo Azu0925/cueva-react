@@ -4,8 +4,10 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/styles';
 import {InputText,ErrorMessage} from '../UIKit/index'
-import {updateCard} from '../../reducks/pMap/operations'
-import {getSelectedCard,getSelectedCardId,getMapSize} from '../../reducks/pMap/selectors'
+import {updateCard} from '../../reducks/card/operations'
+import {getSelectedCard,getSelectedCardId} from '../../reducks/card/selectors'
+import {getMapSize,getMapId} from '../../reducks/pMap/selectors'
+import {getTeamId} from '../../reducks/team/selectors'
 import {CardListArea} from './index'
 
 const useStyles = makeStyles({
@@ -36,9 +38,23 @@ const EditPositionMap = () => {
     const mapSize = getMapSize(selector)
     const mapWidth = mapSize.width
     const mapHeight = mapSize.height
-
+    
+    //チーム選択マップ非選択カード非選択のメッセージを作成。今はここで直接処理します。。。//////////
+    let msg = "";
+    const teamId = getTeamId(selector)
+    const mapId = getMapId(selector)
+    
     const selectedCard = getSelectedCard(selector)//storeのcardsから選択中のカードのみを取得。
     const selectedCardId = getSelectedCardId(selector)//storeのselectedCardIdを取得。
+
+    if(teamId === ""){
+        msg = "チームを作成・マップを追加してください。"
+    }else if(mapId === ""){
+        msg = "マップを作成してください。"
+    }else if(selectedCardId === ""){
+        msg = "カードを選択してください。(ダブルクリックで作成)"
+    }
+
     
     const [name,setName] = useState("")
     const [detail,setDetail] = useState("")
@@ -276,7 +292,7 @@ const EditPositionMap = () => {
                 :
                 (
                 <p>
-                    カードを作成・選択してください
+                    {msg}
                 </p>
                 )
             }

@@ -9,15 +9,25 @@ export const getUserId = createSelector(
 
 export const getUserName = createSelector(
     [userSelector],
-    state => state.user.userName
+    state => state.user.user_name
 )
 
 export const getUserEmail = createSelector(
     [userSelector],
-    state => state.user.userEmail
+    state => state.user.user_address
 )
 
 export const getBelongTeams = createSelector(
     [userSelector],
     state => state.user.belongTeams
+)
+
+export const getIsSignedIn = createSelector(
+    [userSelector],
+    state => state.user.isSignedIn
+)
+
+export const getBelongTeamInfoLength = createSelector(
+    [userSelector],
+    state => state.user.belongTeamInfo.length
 )

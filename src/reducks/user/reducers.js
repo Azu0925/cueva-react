@@ -12,25 +12,20 @@ export const UserReducer = (state = initialState.user,action) => {
         case Actions.CHANGE_USER_INFO_ACTION:
             return{
                 ...state,
-                userName:action.payload.name,
-                userEmail:action.payload.email
+                user_name:action.payload.name,
+                user_address:action.payload.email
             }
-        case Actions.SIGN_UP_ACTION:
+        case Actions.AUTO_AUTH_ACTION:
             return{
                 ...state,
-                isSignIn:true,
-                ...action.payload
+                isSignedIn:true,
+                user_name:action.payload.user_name,
+                user_address:action.payload.user_address,
+                belongTeamInfo:[...action.payload.team_info]
             }
-        
-            case Actions.SIGN_IN_ACTION:
-                return{
-                    ...state,
-                    isSignIn:true,
-                    ...action.payload
-                }
-        
-            default:
-                return state;
+    
+        default:
+            return state;
 
     }
 }

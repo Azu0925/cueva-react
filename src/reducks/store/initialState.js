@@ -1,11 +1,10 @@
 const initialState = {
 
-    
     user:{
-        isSignIn:false,
-        userId:"",
-        userName:"",
-        userRmail:"",
+        isSignedIn:false,
+        user_name:"",
+        user_address:"",
+        belongTeamInfo:[],
         belongTeams:[
             {id:"1",name:"testTeam1"},
             {id:"2",name:"testTeam2"},
@@ -36,11 +35,11 @@ const initialState = {
             {id:"8",name:"testMap8"},
             {id:"9",name:"testMap9"},
             {id:"10",name:"testMap10"},
-
         ]
     },
 
     pMap:{
+        mapId:"",
         hostId:"",
         mapName:"",
         mapDetail:"",
@@ -51,10 +50,14 @@ const initialState = {
             haLow:"",
         },
         size:{},
+        unsetRefCurrent:""
+    },
+    cards:{
         cards:[],
         selectedCardId:"",
-        unsetRefCurrent:""
-    }
+    },
+
+    requestError:false
 
 }
 

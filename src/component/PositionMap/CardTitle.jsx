@@ -1,8 +1,7 @@
 import React from 'react'
 import {useDispatch} from 'react-redux'
-import {selectCard} from '../../reducks/pMap/operations'
+import {selectCard} from '../../reducks/card/operations'
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import {makeStyles} from '@material-ui/styles';
 
 const useStyles = makeStyles({

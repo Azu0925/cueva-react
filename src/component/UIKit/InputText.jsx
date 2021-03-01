@@ -17,6 +17,7 @@ return(
             variant={props.variant}
             defaultValue={props.defaultValue}
             autoFocus={props.autoFocus}
+            disabled={props.disabled}
             InputLabelProps={{
                 shrink: props.shrink,
               }}
@@ -24,7 +25,6 @@ return(
             onKeyDown={props.onKeyDown}
             onBlur={props.onBlur}
             className={props.className}
-            
         />
 )
 

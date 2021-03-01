@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef,useCallback} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import {selectCard,updateCard,deleteCard} from '../../reducks/pMap/operations'
+import {selectCard,updateCard,deleteCard} from '../../reducks/card/operations'
 import {getMapSize} from '../../reducks/pMap/selectors'
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import Paper from '@material-ui/core/Paper';

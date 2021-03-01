@@ -21,10 +21,10 @@ export const signUpAction = (userInfo) => {
     }
 }
 
-export const SIGN_IN_ACTION = 'SIGN_IN_ACTION'
-export const signInAction = (userInfo) => {
+export const AUTO_AUTH_ACTION = 'AUTO_AUTH_ACTION'
+export const autoAuthAction = (userInfo) => {
     return{
-        type:'SIGN_IN_ACTION',
+        type:'AUTO_AUTH_ACTION',
         payload:userInfo
     }
 }

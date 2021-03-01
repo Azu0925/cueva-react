@@ -1,6 +1,6 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {getCards,getSelectedCardId} from '../../reducks/pMap/selectors'
+import {getCards,getSelectedCardId} from '../../reducks/card/selectors'
 import {makeStyles} from '@material-ui/styles';
 import {CardTitle} from './index'
 

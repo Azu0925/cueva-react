@@ -1,5 +1,8 @@
 import {push} from "connected-react-router";
-import {fetchBelongTeamsAction,changeUserInfoAction,signUpAction,signInAction} from './actions';
+import {fetchBelongTeamsAction,changeUserInfoAction,autoAuthAction} from './actions';
+import {setRequestErrorAction} from '../requestError/actions'
+import axios from 'axios'
+import USER from '../../url'
 
 export const fetchBelongTeams = (userId) => {
 
@@ -13,13 +16,60 @@ export const fetchBelongTeams = (userId) => {
 
 export const logout = () => {
     return async(dispatch,getState) => {
-        console.log('ログアウト処理')
+        
+        let token = "";
+        const cookies = document.cookie.split(';')
+        console.log(cookies)
+        for(const c of cookies){
+            const cookie = c.split('%3D')
+            if(cookie[0] == 'token') token = cookie[1]
+        }
+        if(token === "")dispatch(push('/signin'))
+
+        let params = new URLSearchParams()
+        params.append('token',params)
+
+        try{
+            const res = await axios.post(`${USER}logout.php`,params)
+            
+            if(res.data.result){
+                document.cookie = "token=; max-age=0";
+                dispatch(push('/signin'))
+            }else{
+                console.log('handleError',res.data.error)
+            }
+        }catch(e){
+            console.log('badError')
+        }
     }
 }
 
 export const withdrawal = (email,password) => {
     return async(dispatch,getState) => {
-        console.log('退会処理',email,password)
+        let token = "";
+        const cookies = document.cookie.split(';')
+        console.log(cookies)
+        for(const c of cookies){
+            const cookie = c.split('%3D')
+            if(cookie[0] == 'token') token = cookie[1]
+        }
+        if(token === "")dispatch(push('/signin'))
+
+        let params = new URLSearchParams()
+        params.append('token',params)
+
+        try{
+            const res = await axios.post(`${USER}delete.php`,params)
+            
+            if(res.data.result){
+                document.cookie = "token=; max-age=0";
+                dispatch(push('/signup'))
+            }else{
+                console.log('handleError',res.data.error)
+            }
+        }catch(e){
+            console.log('badError')
+        }
     }
 }
 
@@ -50,27 +100,126 @@ export const rejectInvitation = (teamId) => {
 export const signUp = (name,email,password) => {
 
     return async(dispatch,getState) => {
-        
-        //サインアップの非同期処理
-        //デモ
-        const userInfo = {
-            userName:name,
+
+        let params = new URLSearchParams()
+        params.append('user_name',name)
+        params.append('user_address',email)
+        params.append('user_password',password)
+
+        try{
+            const res = await axios.post(`${USER}user_register.php`,params)
+
+            if(res.data.result){
+                const token = res.data.result.token
+                document.cookie = encodeURIComponent(`token=${token}`)
+                dispatch(push('/'))
+            }else{
+                let errorDetail = ""
+                switch(res.data.error[0].code){
+                    case "401":
+                        errorDetail = "パスワードとメールアドレスに一致するユーザーが見つかりませんでした。"
+                        break
+                    case "450" :
+                        errorDetail = "サーバの接続に失敗しました。通信環境の良い場所でもう一度実行してください。"
+                        break
+                    default:
+                        errorDetail = "問題が発生しました。通信環境の良い場所でもう一度送信してください。"
+                        break
+                }
+                dispatch(setRequestErrorAction({
+                    errorTitle:"ログインに失敗しました",
+                    errorDetail:errorDetail
+                }))
+            }
+
+        }catch(e){
+            console.log('badError')
         }
-        dispatch(signUpAction(userInfo))
-        dispatch(push('/'))
+
+        
     }
 
 }
 
 export const signIn = (email,password) => {
     return async(dispatch,getState) => {
+        console.log(password)
         
-        const name = "非同期で取得したユーザー名"
-        const userInfo = {
-            userName:name,
+        let params = new URLSearchParams()
+        params.append('user_address',email)
+        params.append('user_password',password)
+        
+        
+        try{
+            const res = await axios.post(`${USER}login.php`,params)
+            
+            if(res.data.result){
+                const token = res.data.result.token
+                document.cookie = encodeURIComponent(`token=${token}`)
+                dispatch(push('/'))
+            }else{
+                let errorDetail = ""
+                switch(res.data.error[0].code){
+                    case "401":
+                        errorDetail = "パスワードとメールアドレスに一致するユーザーが見つかりませんでした。"
+                        break
+                    case "450" :
+                        errorDetail = "サーバの接続に失敗しました。通信環境の良い場所でもう一度実行してください。"
+                        break
+                    default:
+                        console.log('通過')
+                        errorDetail = "問題が発生しました。通信環境の良い場所でもう一度送信してください。"
+                        break
+                }
+                dispatch(setRequestErrorAction({
+                    errorTitle:"ログインに失敗しました",
+                    errorDetail:errorDetail
+                }))
+            }
+        }catch(e){
+            console.log('bad通過')
+            dispatch(setRequestErrorAction({
+                errorTitle:"ログインに失敗しました",
+                errorDetail:"問題が発生しました。通信環境の良い場所でもう一度送信してください。"
+            }))
         }
-        dispatch(signInAction(userInfo))
-        dispatch(push('/'))
 
     }
+}
+
+export const tokenAuthentication = () => {
+
+    return async(dispatch,getState) => {
+        //クッキーからトークンだけ取得
+        let token = "";
+        const cookies = document.cookie.split(';')
+        console.log(cookies)
+        for(const c of cookies){
+            const cookie = c.split('%3D')
+            if(cookie[0] == 'token') token = cookie[1]
+        }
+
+        if(token === "")dispatch(push('/signin'))//トークンがないのでリダイレクト
+        //リクエストパラメータの準備
+        let params = new URLSearchParams()
+            params.append('token',token)
+
+        try{
+            const res = await axios.post(`${USER}information.php`,params)
+
+            if(res.data.result){
+                console.log('success',res.data.result)
+                const userInfo = res.data.result
+                dispatch(autoAuthAction(userInfo))
+            }else{//トークンが一致しないのでリダイレクト
+                console.log('handleError',res.data)
+                document.cookie = "token=; max-age=0";
+                dispatch(push('/signin'))
+            }
+
+        }catch(e){
+            console.log('badError',e)
+        }
+    }
+
 }
