@@ -1,6 +1,11 @@
 import React, { useState,useEffect } from "react";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
+import {useDispatch,useSelector} from 'react-redux'
+import {fetchTeam} from '../../../reducks/team/operations'
+import {fetchMap} from '../../../reducks/pMap/operations'
+import {getTeam} from '../../../reducks/team/selectors'
+import {getMap} from '../../../reducks/pMap/selectors'
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -16,6 +21,21 @@ const useStyles = makeStyles({
 
 const MapDetailDialog = (props) => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const selector = useSelector(state => state)
+
+    const team = getTeam(selector)
+    const team_name = team.team_name
+    const team_description = team.team_description
+    const team_member = team.team_member
+    const map = getMap(selector)
+    const map_name = map.map_name
+    const map_description = map.map_description
+    const parameter_top = map.axis.vaHigh
+    const parameter_under = map.axis.vaLow
+    const parameter_right = map.axis.vhHigh
+    const parameter_left = map.axis.vhLow
+
     const isOpen = props.isOpen
     const doClose = props.doClose
 
@@ -25,15 +45,18 @@ const MapDetailDialog = (props) => {
     setOpen(isOpen);
     }, [isOpen]);
 
+    useEffect(() => {
+        if(isOpen)dispatch(fetchTeam)
+    },[isOpen,team_name,team_description,team_member])
+    useEffect(() => {
+        if(isOpen)dispatch(fetchMap)
+    },[isOpen,map_name,map_description,parameter_top,parameter_under,parameter_left,parameter_right])
+
     const handleCancel = () => {
     setOpen(false);
     doClose();
     };
-    useEffect(() => {
-        if(isOpen){
-            //ここにteamIDとMAPIDを使ってチームとホストの、名前、詳細、作成日、参加ユーザー、ホストを取得
-        }
-    },[isOpen])
+
     return (
     <div>
         <Dialog
@@ -46,15 +69,14 @@ const MapDetailDialog = (props) => {
             <DialogTitle id="form-dialog-title">ポジショニングマップ詳細</DialogTitle>
             <DialogContent className={classes.root}>
                 <DialogContentText>
-                    チーム名<br/>
-                    チーム詳細<br/>
-                    チーム作成日<br/>
+                    チーム名：<br/>
+                    チーム詳細:<br/>
                     チームメンバー<br/>
                 
                     マップ名<br/>
                     マップ詳細<br/>
-                    マップ作成日<br/>
-                    マップホスト<br/>
+                    縦軸比較条件：↑↓
+                    横軸比較条件：↑↓
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

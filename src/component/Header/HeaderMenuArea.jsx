@@ -22,8 +22,10 @@ const HeaderMenuArea = () => {
     const selector = useSelector(state => state)
 
     const userId = getUserId(selector)
-    const teamId = getTeamId(selector)
-    const mapId = getMapId(selector)
+    let teamId = getTeamId(selector)
+    let mapId = getMapId(selector)
+    teamId = 1
+    mapId = 1
 
     //招待通知のバッジ取得。
     const [invitedCount,setInvitedCount] = useState(0)
@@ -182,8 +184,8 @@ const HeaderMenuArea = () => {
             return;
         }
         if(!isOpen){
-            dispatch(fetchBelongTeams(userId))
-            dispatch(fetchTeamMaps(teamId))
+           // dispatch(fetchBelongTeams(userId))
+            //dispatch(fetchTeamMaps(teamId))
         }
         setIsOpen(!isOpen);
     },[isOpen,setIsOpen,dispatch,userId,teamId])

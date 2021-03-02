@@ -12,14 +12,9 @@ export const getUnsetRefCurrent = createSelector(
     state => state.pMap.unsetRefCurrent
 )
 
-export const getMapHostId = createSelector(
-    [pMapSelector],
-    state => state.pMap.hostId
-)
-
 export const getMapNameAndDetail = createSelector(
     [pMapSelector],
-    state => [state.pMap.mapName,state.pMap.mapDetail]
+    state => [state.pMap.map_name,state.pMap.map_detail]
 )
 
 export const getMapAxis = createSelector(
@@ -29,5 +24,10 @@ export const getMapAxis = createSelector(
 
 export const getMapId = createSelector(
     [pMapSelector],
-    state => state.pMap.mapId
+    state => state.pMap.map_id
+)
+
+export const getMap = createSelector(
+    [pMapSelector],
+    state => state.pMap
 )

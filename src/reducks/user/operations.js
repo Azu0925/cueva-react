@@ -2,7 +2,9 @@ import {push} from "connected-react-router";
 import {fetchBelongTeamsAction,changeUserInfoAction,autoAuthAction} from './actions';
 import {setRequestErrorAction} from '../requestError/actions'
 import axios from 'axios'
-import USER from '../../url'
+import URI from '../../URI'
+
+const uri = new URI()
 
 export const fetchBelongTeams = (userId) => {
 
@@ -30,7 +32,7 @@ export const logout = () => {
         params.append('token',params)
 
         try{
-            const res = await axios.post(`${USER}logout.php`,params)
+            const res = await axios.post(`${uri.getUSER}logout.php`,params)
             
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
@@ -59,7 +61,7 @@ export const withdrawal = (email,password) => {
         params.append('token',params)
 
         try{
-            const res = await axios.post(`${USER}delete.php`,params)
+            const res = await axios.post(`${uri.getUSER}delete.php`,params)
             
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
@@ -107,7 +109,7 @@ export const signUp = (name,email,password) => {
         params.append('user_password',password)
 
         try{
-            const res = await axios.post(`${USER}user_register.php`,params)
+            const res = await axios.post(`${uri.getUSER}user_register.php`,params)
 
             if(res.data.result){
                 const token = res.data.result.token
@@ -151,7 +153,7 @@ export const signIn = (email,password) => {
         
         
         try{
-            const res = await axios.post(`${USER}login.php`,params)
+            const res = await axios.post(`${uri.getUSER}login.php`,params)
             
             if(res.data.result){
                 const token = res.data.result.token
@@ -205,7 +207,7 @@ export const tokenAuthentication = () => {
             params.append('token',token)
 
         try{
-            const res = await axios.post(`${USER}information.php`,params)
+            const res = await axios.post(`${uri.getUSER}information.php`,params)
 
             if(res.data.result){
                 console.log('success',res.data.result)

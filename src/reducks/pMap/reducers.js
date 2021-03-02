@@ -24,7 +24,16 @@ export const PMapReducer = (state = initialState.pMap,action) => {
         case Actions.UPDATE_MAP_ACTION:
             return{
                 ...state,
-                ...action.payload
+                map_id:action.payload.map_id,
+                map_name:action.payload.map_name,
+                map_description:action.payload.map_description,
+                axis:{
+                    ...state.axis,
+                    vaHigh:action.payload.parameter.top,
+                    vaLow:action.payload.parameter.under,
+                    haHigh:action.payload.parameter.right,
+                    haLow:action.payload.parameter.left,
+                }
             }
         
         case Actions.UPDATE_NAP_AXIS:

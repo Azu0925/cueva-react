@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {addCardAction,updateCardAction,selectCardAction,fetchCardsAction,updateMapSizeAction,deselectCardAction,sortCardsAction,deleteCardAction,changeMapAction,updateMapAction,updateMapAxisAction} from './actions';
+import {updateMapSizeAction,changeMapAction,updateMapAction,updateMapAxisAction} from './actions';
 
 export const updateMapSize = (width,height) => {
 
@@ -61,5 +61,11 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow) => {
 
         dispatch(updateMapAxisAction(newAxis))
 
+    }
+}
+
+export const fetchMap = () => {
+    return(dispatch,getState) => {
+        
     }
 }

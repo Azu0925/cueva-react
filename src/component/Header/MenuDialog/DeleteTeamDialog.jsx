@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch,useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,7 +9,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { makeStyles } from '@material-ui/core/styles';
 import {ReconfirmDialog} from './index'
-import {deleteTeam} from '../../../reducks/team/operations'
+import {fetchTeam,deleteTeam} from '../../../reducks/team/operations'
+import {getTeam} from '../../../reducks/team/selectors'
 
 const useStyles = makeStyles({
     root:{
@@ -24,24 +25,33 @@ const useStyles = makeStyles({
 const DeleteTeamDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const selector = useSelector(state => state)
+
     const isOpen = props.isOpen
     const doClose = props.doClose
+
+    const team = getTeam(selector)
+    const team_name = team.team_name
+    const team_description = team.team_description
+    const team_member = team.member
+    const map_info = team.map_info
 
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-    setOpen(isOpen);
+        setOpen(isOpen);
     }, [isOpen]);
 
+
     const handleCancel = () => {
-    setOpen(false);
-    doClose();
-    };
+        setOpen(false);
+        doClose();
+    }
+
     useEffect(() => {
-        if(isOpen){
-            //ここにstoreのteamIDを使って削除対象のteamの詳細を取得。
-        }
-    },[isOpen])
+        if(isOpen)dispatch(fetchTeam)
+    },[isOpen,team_name,team_description,team_member,map_info])
+
 ///////////////////確認ダイアログの処理/////////////////
 const [reconfirmOpen, setReconfirmOpen] = useState(false);
 const handleReconfirmOpen = () => {
@@ -69,11 +79,16 @@ const decision = () => {
             <DialogTitle id="form-dialog-title">下記のチームを削除します。</DialogTitle>
             <DialogContent className={classes.root}>
                 <DialogContentText>
-                    チーム名<br/>
-                    チーム詳細<br/>
-                    チーム作成日<br/>
-                    チームメンバー<br/>
-                    含有マップ一覧
+                    チーム名：{team_name}<br/>
+                    チーム詳細：{team_description}<br/>
+                    チームメンバー：{team_member.map((member) => (
+                        <>　{member}　</>
+                    ))}
+                    含有マップ一覧：{map_info.length < 0 && (
+                        map_info.map((map) => (
+                            <>　{map.map_name}　</>
+                        ))
+                    )}
                 </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >

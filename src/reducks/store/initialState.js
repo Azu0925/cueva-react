@@ -19,11 +19,11 @@ const initialState = {
         ],
     },
     team:{
-        teamId:"",
-        hostId:"",
-        teamName:"",
-        teamDetail:"",
+        team_id:"",
+        team_name:"",
+        team_description:"",
         member:[],
+        map_info:[],
         inTeamPMaps:[
             {id:"1",name:"testMap1"},
             {id:"2",name:"testMap2"},
@@ -39,10 +39,9 @@ const initialState = {
     },
 
     pMap:{
-        mapId:"",
-        hostId:"",
-        mapName:"",
-        mapDetail:"",
+        map_id:"",
+        map_name:"",
+        map_description:"",
         axis:{
             vaHigh:"",
             vaLow:"",

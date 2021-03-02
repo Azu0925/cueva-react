@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useCallback } from "react";
 import {useDispatch,useSelector} from 'react-redux'
-import {updateTeam} from '../../../reducks/team/operations'
+import {fetchTeam,updateTeam} from '../../../reducks/team/operations'
 import {getTeam} from '../../../reducks/team/selectors'
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -26,6 +26,8 @@ const UpdateTeamDialog = (props) => {
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
     const team = getTeam(selector)
+    const team_name = team.name
+    const team_description = team.team_description
     const isOpen = props.isOpen
     const doClose = props.doClose
 
@@ -51,20 +53,17 @@ const UpdateTeamDialog = (props) => {
         setNewNameErr(false)
     }
 
-    const name = team.teamName
-    const detail =team.teamDetail
-
     useEffect(() => {
         if(isOpen){
-            setNewName(name)
-            setNewDetail(detail)
+            dispatch(fetchTeam())
         }
         setOpen(isOpen);
-    }, [isOpen,name,detail]);
+    }, [isOpen]);
 
-    /*useEffect(() => {
-        
-    },[newName,newDetail])*/
+    useEffect(() => {
+        setNewName(team_name)
+        setNewDetail(team_description)
+    },[team_name,team_description])
 
     const handleCancel = () => {
     setOpen(false);

@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useCallback } from "react";
 import {useDispatch,useSelector} from 'react-redux'
-import {createTeam} from '../../reducks/team/operations'
+import {createTeam,test} from '../../reducks/team/operations'
 import {getBelongTeamInfoLength} from '../../reducks/user/selectors'
 import Button from "@material-ui/core/Button";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -27,7 +27,7 @@ const CreateTeamDialog = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
-    
+
     const belongTeamLength = getBelongTeamInfoLength(selector)
     const [open, setOpen] = useState(false)
     const [teamName,setTeamName] = useState("")
@@ -109,6 +109,10 @@ const CreateTeamDialog = () => {
         setOpen(false);
     }
 
+    useEffect(() => {
+        dispatch(test())
+    },[])
+
     return (
     <div>
         <Dialog
@@ -181,6 +185,7 @@ const CreateTeamDialog = () => {
                     disabled={!isCreateMap}
                     onChange={(e) => inputMapDetail(e)}
                 />
+
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >
                 <Button onClick={handleClose} color="primary">
@@ -191,6 +196,7 @@ const CreateTeamDialog = () => {
                 </Button>
             </DialogActions>
         </Dialog>
+        
     </div>
     );
     };
