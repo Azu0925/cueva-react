@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useCallback } from "react";
 import {useDispatch,useSelector} from 'react-redux'
-import {updateMap} from '../../../reducks/pMap/operations'
+import {updateMap,fetchMap} from '../../../reducks/pMap/operations'
 import {getMapNameAndDetail} from '../../../reducks/pMap/selectors'
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -53,6 +53,13 @@ const UpdateMapDialog = (props) => {
         }
         setNewNameErr(false)
     }
+
+    useEffect(() => {
+        if(isOpen){
+            dispatch(fetchMap())
+        }
+        setOpen(isOpen);
+    }, [isOpen]);
 
     useEffect(() => {
         if(isOpen){

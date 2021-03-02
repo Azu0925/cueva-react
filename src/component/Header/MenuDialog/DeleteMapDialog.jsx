@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch,useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,7 +9,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { makeStyles } from '@material-ui/core/styles';
 import {ReconfirmDialog} from './index'
-import {deleteMap} from '../../../reducks/pMap/operations'
+import {deleteMap,fetchMap} from '../../../reducks/pMap/operations'
+import {getMapNameAndDetail} from '../../../reducks/pMap/selectors'
 
 const useStyles = makeStyles({
     root:{
@@ -24,6 +25,11 @@ const useStyles = makeStyles({
 const DeleteMapDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const selector = useSelector(state => state)
+
+    const map = getMapNameAndDetail(selector)
+    const map_name = map[0]
+    const map_description = map[1]
     const isOpen = props.isOpen
     const doClose = props.doClose
 
@@ -32,6 +38,10 @@ const DeleteMapDialog = (props) => {
     useEffect(() => {
     setOpen(isOpen);
     }, [isOpen]);
+
+    useEffect(() => {
+        if(isOpen)dispatch(fetchMap())
+    },[isOpen,map_name,map_description])
 
     const handleCancel = () => {
     setOpen(false);
@@ -72,7 +82,6 @@ const decision = () => {
                 <DialogContentText>
                     マップ名<br/>
                     マップ詳細<br/>
-                    マップ作成日<br/>
                 </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >

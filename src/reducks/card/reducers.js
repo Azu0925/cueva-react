@@ -49,6 +49,18 @@ export const CardReducer = (state = initialState.cards,action) => {
                 cards:[...action.payload]
             }
 
+            case Actions.FETCH_CARDS_ACTION:
+                return{
+                    ...state,
+                    cards:[...action.payload]
+                }
+            
+            case Actions.CLEAR_CARDS_ACTION:
+            return{
+                cards:[],
+                selectedCardId:""
+            }
+
         default:
             console.log('defaultを通過');
             return state

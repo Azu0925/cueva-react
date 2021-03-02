@@ -1,24 +1,30 @@
 import {push} from "connected-react-router";
 import {fetchTeamMapsAction,changeTeamAction,updateTeamAction} from './actions';
-import {updateMapAction} from '../pMap/actions'
+import {updateMapAction,updateMapIdAction,clearMapAction} from '../pMap/actions'
+import {clearCardsAction} from '../card/actions'
 import {setRequestErrorAction} from '../requestError/actions'
 import axios from 'axios'
 import URI from '../../URI'
 
 const uri = new URI()
 
+const getToken = () => {
+    //トークンの取得
+    let token = "";
+    const cookies = document.cookie.split(';')
+    for(const c of cookies){
+        const cookie = c.split('%3D')
+        if(cookie[0] == 'token') token = cookie[1]
+    }
+    return token
+}
+
 export const fetchTeam = (teamId) => {
 
     return async(dispatch,getState) => {
 
         //トークンの取得
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
+        const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
         
@@ -77,15 +83,8 @@ export const deleteTeam = () => {
     return async (dispatch,getState) => {
 
         //トークンの取得
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
+        const token = getToken();
         if(token === "")dispatch(push('/signin'))
-
         
         //リクエストパラメータの準備
         const team_id = getState().team.team_id
@@ -123,16 +122,9 @@ export const updateTeam = (name,detail) => {
     return async(dispatch,getState) => {
 
         //トークンの取得
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
+        const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
-        
         //リクエストパラメータの準備
         const team_id = getState().team.team_id
         const team_name = name
@@ -177,13 +169,7 @@ export const exitTeam = () => {
 export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) => {
     return async(dispatch,getState) => {
         //トークンの取得
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
+        const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
         if(isCreateMap){//マップも作成
@@ -207,6 +193,8 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     console.log('success-createTeam',res.data.result)
                     const team_id = res.data.result.team_id
                     dispatch(updateTeamAction({team_id:team_id}))
+                    dispatch(clearMapAction())
+                    dispatch(clearCardsAction())
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'チームの作成に失敗しました',
@@ -249,7 +237,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
             }
     //--------------------------------------------マップの作成------------------------------------------------------------------------------------------------
 
-            //送信するチームを作成
+            //送信するマップを作成
             const map_name = mapName
             const map_description = mapDetail
 
@@ -257,6 +245,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
             //リクエストパラメータの準備
             let mapRegistParams = new URLSearchParams()
             mapRegistParams.append('token',token)
+            mapRegistParams.append('team_id',team_id)
             mapRegistParams.append('map_name',map_name)
             mapRegistParams.append('map_description',map_description)
             mapRegistParams.append('parameter_top',"")
@@ -265,12 +254,12 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
             mapRegistParams.append('parameter_right',"")
 
             try{
-                const res = await axios.post(`${uri.getMAP}register.php`,mapRegistParams)
+                const res = await axios.post(`${uri.getMAP}create_map.php`,mapRegistParams)
 
                 if(res.data.result){
                     console.log('success-createMap',res.data.result)
                     const map_id = res.data.result.map_id
-                    dispatch(updateMapAction({map_id:map_id}))
+                    dispatch(updateMapIdAction({map_id:map_id}))
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップの作成に失敗しました',
@@ -317,7 +306,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 
 
         }else{
-//チームのみ作成
+            //チームのみ作成
             //--------------------------------------------チームの作成------------------------------------------------------------------------------------------------
             //送信するチームを作成
             const team_name = teamName
@@ -337,6 +326,8 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     console.log('success-createTeam',res.data.result)
                     const team_id = res.data.result.team_id
                     dispatch(updateTeamAction({team_id:team_id}))
+                    dispatch(clearMapAction())
+                    dispatch(clearCardsAction())
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'チームの作成に失敗しました',
@@ -384,6 +375,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 export const test = () => {
     return async(dispatch,getState) => {
         const e = 1
+        
         try{
             const e = 2
         }catch(e){

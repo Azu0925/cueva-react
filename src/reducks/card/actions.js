@@ -45,10 +45,17 @@ export const deselectCardAction = (cards) => {
     }
 }
 
-export const FETCH_CARDS_ACTION = 'FETCH_CARDS_ACTION';
+export const FETCH_CARDS_ACTION = 'FETCH_CARDS_ACTION'
 export const fetchCardsAction = (cards) => {
     return{
         type:'FETCH_CARDS_ACTION',
         payload:cards
+    }
+}
+
+export const CLEAR_CARDS_ACTION = 'CLEAR_CARDS_ACTION'
+export const clearCardsAction = () => {
+    return{
+        type:'CLEAR_CARDS_ACTION'
     }
 }

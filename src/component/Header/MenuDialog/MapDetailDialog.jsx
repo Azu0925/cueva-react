@@ -25,9 +25,10 @@ const MapDetailDialog = (props) => {
     const selector = useSelector(state => state)
 
     const team = getTeam(selector)
+    
     const team_name = team.team_name
     const team_description = team.team_description
-    const team_member = team.team_member
+    const team_member = [...team.member]
     const map = getMap(selector)
     const map_name = map.map_name
     const map_description = map.map_description
@@ -46,10 +47,10 @@ const MapDetailDialog = (props) => {
     }, [isOpen]);
 
     useEffect(() => {
-        if(isOpen)dispatch(fetchTeam)
+        if(isOpen)dispatch(fetchTeam())
     },[isOpen,team_name,team_description,team_member])
     useEffect(() => {
-        if(isOpen)dispatch(fetchMap)
+        if(isOpen)dispatch(fetchMap())
     },[isOpen,map_name,map_description,parameter_top,parameter_under,parameter_left,parameter_right])
 
     const handleCancel = () => {
@@ -69,14 +70,16 @@ const MapDetailDialog = (props) => {
             <DialogTitle id="form-dialog-title">ポジショニングマップ詳細</DialogTitle>
             <DialogContent className={classes.root}>
                 <DialogContentText>
-                    チーム名：<br/>
-                    チーム詳細:<br/>
-                    チームメンバー<br/>
+                    チーム名：{team_name}<br/>
+                    チーム詳細:{team_description}<br/>
+                    チームメンバー{team_member.map((member) => (
+                        <>　{member}　</>
+                    ))}
                 
-                    マップ名<br/>
-                    マップ詳細<br/>
-                    縦軸比較条件：↑↓
-                    横軸比較条件：↑↓
+                    マップ名:{map_name}<br/>
+                    マップ詳細{map_description}<br/>
+                    縦軸比較条件：↑{parameter_top}↓{parameter_under}
+                    横軸比較条件：↑{parameter_right}↓{parameter_left}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

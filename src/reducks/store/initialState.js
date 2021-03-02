@@ -4,7 +4,7 @@ const initialState = {
         isSignedIn:false,
         user_name:"",
         user_address:"",
-        belongTeamInfo:[],
+        belongTeamsInfo:[],
         belongTeams:[
             {id:"1",name:"testTeam1"},
             {id:"2",name:"testTeam2"},

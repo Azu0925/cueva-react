@@ -6,12 +6,47 @@ import URI from '../../URI'
 
 const uri = new URI()
 
-export const fetchBelongTeams = (userId) => {
+const getToken = () => {
+    //トークンの取得
+    let token = "";
+    const cookies = document.cookie.split(';')
+    for(const c of cookies){
+        const cookie = c.split('%3D')
+        if(cookie[0] == 'token') token = cookie[1]
+    }
+    return token
+}
 
-    return async(dispatch,getState) => {
-        //ここら辺にチーム名取得する非同期処理
-        const belongTeams = getState().user.belongTeams
-        dispatch(fetchBelongTeamsAction(belongTeams))
+export const fetchBelongTeams = () => {
+    return async(dispatch) => {
+
+        //トークンの取得
+        const token = getToken();
+        if(token === "")dispatch(push('/signin'))
+        //パラメータの準備
+        let params = new URLSearchParams()
+        params.append('token',params)
+        
+        try{
+            const res = await axios.post(`${uri.getUSER}information.php`,params)
+            if(res.data.result){
+                const belongTeamsInfo = res.data.result.team_info
+                dispatch(fetchBelongTeamsAction(belongTeamsInfo))
+
+            }else{
+                dispatch(setRequestErrorAction({
+                    errorTitle:'チーム情報の取得に失敗しました',
+                    errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                }))
+            }
+        }catch(e){
+            console.log('badError',e)
+                dispatch(setRequestErrorAction({
+                    errorTitle:'ユーザー情報の取得に失敗しました',
+                    errorDetail:'ユーザー情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                }))
+        }
+
     }
 
 }
@@ -19,13 +54,8 @@ export const fetchBelongTeams = (userId) => {
 export const logout = () => {
     return async(dispatch,getState) => {
         
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
+        //トークンの取得
+        const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
         let params = new URLSearchParams()
@@ -48,13 +78,8 @@ export const logout = () => {
 
 export const withdrawal = (email,password) => {
     return async(dispatch,getState) => {
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
+        //トークンの取得
+        const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
         let params = new URLSearchParams()
@@ -193,15 +218,8 @@ export const tokenAuthentication = () => {
 
     return async(dispatch,getState) => {
         //クッキーからトークンだけ取得
-        let token = "";
-        const cookies = document.cookie.split(';')
-        console.log(cookies)
-        for(const c of cookies){
-            const cookie = c.split('%3D')
-            if(cookie[0] == 'token') token = cookie[1]
-        }
-
-        if(token === "")dispatch(push('/signin'))//トークンがないのでリダイレクト
+        const token = getToken();
+        if(token === "")dispatch(push('/signin'))
         //リクエストパラメータの準備
         let params = new URLSearchParams()
             params.append('token',token)
