@@ -7,6 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+import DialogContentText from "@material-ui/core/DialogContentText";
 import {InputText,ErrorMessage} from '../../UIKit'
 import {ReconfirmDialog} from './index'
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,6 +31,7 @@ const WithdrawalDialog = (props) => {
     const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
 
     const [open, setOpen] = useState(false);
+    /*
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
 
@@ -63,7 +65,7 @@ const WithdrawalDialog = (props) => {
         }else if(checkPassword.length > 30){
             setPasswordErr('パスワードは30桁以内で入力してください')
         }else setPasswordErr(false)
-    }
+    }*/
 
     useEffect(() => {
     setOpen(isOpen);
@@ -77,7 +79,7 @@ const WithdrawalDialog = (props) => {
     ///////////////////確認ダイアログの処理/////////////////
 const [reconfirmOpen, setReconfirmOpen] = useState(false);
 const handleReconfirmOpen = () => {
-
+/* 
     if(!email || email === ""){
         setEmailErr('メールアドレスを入力してください')
         return
@@ -94,9 +96,11 @@ const handleReconfirmOpen = () => {
         setPasswordErr('パスワードは30桁以内で入力してください')
         return
     }
-    setReconfirmOpen(true);
     setEmail('')
     setPassword('')
+    */
+    setReconfirmOpen(true);
+    
 };
 const handleReconfirmClose = () => {
     setReconfirmOpen(false);
@@ -105,7 +109,7 @@ const handleReconfirmClose = () => {
 //削除自体の非同期処理を関数で作成して確認ダイアログに渡す。
 
 const decision = () => {
-    dispatch(withdrawal(email,password))
+    dispatch(withdrawal())
 }
 
     return (
@@ -118,6 +122,7 @@ const decision = () => {
         >
             <DialogTitle>退会</DialogTitle>
             <DialogContent className={classes.root}>
+                {/*}
                 <InputText
                     fullWidth={true}
                     label={"メールアドレスを入力してください"}
@@ -142,12 +147,16 @@ const decision = () => {
                     onBlur={(e) => handleOnblurOfPassword(e)}
                 />
                 <ErrorMessage msg={passwordErr} />
+    {*/}    
+                <DialogContentText>
+                    ユーザー情報を完全に削除して退会します。
+                </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >
                 <Button onClick={handleCancel} color="primary">
                     キャンセル
                 </Button>
-                <Button onClick={() => handleReconfirmOpen()} color="primary" disabled={(emailErr || passwordErr) ? true : false}>
+                <Button onClick={() => handleReconfirmOpen()} color="primary" /*disabled={(emailErr || passwordErr) ? true : false}*/>
                     決定
                 </Button>
             </DialogActions>

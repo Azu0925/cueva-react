@@ -2,6 +2,7 @@ import React, { useState,useEffect,useCallback } from "react";
 import {useDispatch,useSelector} from 'react-redux'
 import {changeUserInfo} from '../../../reducks/user/operations'
 import {getUserName,getUserEmail} from '../../../reducks/user/selectors'
+import {fetchUserInfo} from '../../../reducks/user/operations'
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -63,6 +64,14 @@ const ChangeUserInfoDialog = (props) => {
             setNewUserEmailErr('正しい表記で入力してください')
         }else setNewUserEmailErr(false)
     }
+
+    useEffect(() => {
+        if(isOpen){
+            dispatch(fetchUserInfo())
+        }
+        setOpen(isOpen);
+    }, [isOpen]);
+
 
     useEffect(() => {
         if(isOpen){

@@ -60,7 +60,7 @@ const DraggableCard = (props) => {
     const mapWidth = mapSize.width
     const mapHeight = mapSize.height
 
-    const cardId = props.id
+    const cardId = props.id//ここのprops.idをmapのkeyではなくDBに登録されているカード自体のカードIDにしても大丈夫なはず21/03/03
     const card = props.card
     const name = card.name
     const detail = card.detail

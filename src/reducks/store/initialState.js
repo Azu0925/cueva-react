@@ -17,6 +17,7 @@ const initialState = {
             {id:"9",name:"testTeam9"},
             {id:"10",name:"testTeam10"},
         ],
+        invitedList:[]
     },
     team:{
         team_id:"",

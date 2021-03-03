@@ -5,6 +5,15 @@ export const fetchBelongTeamsAction = (teams) => {
         payload:teams
     }
 }
+
+export const FETCH_INVITED_LIST_ACTION = 'FETCH_INVITED_LIST_ACTION'
+export const fetchInvitedListAction = (invitedList) => {
+    return{
+        type:'FETCH_INVITED_LIST_ACTION',
+        payload:invitedList
+    }
+}
+
 export const CHANGE_USER_INFO_ACTION = 'CHANGE_USER_INFO_ACTION'
 export const changeUserInfoAction = (name) => {
     return{

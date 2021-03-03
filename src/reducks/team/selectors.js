@@ -16,3 +16,8 @@ export const getTeam = createSelector(
     [teamSelector],
     state => state.team
 )
+
+export const getMapInfo = createSelector(
+    [teamSelector],
+    state => state.team.map_info
+)

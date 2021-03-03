@@ -165,7 +165,7 @@ const PositionMap= () => {
                         <DraggableCard
                             card={card}
                             key={i}
-                            id={i}
+                            id={card.id}//←ここただのiにしてたけど、card自体のIdをdraggableカードの非同期で渡さないといけないから変更してる。
                             isSelected={i === selectedCardId}
                             unsetRefCurrent={unsetRefCurrent}
                         />

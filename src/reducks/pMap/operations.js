@@ -53,7 +53,7 @@ export const deleteMap = () => {
         let params = new URLSearchParams()
         params.append('token',token)
         params.append('map_id',map_id)
-        
+
         try{
             const res = await axios.post(`${uri.getMAP}map_delete.php`,params)
 
@@ -202,16 +202,51 @@ export const createMap = (name,detail) => {
 }
 
 export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow) => {
-    return(dispatch,getState) => {
+    return async(dispatch,getState) => {
         if(getState().pMap.mapId === "") return
-        const newAxis = {
-            vaHigh:vaHigh,
-            vaLow:vaLow,
-            haHigh:haHigh,
-            haLow:haLow
+        dispatch(fetchMap())
+
+        //トークンの取得
+        const token = getToken();
+        if(token === "")dispatch(push('/signin'))
+
+        //リクエストパラメータの準備
+        const map_id = getState().pMap.map_id
+        const map_name = getState().pMap.map_name
+        const map_description = getState().pMap.map_description
+
+        let params = new URLSearchParams()
+        params.append('token',token)
+        params.append('map_id',map_id)
+        params.append('map_name',map_name)
+        params.append('map_description',map_description)
+        params.append('parameter_top',vaHigh)
+        params.append('parameter_under',vaLow)
+        params.append('parameter_left',haLow)
+        params.append('parameter_right',haHigh)
+
+        try{
+            const res = await axios.post(`${uri.getMAP}map_update.php`,params)
+
+            if(res.data.result){
+                dispatch(fetchMap())
+            }
+            else{
+                dispatch(setRequestErrorAction({
+                    errorTitle:'マップ情報の更新に失敗しました',
+                    errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                }))
+            }
+
+        }catch(e){
+            console.log('badError',e)
+                dispatch(setRequestErrorAction({
+                    errorTitle:'マップ情報の更新に失敗しました',
+                    errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                }))
         }
 
-        dispatch(updateMapAxisAction(newAxis))
+        
 
     }
 }

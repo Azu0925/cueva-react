@@ -74,8 +74,38 @@ export const changeTeam = (teamId) => {
 export const inviteTeam = (userId) => {
     return async(dispatch,getState) => {
 
-        //チーム情報取得してメッセージ作ったりid送ったりとか非同期処理
-        console.log('inviteTeam',userId)
+        //トークンの取得
+        const token = getToken();
+        if(token === "")dispatch(push('/signin'))
+        
+        const opponent_id = userId
+        const my_team_id = getState().team.team_id
+
+        let params = new URLSearchParams()
+        params.append('team_id',my_team_id)
+        params.append('token',token)
+        params.append('user_id',opponent_id)
+        
+        try{
+            const res = await axios.post(`${uri.getTEAM}delete.php`,params)
+
+            if(res.data.result){
+                //招待完了ダイアログとかあれば良いかも
+            }else{
+                dispatch(setRequestErrorAction({
+                    errorTitle:'ユーザーの招待に失敗しました',
+                    errorDetail:'ユーターの招待に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                }))
+            }
+
+        }catch(e){
+            console.log('badError',e)
+                dispatch(setRequestErrorAction({
+                    errorTitle:'ユーザーの招待に失敗しました',
+                    errorDetail:'ユーターの招待に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                }))
+        }
+
     }
 }
 
@@ -318,7 +348,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
             teamRegistParams.append('token',token)
             teamRegistParams.append('team_name',team_name)
             teamRegistParams.append('team_description',team_description)
-                
+
             try{
                 const res = await axios.post(`${uri.getTEAM}register.php`,teamRegistParams)
 

@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
-import {useDispatch} from 'react-redux'
-import {joinTeam,rejectInvitation} from '../../../reducks/user/operations'
+import {useDispatch,useSelector} from 'react-redux'
+import {joinTeam,rejectInvitation,fetchInvitedList} from '../../../reducks/user/operations'
+import {getInvitedList} from '../../../reducks/user/selectors'
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -30,11 +31,11 @@ const useStyles = makeStyles({
 const InvitedListDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const selector = useSelector(state => state)
     const isOpen = props.isOpen
     const doClose = props.doClose
 
     const [open, setOpen] = useState(false);
-    const [invitedList,setInvitedList] = useState([])
 
     const demoList = [//デモ
         {teamId:"1",teamName:"test1test1"},
@@ -42,13 +43,18 @@ const InvitedListDialog = (props) => {
         {teamId:"3",teamName:"test3test3test3"}
     ]
 
+    const invitedList = getInvitedList(selector)
+
     useEffect(() => {
-        if(isOpen){
-            //ここにユーザーIDを使って招待リストを取得非同期
-            setInvitedList(demoList)
-        }
     setOpen(isOpen);
     }, [isOpen]);
+
+    useEffect(() => {
+        if(isOpen){
+            dispatch(fetchInvitedList())
+        }
+        }, [isOpen,invitedList]);
+
 
     const handleCancel = () => {
     setOpen(false);
@@ -83,10 +89,10 @@ const InvitedListDialog = (props) => {
                         invitedList.map((invite,i) => (
                             <ListItem className={classes.invite} key={i}>
                                 <div className={classes.buttonGroup}>
-                                    <Button color="primary" onClick={() => handleJoinButton(invite.teamId)}>参加</Button>
-                                    <Button color="primary" onClick={() => handleRejectButton(invite.teamId)}>拒否</Button>
+                                    <Button color="primary" onClick={() => handleJoinButton(invite.team_id)}>参加</Button>
+                                    <Button color="primary" onClick={() => handleRejectButton(invite.team_id)}>拒否</Button>
                                 </div>
-                                <DialogContentText>{invite.teamName}</DialogContentText>
+                                <DialogContentText>{invite.team_name}</DialogContentText>
                             </ListItem>
                         ))
                     ) }

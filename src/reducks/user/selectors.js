@@ -29,5 +29,16 @@ export const getIsSignedIn = createSelector(
 
 export const getBelongTeamInfoLength = createSelector(
     [userSelector],
-    state => state.user.belongTeamInfo.length
+    state => state.user.belongTeamsInfo.length
+)
+
+export const getBelongTeamsInfo = createSelector(
+    [userSelector],
+    state => state.user.belongTeamsInfo
+)
+
+
+export const getInvitedList = createSelector(
+    [userSelector],
+    state => state.user.invitedList
 )
