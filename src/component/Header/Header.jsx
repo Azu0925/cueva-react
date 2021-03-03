@@ -3,13 +3,19 @@ import {useSelector} from 'react-redux'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import {makeStyles} from '@material-ui/styles';
-import {HeaderMenuArea} from './index'
 import {getIsSignedIn} from '../../reducks/user/selectors'
+import {HeaderMenuArea, HeaderLogoArea} from './index';
 
 const useStyles = makeStyles({
+    headerColor: {
+        backgroundColor: '#ffa64d'
+    },
+    contents: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
     tool:{
-        display:'flex',
-        justifyContent:'flex-end',
+        display:'flex'
     }
 })
 
@@ -21,11 +27,14 @@ const Header = () => {
     let IsSignedIn = getIsSignedIn(selector)
     IsSignedIn = true
         return (
-            <AppBar>
-                <Toolbar className={classes.tool}>
-                    {IsSignedIn && (//サインインしていないなら各種ツールは全て使用不可にする
-                        <HeaderMenuArea />
-                    )}
+            <AppBar className={classes.headerColor}>
+                <Toolbar className={classes.contents}>
+                    <HeaderLogoArea className={classes.logo} />
+                    <div className={classes.tool}>
+                        {IsSignedIn && (//サインインしていないなら各種ツールは全て使用不可にする
+                            <HeaderMenuArea />
+                        )}
+                    </div>
                 </Toolbar>
             </AppBar>
         )
