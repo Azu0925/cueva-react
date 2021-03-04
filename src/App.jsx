@@ -9,9 +9,11 @@ const App = () => {
 
   return(
     <>
+    {/*}
       <div id="header">
         <Header />
       </div>
+  {*/}
       <Router />
     </>
   )

@@ -14,6 +14,13 @@ export const fetchInvitedListAction = (invitedList) => {
     }
 }
 
+export const UPDATE_INVITED_NUM_ACTION = 'UPDATE_INVITED_NUM_ACTION'
+export const updateInvitedNumAction = (invitedNum) => {
+    return{
+        type:'UPDATE_INVITED_NUM_ACTION',
+        payload:invitedNum
+    }
+}
 export const CHANGE_USER_INFO_ACTION = 'CHANGE_USER_INFO_ACTION'
 export const changeUserInfoAction = (name) => {
     return{

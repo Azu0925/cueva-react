@@ -10,7 +10,7 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                 ...state,
                 size:{...action.payload}
             }
-            
+    
         case Actions.CHANGE_MAP_ACTION:
             return{
                 ...action.payload
@@ -20,7 +20,7 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                 ...state,
                 ...action.payload
             }
-        
+
         case Actions.UPDATE_MAP_ACTION:
             return{
                 ...state,
@@ -36,6 +36,18 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                 }
             }
         
+        case Actions.UPDATE_AXIS_ACTION:
+            return{
+                ...state,
+                axis:{
+                    ...state.axis,
+                    vaHigh:action.payload.parameter_top,
+                    vaLow:action.payload.parameter_under,
+                    haHigh:action.payload.parameter_right,
+                    haLow:action.payload.parameter_left,
+                }
+            }
+
             case Actions.UPDATE_MAP_ID_ACTION:
             return{
                 ...state,
@@ -47,6 +59,7 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                 ...state,
                 axis:{...action.payload}
             }
+            
         case Actions.CLEAR_MAP_ACTION:
             return{
                 map_id:"",

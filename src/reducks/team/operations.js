@@ -71,7 +71,7 @@ export const changeTeam = (teamId) => {
 
 }
 
-export const inviteTeam = (userId) => {
+export const inviteTeam = (userId,ws) => {
     return async(dispatch,getState) => {
 
         //トークンの取得
@@ -91,6 +91,11 @@ export const inviteTeam = (userId) => {
 
             if(res.data.result){
                 //招待完了ダイアログとかあれば良いかも
+                const inviteInfo = JSON.stringify({
+                    command:'subscribe',
+                    message:opponent_id
+                })
+                ws.send(inviteInfo)
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'ユーザーの招待に失敗しました',
@@ -402,17 +407,19 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
     }
 }
 
-export const test = () => {
+export const test = (ws) => {
     return async(dispatch,getState) => {
-        const e = 1
-        
+        console.log(ws)
         try{
-            const e = 2
+            const testSend = JSON.stringify({
+                message:'hello!'
+            })
+            await ws.send(testSend)
+
         }catch(e){
-            console.log('fdfdfdfdfdf',e)
+            
         }
 
-            dispatch(updateTeamAction({teamId:1}))
-            console.log('テストteamid',getState().team.teamId)
+          
     }
 }

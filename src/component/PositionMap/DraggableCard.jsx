@@ -1,4 +1,5 @@
-import React,{useState,useEffect,useRef,useCallback} from 'react'
+import React,{useState,useEffect,useRef,useCallback,useContext} from 'react'
+import {WebSocketContext} from '../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux'
 import {selectCard,updateCard,deleteCard} from '../../reducks/card/operations'
 import {getMapSize} from '../../reducks/pMap/selectors'
@@ -71,6 +72,7 @@ const DraggableCard = (props) => {
 
 
     const cardRef = useRef(null);
+    const ws = useContext(WebSocketContext);
 
     const [currentName,setCurrentName] = useState("")
     const [currentX,setCurrentX] = useState(0)
@@ -124,7 +126,8 @@ const DraggableCard = (props) => {
                             Math.floor(x),
                             Math.floor(y),
                             Math.floor(currentWidth),
-                            Math.floor(currentHeight)
+                            Math.floor(currentHeight),
+                            ws
         ))
     }
 
@@ -144,13 +147,14 @@ const DraggableCard = (props) => {
             Math.floor(currentX),
             Math.floor(currentY),
             Math.floor(currentWidth),
-            Math.floor(currentHeight)
+            Math.floor(currentHeight),
+            ws
         ))
     }
 
     const handleDeleteIcon = (e) => {
         e.stopPropagation()
-        dispatch(deleteCard(cardId))
+        dispatch(deleteCard(cardId,ws))
     }
 
     return(

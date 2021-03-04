@@ -10,7 +10,7 @@ import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import Badge from '@material-ui/core/Badge';
 import {fetchTeamMaps} from '../../reducks/team/operations'
 import {fetchBelongTeams} from '../../reducks/user/operations'
-import {getUserId} from '../../reducks/user/selectors'
+import {getUserId,getInvitedList} from '../../reducks/user/selectors'
 import {getTeamId} from '../../reducks/team/selectors'
 import {getMapId} from '../../reducks/pMap/selectors'
 import {ToggleMenu} from '../../component/UIKit'
@@ -24,14 +24,13 @@ const HeaderMenuArea = () => {
     const userId = getUserId(selector)
     let teamId = getTeamId(selector)
     let mapId = getMapId(selector)
-    teamId = 1
-    mapId = 1
+    const invitedListLength = getInvitedList(selector).length
 
     //招待通知のバッジ取得。
     const [invitedCount,setInvitedCount] = useState(0)
     useEffect(() => {
-        setInvitedCount(3)//非同期で招待通知数を取得。今はデモ
-    },[invitedCount])
+        setInvitedCount(invitedListLength)//非同期で招待通知数を取得。今はデモ
+    },[invitedListLength])
 
 //////////////////////ダイアログメニューの処理///////////////////////////////////////////
     //招待ダイアログ

@@ -2,6 +2,8 @@ import React,{useState,useEffect, useCallback} from 'react'
 import {useDispatch} from 'react-redux'
 import {push} from "connected-react-router";
 import Paper from '@material-ui/core/Paper';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Button from "@material-ui/core/Button";
 import {InputText,CompleteButton,ErrorMessage,RequestErrorDialog} from '../component/UIKit'
 import {signUp} from '../reducks/user/operations'
@@ -92,84 +94,91 @@ const SignUp = () => {
     }
     const isDisabled = (nameErr || emailErr || passwordErr) ? true : false
     return(
-        <div id="authMain">
-            
-            <Paper elevation={7} className={classes.root}>
-                <h1 className={classes.title}>会員登録</h1>
+        <>
+            <div id="header">
+                <AppBar>
+                    <Toolbar>
+                    </Toolbar>
+                </AppBar>
+            </div>
+            <div id="authMain">
+                <Paper elevation={7} className={classes.root}>
+                    <h1 className={classes.title}>会員登録</h1>
 
-                <div className={classes.formGroup}>
-                    <InputText
-                        fullWidth={true}
-                        label={"ユーザー名を入力してください"}
-                        multiline={false}
-                        required={true}
-                        rows={1}
-                        type={"text"}
-                        value={name}
-                        onChange={(e) => inputName(e)}
-                        onBlur={(e) => handleBlurOfName(e)}
-                    />
-                    <ErrorMessage msg={nameErr} />
-                    <div className={"spacer--medium"} />
+                    <div className={classes.formGroup}>
+                        <InputText
+                            fullWidth={true}
+                            label={"ユーザー名を入力してください"}
+                            multiline={false}
+                            required={true}
+                            rows={1}
+                            type={"text"}
+                            value={name}
+                            onChange={(e) => inputName(e)}
+                            onBlur={(e) => handleBlurOfName(e)}
+                        />
+                        <ErrorMessage msg={nameErr} />
+                        <div className={"spacer--medium"} />
 
-                    <InputText
-                        fullWidth={true}
-                        label={"メールアドレスを入力してください"}
-                        multiline={false}
-                        required={true}
-                        rows={1}
-                        type={"text"}
-                        value={email}
-                        onChange={(e) => inputEmail(e)}
-                        onBlur={(e) => handleBlurOfEmail(e)}
-                    />
-                    <ErrorMessage msg={emailErr} />
-                    <div className={"spacer--medium"} />
+                        <InputText
+                            fullWidth={true}
+                            label={"メールアドレスを入力してください"}
+                            multiline={false}
+                            required={true}
+                            rows={1}
+                            type={"text"}
+                            value={email}
+                            onChange={(e) => inputEmail(e)}
+                            onBlur={(e) => handleBlurOfEmail(e)}
+                        />
+                        <ErrorMessage msg={emailErr} />
+                        <div className={"spacer--medium"} />
 
-                    <InputText
-                        fullWidth={true}
-                        label={"パスワードを入力してください"}
-                        multiline={false}
-                        required={true}
-                        rows={1}
-                        type={"password"}
-                        value={password}
-                        onChange={(e) => inputPassword(e)}
-                        onBlur={(e) => handleBlurOfPassWord(e.target.value)}
-                    />
-                    <ErrorMessage msg={passwordErr} />
-                    <div className={"spacer--medium"} />
+                        <InputText
+                            fullWidth={true}
+                            label={"パスワードを入力してください"}
+                            multiline={false}
+                            required={true}
+                            rows={1}
+                            type={"password"}
+                            value={password}
+                            onChange={(e) => inputPassword(e)}
+                            onBlur={(e) => handleBlurOfPassWord(e.target.value)}
+                        />
+                        <ErrorMessage msg={passwordErr} />
+                        <div className={"spacer--medium"} />
 
-                    <InputText
-                        fullWidth={true}
-                        label={"もう一度パスワードを入力してください"}
-                        multiline={false}
-                        required={true}
-                        rows={1}
-                        type={"password"}
-                        value={againPassword}
-                        onChange={(e) => inputAgainPassword(e)}
-                        onBlur={() => handleBlurOfPassWord(password)}
-                    />
-                    <div className={"spacer--medium"} />
+                        <InputText
+                            fullWidth={true}
+                            label={"もう一度パスワードを入力してください"}
+                            multiline={false}
+                            required={true}
+                            rows={1}
+                            type={"password"}
+                            value={againPassword}
+                            onChange={(e) => inputAgainPassword(e)}
+                            onBlur={() => handleBlurOfPassWord(password)}
+                        />
+                        <div className={"spacer--medium"} />
 
-                    <CompleteButton
-                        label={'登録する'}
-                        color={'primary'}
-                        variant={'outlined'}
-                        disabled={isDisabled}
-                        onClick={() => dispatch(signUp(name,email,password))}
-                    />
-                </div>
-                <Button color="primary"
-                    className={classes.anotherLink}
-                    onClick={() => dispatch(push('/signin'))}
-                >
-                    ログインはこちら
-                </Button>
-            </Paper>
-           <RequestErrorDialog />
-        </div>
+                        <CompleteButton
+                            label={'登録する'}
+                            color={'primary'}
+                            variant={'outlined'}
+                            disabled={isDisabled}
+                            onClick={() => dispatch(signUp(name,email,password))}
+                        />
+                    </div>
+                    <Button color="primary"
+                        className={classes.anotherLink}
+                        onClick={() => dispatch(push('/signin'))}
+                    >
+                        ログインはこちら
+                    </Button>
+                </Paper>
+                <RequestErrorDialog />
+            </div>
+        </>
     )
 
 }

@@ -1,4 +1,5 @@
-import React, { useState,useEffect,useCallback } from "react";
+import React, { useState,useEffect,useCallback,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch} from 'react-redux'
 import {inviteTeam} from '../../../reducks/team/operations'
 import Button from "@material-ui/core/Button";
@@ -25,6 +26,7 @@ const InviteTeamDialog = (props) => {
     const dispatch = useDispatch()
     const isOpen = props.isOpen
     const doClose = props.doClose
+    const ws = useContext(WebSocketContext);
 
     const [open, setOpen] = useState(false);
     const [userId,setUserId] = useState("")
@@ -59,7 +61,7 @@ const InviteTeamDialog = (props) => {
             setUserIdErr('招待するユーザーのIDを入力してください')
             return
         }
-        dispatch(inviteTeam(userId))
+        dispatch(inviteTeam(userId,ws))
         setUserId('')
         setOpen(false);
         doClose();

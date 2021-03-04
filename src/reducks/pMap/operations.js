@@ -201,7 +201,7 @@ export const createMap = (name,detail) => {
     }
 }
 
-export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow) => {
+export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
     return async(dispatch,getState) => {
         if(getState().pMap.mapId === "") return
         dispatch(fetchMap())
@@ -229,7 +229,11 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow) => {
             const res = await axios.post(`${uri.getMAP}map_update.php`,params)
 
             if(res.data.result){
-                dispatch(fetchMap())
+                const mapInfo = JSON.stringify({
+                    command:'update_parameter',
+                    message:map_id
+                })
+                ws.send(mapInfo)
             }
             else{
                 dispatch(setRequestErrorAction({

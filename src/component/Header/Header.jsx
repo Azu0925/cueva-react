@@ -19,7 +19,7 @@ const Header = () => {
     const selector = useSelector(state => state)
 
     let IsSignedIn = getIsSignedIn(selector)
-    IsSignedIn = true
+    
         return (
             <AppBar>
                 <Toolbar className={classes.tool}>

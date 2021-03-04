@@ -2,6 +2,7 @@ const initialState = {
 
     user:{
         isSignedIn:false,
+        user_id:"",
         user_name:"",
         user_address:"",
         belongTeamsInfo:[],
@@ -17,7 +18,8 @@ const initialState = {
             {id:"9",name:"testTeam9"},
             {id:"10",name:"testTeam10"},
         ],
-        invitedList:[]
+        invitedList:[],
+        invitedNum:0
     },
     team:{
         team_id:"",
@@ -57,7 +59,9 @@ const initialState = {
         selectedCardId:"",
     },
 
-    requestError:false
+    requestError:false,
+
+    webSocketAPI:""
 
 }
 

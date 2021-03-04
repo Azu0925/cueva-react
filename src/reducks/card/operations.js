@@ -18,7 +18,7 @@ const getToken = () => {
     return token
 }
 
-export const addCard = (name,detail,x,y,height,width) => {
+export const addCard = (name,detail,x,y,height,width,ws) => {
     return async(dispatch,getState) => {
         /*const prevCards = getState().cards.cards;
         const card = {
@@ -59,6 +59,11 @@ export const addCard = (name,detail,x,y,height,width) => {
 
             if(res.data.result){
                 //WebSocketサーバに通知する処理が入る。
+                const cardInfo = JSON.stringify({
+                    command:'update_data',
+                    message:map_id
+                })
+                ws.send(cardInfo)
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの作成に失敗しました',
@@ -79,7 +84,7 @@ export const addCard = (name,detail,x,y,height,width) => {
     }
 }
 
-export const updateCard = (id,name,detail,x,y,width,height) => {
+export const updateCard = (id,name,detail,x,y,width,height,ws) => {
     
     return async(dispatch,getState) => {
         /*const newCoordinate = {
@@ -117,6 +122,11 @@ export const updateCard = (id,name,detail,x,y,width,height) => {
             const res = await axios.post(`${uri.getCARD}card_update.php`,params)
             if(res.data.result){
                 //
+                const cardInfo = JSON.stringify({
+                    command:'update_data',
+                    message:map_id
+                })
+                ws.send(cardInfo)
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'カード情報の変更に失敗しました',
@@ -136,7 +146,7 @@ export const updateCard = (id,name,detail,x,y,width,height) => {
 
 }
 
-export const deleteCard = (id) => {
+export const deleteCard = (id,ws) => {
     return async(dispatch,getState) => {
         /*const prevCards = getState().cards.cards
         const nextCards = prevCards.filter((card,i) => i !== deleteCardId);
@@ -153,7 +163,13 @@ export const deleteCard = (id) => {
             const res = await axios.post(`${uri.getCARD}card_delete.php`,params)
 
             if(res.data.result){
+                const map_id = getState().pMap.map_id
                 //WebSocketサーバに通知する処理が入る。
+                const cardInfo = JSON.stringify({
+                    command:'update_data',
+                    message:map_id
+                })
+                ws.send(cardInfo)
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの削除に失敗しました',

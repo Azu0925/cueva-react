@@ -9,6 +9,7 @@ import {PMapReducer} from '../pMap/reducers';
 import {CardReducer} from '../card/reducers';
 import {UserReducer} from '../user/reducers';
 import {RequestErrorReducer} from '../requestError/reducers';
+import {WebSocketReducer} from '../webSocket/reducers';
 import {connectRouter,routerMiddleware} from "connected-react-router";
 import thunk from 'redux-thunk';
 
@@ -22,6 +23,7 @@ export default function createStore(history){
             pMap:PMapReducer,
             cards:CardReducer,
             router:connectRouter(history),
+            webSocketAPI:WebSocketReducer,
             requestError:RequestErrorReducer
         }),
         composeEnhancers(

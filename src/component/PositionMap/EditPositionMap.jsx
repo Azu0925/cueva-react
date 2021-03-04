@@ -1,4 +1,5 @@
-import React,{useState,useCallback,useEffect} from 'react'
+import React,{useState,useCallback,useEffect,useContext} from 'react'
+import {WebSocketContext} from '../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux'
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
@@ -34,6 +35,7 @@ const EditPositionMap = () => {
     const classes = useStyles();
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    const ws = useContext(WebSocketContext);
 
     const mapSize = getMapSize(selector)
     const mapWidth = mapSize.width
@@ -113,11 +115,11 @@ const EditPositionMap = () => {
 
     const handleBlurOfName = (e) => {
         const newName = e.target.value
-        if(errorCheck()) dispatch(updateCard(selectedCardId,newName,detail,x,y,width,height))
+        if(errorCheck()) dispatch(updateCard(selectedCardId,newName,detail,x,y,width,height,ws))
     }
     const handleBlurOfDetail = (e) => {
         const newDetail = e.target.value;
-        if(errorCheck()) dispatch(updateCard(selectedCardId,name,newDetail,x,y,width,height))
+        if(errorCheck()) dispatch(updateCard(selectedCardId,name,newDetail,x,y,width,height,ws))
     }
 
     const handleBlurOfX = (e) => {
@@ -131,7 +133,7 @@ const EditPositionMap = () => {
         if(newX < 0) newX = 0
         if(newX + width > mapWidth) newX = mapWidth - width
 
-        if(errorCheck() || (!yErr && !widthErr && !heightErr )) dispatch(updateCard(selectedCardId,name,detail,newX,y,width,height))
+        if(errorCheck() || (!yErr && !widthErr && !heightErr )) dispatch(updateCard(selectedCardId,name,detail,newX,y,width,height,ws))
     }
     const handleBlurOfY = (e) => {
         let newY = e.target.value;
@@ -145,7 +147,7 @@ const EditPositionMap = () => {
         if(newY < 0) newY = 0
         if(newY + height > mapHeight) newY = mapHeight - height
 
-        if(errorCheck() || (!xErr && !widthErr && !heightErr )) dispatch(updateCard(selectedCardId,name,detail,x,newY,width,height))
+        if(errorCheck() || (!xErr && !widthErr && !heightErr )) dispatch(updateCard(selectedCardId,name,detail,x,newY,width,height,ws))
     }
     const handleBlurOfWidth = (e) => {
         let newWidth = e.target.value;
@@ -159,7 +161,7 @@ const EditPositionMap = () => {
         if(newWidth < 0) newWidth = 0
         if(x + newWidth > mapWidth) newWidth = mapWidth - x
 
-        if(errorCheck() || (!xErr && !yErr && !heightErr )) dispatch(updateCard(selectedCardId,name,detail,x,y,newWidth,height))
+        if(errorCheck() || (!xErr && !yErr && !heightErr )) dispatch(updateCard(selectedCardId,name,detail,x,y,newWidth,height,ws))
     }
     const handleBlurOfHeight = (e) => {
         let newHeight = e.target.value;
@@ -173,7 +175,7 @@ const EditPositionMap = () => {
         if(newHeight < 0) newHeight = 0
         if(y + newHeight > mapHeight) newHeight = mapHeight - y
         console.log('afterNewHeight',newHeight)
-        if(errorCheck() || (!xErr && !yErr && !widthErr )) dispatch(updateCard(selectedCardId,name,detail,x,y,width,newHeight))
+        if(errorCheck() || (!xErr && !yErr && !widthErr )) dispatch(updateCard(selectedCardId,name,detail,x,y,width,newHeight,ws))
     }
 
     const handleKeyDown =(e) => {

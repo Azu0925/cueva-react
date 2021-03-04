@@ -30,6 +30,14 @@ export const updateMapAction = (mapInfo) => {
     }
 }
 
+export const UPDATE_AXIS_ACTION = 'UPDATE_AXIS_ACTION';
+export const updateAxisAction = (axis) => {
+    return{
+        type:'UPDATE_AXIS_ACTION',
+        payload:axis
+    }
+}
+
 export const UPDATE_MAP_ID_ACTION = 'UPDATE_MAP_ID_ACTION';
 export const updateMapIdAction = (mapInfo) => {
     return{

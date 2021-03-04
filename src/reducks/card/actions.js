@@ -39,7 +39,7 @@ export const sortCardsAction = (cards) => {
 }
 
 export const DESELECT_CARD_ACTION = 'DESELECT_CARD_ACTION'
-export const deselectCardAction = (cards) => {
+export const deselectCardAction = () => {
     return{
         type:'DESELECT_CARD_ACTION'
     }

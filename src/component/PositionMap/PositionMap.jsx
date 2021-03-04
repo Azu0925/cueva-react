@@ -1,5 +1,7 @@
-import React,{useEffect,useCallback} from 'react'
+import React,{useEffect,useCallback,useContext} from 'react'
+import {WebSocketContext} from '../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux';
+import Button from "@material-ui/core/Button";
 import {DraggableCard} from './index'
 import {makeStyles} from '@material-ui/styles';
 import {addCard} from '../../reducks/card/operations';
@@ -53,6 +55,8 @@ const PositionMap= () => {
     const unsetRefCurrent = getUnsetRefCurrent(selector)
     const mapId = getMapId(selector)
 
+    const ws = useContext(WebSocketContext);
+
     //////////マップ上軸のタイトル
     const vaHigh = axis.vaHigh
     const vaLow = axis.vaLow
@@ -63,10 +67,10 @@ const PositionMap= () => {
         console.log('Axis_effect')
     },[vaHigh,vaLow,haHigh,haLow])
 
-    const handleOnBlurOfVaHigh = (e) => dispatch(updateMapAxis(e.target.value,vaLow,haHigh,haLow))
-    const handleOnBlurOfVaLow = (e) => dispatch(updateMapAxis(vaHigh,e.target.value,haHigh,haLow))
-    const handleOnBlurOfHaHigh = (e) => dispatch(updateMapAxis(vaHigh,vaLow,e.target.value,haLow))
-    const handleOnBlurOfHaLow = (e) => dispatch(updateMapAxis(vaHigh,vaLow,haHigh,e.target.value))
+    const handleOnBlurOfVaHigh = (e) => dispatch(updateMapAxis(e.target.value,vaLow,haHigh,haLow,ws))
+    const handleOnBlurOfVaLow = (e) => dispatch(updateMapAxis(vaHigh,e.target.value,haHigh,haLow,ws))
+    const handleOnBlurOfHaHigh = (e) => dispatch(updateMapAxis(vaHigh,vaLow,e.target.value,haLow,ws))
+    const handleOnBlurOfHaLow = (e) => dispatch(updateMapAxis(vaHigh,vaLow,haHigh,e.target.value,ws))
 
     const handleKeyDown =(e) => {
         if(e.keyCode === 13) e.target.blur()
@@ -79,7 +83,7 @@ const PositionMap= () => {
             x:e.offsetX,
             y:e.offsetY
         }
-        dispatch(addCard("","",newPosition.x,newPosition.y,100,150));
+        dispatch(addCard("","",newPosition.x,newPosition.y,100,150,ws));
     },[dispatch])
 
     useEffect(() => {//最初にダブルクリックのイベントリスナーを登録。

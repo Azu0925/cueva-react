@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import {useDispatch} from 'react-redux'
 import {logout} from '../../../reducks/user/operations'
 import Button from "@material-ui/core/Button";
@@ -8,6 +8,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { makeStyles } from '@material-ui/core/styles';
+import {WebSocketContext} from '../../../templete/Main'
+import {test} from '../../../reducks/team/operations'
 
 const useStyles = makeStyles({
     root:{
@@ -24,6 +26,8 @@ const LogoutDialog = (props) => {
     const dispatch = useDispatch()
     const isOpen = props.isOpen
     const doClose = props.doClose
+    
+    const ws = useContext(WebSocketContext)
 
     const [open, setOpen] = useState(false);
 
@@ -40,6 +44,10 @@ const LogoutDialog = (props) => {
         dispatch(logout())
         setOpen(false);
         doClose();
+    }
+
+    const wsTest = () => {
+        dispatch(test(ws))
     }
 
     return (

@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux'
 import {joinTeam,rejectInvitation,fetchInvitedList} from '../../../reducks/user/operations'
 import {getInvitedList} from '../../../reducks/user/selectors'
@@ -31,6 +32,7 @@ const useStyles = makeStyles({
 const InvitedListDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const ws = useContext(WebSocketContext);
     const selector = useSelector(state => state)
     const isOpen = props.isOpen
     const doClose = props.doClose
@@ -62,13 +64,13 @@ const InvitedListDialog = (props) => {
     }
 
     const handleJoinButton = (teamId) => {
-        dispatch(joinTeam(teamId))
+        dispatch(joinTeam(teamId,ws))
         setOpen(false);
         doClose();
     }
 
     const handleRejectButton = (teamId) => {
-        dispatch(rejectInvitation(teamId))
+        dispatch(rejectInvitation(teamId,ws))
         setOpen(false);
         doClose();
     }

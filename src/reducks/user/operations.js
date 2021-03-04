@@ -97,13 +97,14 @@ export const logout = () => {
         if(token === "")dispatch(push('/signin'))
 
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
 
         try{
             const res = await axios.post(`${uri.getUSER}logout.php`,params)
-            
+            console.log('通ってる１',res.data)
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
+                console.log('通ってる2')
                 dispatch(push('/signin'))
             }else{
                 console.log('handleError',res.data.error)
@@ -224,7 +225,7 @@ export const fetchInvitedList = () => {
     }
 }
 
-export const joinTeam = (teamId) => {
+export const joinTeam = (teamId,ws) => {
     return async(dispatch,getState) => {
          //トークンの取得
         const token = getToken();
@@ -237,7 +238,14 @@ export const joinTeam = (teamId) => {
 
         try{
             const res = await axios.post(`${uri.getUSER}join.php`,params)
-            if(!res.data.result){
+            if(res.data.result){
+                const user_id = getState().user.user_id
+                const inviteInfo = JSON.stringify({
+                    command:'subscribe',
+                    message:user_id
+                })
+                ws.send(inviteInfo)
+            }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'招待の承諾処理に失敗しました',
                     errorDetail:'招待の承諾処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -285,7 +293,7 @@ export const joinTeam = (teamId) => {
     }
 }
 
-export const rejectInvitation = (teamId) => {
+export const rejectInvitation = (teamId,ws) => {
     return async(dispatch,getState) => {
         //トークンの取得
         const token = getToken();
@@ -298,7 +306,14 @@ export const rejectInvitation = (teamId) => {
 
         try{
         const res = await axios.post(`${uri.getUSER}reject.php`,params)
-        if(!res.data.result){
+        if(res.data.result){
+            const user_id = getState().user.user_id
+                const inviteInfo = JSON.stringify({
+                    command:'subscribe',
+                    message:user_id
+                })
+                ws.send(inviteInfo)
+        }else{
             dispatch(setRequestErrorAction({
                 errorTitle:'招待の拒否処理に失敗しました',
                 errorDetail:'招待の拒否処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -364,20 +379,21 @@ export const signUp = (name,email,password) => {
 export const signIn = (email,password) => {
     return async(dispatch,getState) => {
         console.log(password)
-        
+
         let params = new URLSearchParams()
         params.append('user_address',email)
         params.append('user_password',password)
-        
-        
+
         try{
             const res = await axios.post(`${uri.getUSER}login.php`,params)
-            
-            if(res.data.result){
-                const token = res.data.result.token
+            console.log(res.data)
+            if(res.data.token){
+                const token = res.data.token
+                console.log('token',res.data.token)
                 document.cookie = encodeURIComponent(`token=${token}`)
                 dispatch(push('/'))
             }else{
+                console.log('else',res)
                 let errorDetail = ""
                 switch(res.data.error[0].code){
                     case "401":
@@ -397,7 +413,7 @@ export const signIn = (email,password) => {
                 }))
             }
         }catch(e){
-            console.log('bad通過')
+            console.log('bad通過',e)
             dispatch(setRequestErrorAction({
                 errorTitle:"ログインに失敗しました",
                 errorDetail:"問題が発生しました。通信環境の良い場所でもう一度送信してください。"
@@ -418,7 +434,7 @@ export const tokenAuthentication = () => {
             params.append('token',token)
 
         try{
-            const res = await axios.post(`${uri.getUSER}information.php`,params)
+            const res = await axios.post(`${uri.getUSER}user_information.php`,params)
 
             if(res.data.result){
                 console.log('success',res.data.result)
