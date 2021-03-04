@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from "@material-ui/core/Button";
 import {InputText,CompleteButton,ErrorMessage,RequestErrorDialog} from '../component/UIKit'
 import { makeStyles } from '@material-ui/core/styles';
+import { HeaderLogoArea } from '../component/Header/index';
 
 const useStyles = makeStyles({
     root:{
@@ -27,6 +28,9 @@ const useStyles = makeStyles({
     },
     anotherLink:{
         marginLeft: '70%'
+    },
+    tool:{
+        backgroundColor: '#ffa64d'
     }
 })
 
@@ -76,8 +80,9 @@ const SignIn = () => {
     return(
             <>
                 <div id="header">
-                    <AppBar>
+                    <AppBar className={classes.tool}>
                         <Toolbar>
+                            <HeaderLogoArea />
                         </Toolbar>
                     </AppBar>
                 </div>
