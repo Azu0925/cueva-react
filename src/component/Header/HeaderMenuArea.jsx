@@ -8,8 +8,6 @@ import DirectionsWalkOutlinedIcon from '@material-ui/icons/DirectionsWalkOutline
 import NotificationsNoneRoundedIcon from '@material-ui/icons/NotificationsNoneRounded';
 import BuildOutlinedIcon from '@material-ui/icons/BuildOutlined';
 import Badge from '@material-ui/core/Badge';
-import {fetchTeamMaps} from '../../reducks/team/operations'
-import {fetchBelongTeams} from '../../reducks/user/operations'
 import {getUserId,getInvitedList} from '../../reducks/user/selectors'
 import {getTeamId} from '../../reducks/team/selectors'
 import {getMapId} from '../../reducks/pMap/selectors'
@@ -154,7 +152,7 @@ const HeaderMenuArea = () => {
     ]
 
     //チーム選択かつマップ非選択
-    if(teamId != ""){
+    if(teamId !== ""){
         teamDialogMenus.push(
             {label:"チームに招待",openFunc:handleInviteTeamOpen},
             {label:"チーム退出",openFunc:handleExitTeamOpen},
@@ -165,7 +163,7 @@ const HeaderMenuArea = () => {
             {label:"新規マップ作成",openFunc:handleCreateMapOpen}
         )
         //チームもマップも選択
-        if(mapId != ""){
+        if(mapId !== ""){
             teamDialogMenus.push(
                 {label:"マップ詳細",openFunc:handleMapDetailOpen},
                 {label:"マップの削除【ホスト権限】",openFunc:handleDeleteMapOpen},
@@ -183,8 +181,6 @@ const HeaderMenuArea = () => {
             return;
         }
         if(!isOpen){
-           // dispatch(fetchBelongTeams(userId))
-            //dispatch(fetchTeamMaps(teamId))
         }
         setIsOpen(!isOpen);
     },[isOpen,setIsOpen,dispatch,userId,teamId])

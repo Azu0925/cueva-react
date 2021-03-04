@@ -11,7 +11,7 @@ const Auth = ({children}) => {
 
     useEffect(() => {
         if(!signedIn) dispatch(tokenAuthentication())
-    },[])
+    },[dispatch,signedIn])
 
     if(signedIn){
         return children

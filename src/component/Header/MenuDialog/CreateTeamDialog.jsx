@@ -59,7 +59,6 @@ const CreateTeamDialog = (props) => {
         setIsCreateMap(prevState => !prevState)
         console.log('変更完了')
     },[])
-    console.log('check',isCreateMap)
 
     const handleOnBlurOfTeam = (e) => {
         const name = e.target.value

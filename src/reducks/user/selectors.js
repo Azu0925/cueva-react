@@ -29,12 +29,12 @@ export const getIsSignedIn = createSelector(
 
 export const getBelongTeamInfoLength = createSelector(
     [userSelector],
-    state => state.user.belongTeamsInfo.length
+    state => state.user.belongTeamInfo.length
 )
 
 export const getBelongTeamsInfo = createSelector(
     [userSelector],
-    state => state.user.belongTeamsInfo
+    state => state.user.belongTeamInfo
 )
 
 

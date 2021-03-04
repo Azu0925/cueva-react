@@ -6,7 +6,7 @@ export const UserReducer = (state = initialState.user,action) => {
         case Actions.FETCH_BELONG_TEAMS_ACTION:
             return{
                 ...state,
-                belongTeamsInfo:[...action.payload]
+                belongTeamInfo:[...action.payload]
 
             }
         case Actions.CHANGE_USER_INFO_ACTION:
