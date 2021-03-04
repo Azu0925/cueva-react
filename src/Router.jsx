@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route,Switch} from "react-router";
-import {Main,SignUp,SignIn,Home} from './templete'
+import {Main,SignUp,SignIn} from './templete'
 import Auth from "./Auth";
 const Router = () => {
 

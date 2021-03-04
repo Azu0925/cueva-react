@@ -63,10 +63,10 @@ export const fetchBelongTeams = () => {
         if(token === "")dispatch(push('/signin'))
         //パラメータの準備
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
         
         try{
-            const res = await axios.post(`${uri.getUSER}information.php`,params)
+            const res = await axios.post(`${uri.getUSER}user_information.php`,params)
             if(res.data.result){
                 const belongTeamsInfo = res.data.result.team_info
                 dispatch(fetchBelongTeamsAction(belongTeamsInfo))
@@ -442,7 +442,6 @@ export const tokenAuthentication = () => {
             const res = await axios.post(`${uri.getUSER}user_information.php`,params)
 
             if(res.data.result){
-                console.log('success',res.data.result)
                 const userInfo = res.data.result
                 dispatch(autoAuthAction(userInfo))
             }else{//トークンが一致しないのでリダイレクト

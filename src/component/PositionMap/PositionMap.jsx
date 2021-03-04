@@ -64,7 +64,7 @@ const PositionMap= () => {
     const haLow = axis.haLow
 
     useEffect(() => {
-        console.log('Axis_effect')
+        //console.log('Axis_effect')//ここローカルstate入れる
     },[vaHigh,vaLow,haHigh,haLow])
 
     const handleOnBlurOfVaHigh = (e) => dispatch(updateMapAxis(e.target.value,vaLow,haHigh,haLow,ws))

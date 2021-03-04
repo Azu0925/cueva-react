@@ -1,6 +1,6 @@
 import React, { useState,useEffect,useCallback } from "react";
 import {useDispatch,useSelector} from 'react-redux'
-import {createTeam,test} from '../../reducks/team/operations'
+import {createTeam} from '../../reducks/team/operations'
 import {getBelongTeamInfoLength} from '../../reducks/user/selectors'
 import Button from "@material-ui/core/Button";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -29,6 +29,7 @@ const CreateTeamDialog = () => {
     const selector = useSelector(state => state)
 
     const belongTeamLength = getBelongTeamInfoLength(selector)
+
     const [open, setOpen] = useState(false)
     const [teamName,setTeamName] = useState("")
     const [teamDetail,setTeamDetail] = useState("")
@@ -57,9 +58,7 @@ const CreateTeamDialog = () => {
 
     const changeIsCreateMap = useCallback(() => {
         setIsCreateMap(prevState => !prevState)
-        console.log('変更完了')
     },[])
-    console.log('check',isCreateMap)
 
     const handleOnBlurOfTeam = (e) => {
         const name = e.target.value
@@ -108,10 +107,6 @@ const CreateTeamDialog = () => {
         setMapDetail('')
         setOpen(false);
     }
-
-    useEffect(() => {
-        dispatch(test())
-    },[])
 
     return (
     <div>

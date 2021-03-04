@@ -1,7 +1,6 @@
 import React from 'react';
 import "./assets/reset.css";
 import "./assets/style.css";
-import {Header} from './component/Header';
 import Router from './Router'
 
 const App = () => {

@@ -42,7 +42,6 @@ const Main = () => {
     }
 
     connection.onmessage = (e) => {
-      console.log('onmessageonmessageonmessageonmessageonmessageonmessageonmessageonmessage',e)
 
       switch(e.data.event){
         case 'update_map':

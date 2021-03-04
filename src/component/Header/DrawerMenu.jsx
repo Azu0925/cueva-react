@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
-import {getBelongTeams,getBelongTeamsInfo} from '../../reducks/user/selectors'
-import {getInTeamMaps,getTeamId,getMapInfo} from '../../reducks/team/selectors'
+import {getBelongTeamsInfo} from '../../reducks/user/selectors'
+import {getTeamId,getMapInfo} from '../../reducks/team/selectors'
 import {getMapId} from '../../reducks/pMap/selectors'
 import {fetchBelongTeams} from '../../reducks/user/operations'
 import {changeMap,fetchMap} from '../../reducks/pMap/operations'
@@ -26,8 +26,6 @@ const DrawerMenu = (props) => {
     const selector = useSelector(state => state)
     const {container} = props
     const open = props.open
-    const belongTeams = getBelongTeams(selector)//テストデータを取得
-    const inTeamMaps = getInTeamMaps(selector)//テストデータを取得
     const belongTeamsInfo = getBelongTeamsInfo(selector)
     const mapInfo = getMapInfo(selector)
     const teamId = getTeamId(selector)
@@ -51,7 +49,7 @@ const DrawerMenu = (props) => {
             if(teamId && mapId) dispatch(fetchMap())
         }
 
-    },[open,belongTeamsInfo,mapInfo])
+    },[open,/*belongTeamsInfo,mapInfo,dispatch,mapId,teamId*/])
 
     return(
         <Drawer
@@ -67,7 +65,7 @@ const DrawerMenu = (props) => {
         <List component="nav">
             {belongTeamsInfo.map((team,i) => (
                 <ListItem key={i} onClick={() => handleAnotherTeam(team.id)} button>
-                    <ListItemText primary={team.name} />
+                    <ListItemText primary={team.team_name} />
                 </ListItem>
             ))}
         </List>

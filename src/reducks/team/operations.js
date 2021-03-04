@@ -429,7 +429,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 
 export const test = (ws) => {
     return async(dispatch,getState) => {
-        console.log(ws)
+    
         try{
             const testSend = JSON.stringify({
                 message:'hello!'
