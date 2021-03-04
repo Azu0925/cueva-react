@@ -65,7 +65,7 @@ const DrawerMenu = (props) => {
         >
             チーム一覧
         <List component="nav">
-            {belongTeams.map((team,i) => (
+            {belongTeamsInfo.map((team,i) => (
                 <ListItem key={i} onClick={() => handleAnotherTeam(team.id)} button>
                     <ListItemText primary={team.name} />
                 </ListItem>
@@ -74,7 +74,7 @@ const DrawerMenu = (props) => {
         <Divider />
             マップ一覧
         <List component="nav">
-            {inTeamMaps.map((map,i) => (
+            {mapInfo.map((map,i) => (
                 <ListItem key={i} onClick={() => handleAnotherMap(map.id)} button>
                     <ListItemText primary={map.name} />
                 </ListItem>
