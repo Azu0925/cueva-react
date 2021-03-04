@@ -69,6 +69,7 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
                     errorTitle:'カードの作成に失敗しました',
                     errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -77,6 +78,7 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
                 errorTitle:'カードの作成に失敗しました',
                 errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
             }))
+            return
         }
 
 
@@ -132,6 +134,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
                     errorTitle:'カード情報の変更に失敗しました',
                     errorDetail:'カード情報の変更に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -140,6 +143,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
                 errorTitle:'カード情報の変更に失敗しました',
                 errorDetail:'カード情報の変更に失敗しました。通信環境の良い場所でもう一度お試しください。'
             }))
+            return
         }
 
     }
@@ -175,6 +179,7 @@ export const deleteCard = (id,ws) => {
                     errorTitle:'カードの削除に失敗しました',
                     errorDetail:'カードの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
         }catch(e){
             console.log('badError',e)
@@ -182,6 +187,7 @@ export const deleteCard = (id,ws) => {
                 errorTitle:'カードの削除に失敗しました',
                 errorDetail:'カードの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
             }))
+            return
         }
 
 

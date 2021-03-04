@@ -47,6 +47,7 @@ export const fetchTeam = (teamId) => {
                     errorTitle:'チーム情報の取得に失敗しました',
                     errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -55,6 +56,7 @@ export const fetchTeam = (teamId) => {
                     errorTitle:'チーム情報の取得に失敗しました',
                     errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
         
@@ -101,6 +103,7 @@ export const inviteTeam = (userId,ws) => {
                     errorTitle:'ユーザーの招待に失敗しました',
                     errorDetail:'ユーターの招待に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -109,6 +112,7 @@ export const inviteTeam = (userId,ws) => {
                     errorTitle:'ユーザーの招待に失敗しました',
                     errorDetail:'ユーターの招待に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
     }
@@ -139,6 +143,7 @@ export const deleteTeam = () => {
                     errorTitle:'チームの削除に失敗しました',
                     errorDetail:'チームの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -147,6 +152,7 @@ export const deleteTeam = () => {
                     errorTitle:'チームの削除に失敗しました',
                     errorDetail:'チームの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
 
@@ -180,6 +186,7 @@ export const updateTeam = (name,detail) => {
                     errorTitle:'チーム情報の更新に失敗しました',
                     errorDetail:'チーム情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -188,6 +195,7 @@ export const updateTeam = (name,detail) => {
                     errorTitle:'チーム情報の更新に失敗しました',
                     errorDetail:'チーム情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
     }
@@ -235,6 +243,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                         errorTitle:'チームの作成に失敗しました',
                         errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                     }))
+                    return
                 }
             }catch(e){
                 console.log('badError',e)
@@ -242,6 +251,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     errorTitle:'チームの作成に失敗しました',
                     errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
     //--------------------------------------------チーム情報の取得------------------------------------------------------------------------------------------------
             const team_id = getState().team.team_id
@@ -262,6 +272,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                         errorTitle:'チーム情報の取得に失敗しました',
                         errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                     }))
+                    return
                 }
             }catch(e){
                 console.log('badError',e)
@@ -269,6 +280,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     errorTitle:'チーム情報の取得に失敗しました',
                     errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
     //--------------------------------------------マップの作成------------------------------------------------------------------------------------------------
 
@@ -300,6 +312,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                         errorTitle:'マップの作成に失敗しました',
                         errorDetail:'マップの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                     }))
+                    return
                 }
             }catch(e){
                 console.log('badError',e)
@@ -307,6 +320,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     errorTitle:'マップの作成に失敗しました',
                     errorDetail:'マップの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
     //--------------------------------------------マップの情報取得------------------------------------------------------------------------------------------------
@@ -330,6 +344,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                         errorTitle:'マップ情報の取得に失敗しました',
                         errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                     }))
+                    return
                 }
             }catch(e){
                 console.log('badError',e)
@@ -337,6 +352,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
 
@@ -368,6 +384,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                         errorTitle:'チームの作成に失敗しました',
                         errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                     }))
+                    return
                 }
             }catch(e){
                 console.log('badError',e)
@@ -375,6 +392,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     errorTitle:'チームの作成に失敗しました',
                     errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
     //--------------------------------------------チーム情報の取得------------------------------------------------------------------------------------------------
             const team_id = getState().team.team_id
@@ -395,6 +413,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                         errorTitle:'チーム情報の取得に失敗しました',
                         errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                     }))
+                    return
                 }
             }catch(e){
                 console.log('badError',e)
@@ -402,6 +421,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     errorTitle:'チーム情報の取得に失敗しました',
                     errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
         }
     }

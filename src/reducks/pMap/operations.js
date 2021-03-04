@@ -240,6 +240,7 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
                     errorTitle:'マップ情報の更新に失敗しました',
                     errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -248,6 +249,7 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
                     errorTitle:'マップ情報の更新に失敗しました',
                     errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
         
@@ -282,6 +284,7 @@ export const fetchMap = () => {
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -290,6 +293,7 @@ export const fetchMap = () => {
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
     }

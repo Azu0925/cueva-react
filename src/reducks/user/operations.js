@@ -279,6 +279,7 @@ export const joinTeam = (teamId,ws) => {
                     errorTitle:'選択したチームの取得に失敗しました',
                     errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -287,6 +288,7 @@ export const joinTeam = (teamId,ws) => {
                     errorTitle:'選択したチームの情報の取得に失敗しました',
                     errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
 
@@ -365,6 +367,7 @@ export const signUp = (name,email,password) => {
                     errorTitle:"ログインに失敗しました",
                     errorDetail:errorDetail
                 }))
+                return
             }
 
         }catch(e){
@@ -411,6 +414,7 @@ export const signIn = (email,password) => {
                     errorTitle:"ログインに失敗しました",
                     errorDetail:errorDetail
                 }))
+                return
             }
         }catch(e){
             console.log('bad通過',e)
@@ -418,6 +422,7 @@ export const signIn = (email,password) => {
                 errorTitle:"ログインに失敗しました",
                 errorDetail:"問題が発生しました。通信環境の良い場所でもう一度送信してください。"
             }))
+            return
         }
 
     }
@@ -481,6 +486,7 @@ export const changeTeam =(teamId,mapId) => {
                     errorTitle:'選択したチームの取得に失敗しました',
                     errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -489,6 +495,7 @@ export const changeTeam =(teamId,mapId) => {
                     errorTitle:'選択したチームの情報の取得に失敗しました',
                     errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
     }
@@ -523,6 +530,7 @@ export const changeMap = (map_Id) => {
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -531,6 +539,7 @@ export const changeMap = (map_Id) => {
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
         let cardsParams = new URLSearchParams()
@@ -548,6 +557,7 @@ export const changeMap = (map_Id) => {
                     errorTitle:'カードの取得に失敗しました',
                     errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -556,6 +566,7 @@ export const changeMap = (map_Id) => {
                     errorTitle:'カードの取得に失敗しました',
                     errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
 
@@ -591,6 +602,7 @@ export const changeTeamAndMap = (teamId,mapId) => {
                     errorTitle:'選択したチームの取得に失敗しました',
                     errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -599,6 +611,7 @@ export const changeTeamAndMap = (teamId,mapId) => {
                     errorTitle:'選択したチームの情報の取得に失敗しました',
                     errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
         //--------------------------------------------マップの変更------------------------------------------------------------------------------------------------
@@ -623,6 +636,7 @@ export const changeTeamAndMap = (teamId,mapId) => {
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -631,6 +645,7 @@ export const changeTeamAndMap = (teamId,mapId) => {
                     errorTitle:'マップ情報の取得に失敗しました',
                     errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
         //--------------------------------------------カードの変更------------------------------------------------------------------------------------------------
@@ -650,6 +665,7 @@ export const changeTeamAndMap = (teamId,mapId) => {
                     errorTitle:'カードの取得に失敗しました',
                     errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
             }
 
         }catch(e){
@@ -658,6 +674,7 @@ export const changeTeamAndMap = (teamId,mapId) => {
                     errorTitle:'カードの取得に失敗しました',
                     errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
+                return
         }
 
     }
