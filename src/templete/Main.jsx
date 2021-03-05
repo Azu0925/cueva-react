@@ -44,10 +44,12 @@ const Main = () => {
     }
 
     connection.onmessage = (e) => {
-      console.log('webSocket受信！',e)
-      switch(e.data.event){
+      const res = JSON.parse(e.data);
+      console.log('webSocket受信！',res)
+      switch(res.event){
         case 'update_map':
-          const newCards = e.data.data;
+          console.log('アップデート拾ったよ')
+          const newCards = res.data;
           const selectedCardId = getSelectedCardId(selector)
 
           for(let i = 0; i < newCards.length; i++){
@@ -60,12 +62,12 @@ const Main = () => {
           break;
 
         case 'update_parameter':
-          const axis = e.data.data
+          const axis = res.data
           dispatch(updateAxisAction(axis))
           break;
         
         case 'information':
-          const invitedNum = e.data.data
+          const invitedNum = res.data
           dispatch(updateInvitedNumAction(invitedNum))
           break;
 

@@ -63,12 +63,12 @@ const DraggableCard = (props) => {
 
     const cardId = props.id//ここのprops.idをmapのkeyではなくDBに登録されているカード自体のカードIDにしても大丈夫なはず21/03/03
     const card = props.card
-    const name = card.name
-    const detail = card.detail
-    const x = card.x
-    const y = card.y
-    const width = card.width
-    const height = card.height
+    const name = card.card_name
+    const detail = card.card_description
+    const x = Number(card.card_x)
+    const y = Number(card.card_y)
+    const width = Number(card.card_width)
+    const height = Number(card.card_height)
 
 
     const cardRef = useRef(null);
@@ -140,6 +140,8 @@ const DraggableCard = (props) => {
     }
 
     const handleOnBlur = (e) => {
+        console.log('draggableCardOnBuluR!!!!!!!!!')
+        if(currentName === e.target.value) return
         dispatch(updateCard(
             cardId,
             e.target.value,

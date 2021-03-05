@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {fetchTeamMapsAction,changeTeamAction,updateTeamAction} from './actions';
+import {fetchTeamMapsAction,changeTeamAction,updateTeamAction,clearTeamAction} from './actions';
 import {updateMapAction,updateMapIdAction,clearMapAction} from '../pMap/actions'
 import {clearCardsAction} from '../card/actions'
 import {setRequestErrorAction} from '../requestError/actions'
@@ -134,8 +134,12 @@ export const deleteTeam = () => {
         
         try{
             const res = await axios.post(`${uri.getTEAM}delete.php`,params)
+            console.log('deleteTeam',res)
             if (res.data.result){
-                //リダイレクトした時点でstoreは初期化されるはずだから初期化の処理は記述していない。初期化されなかったら初期用actionを追加すること。
+                console.log('削除成功してるで')
+                dispatch(clearTeamAction())
+                dispatch(clearMapAction())
+                dispatch(clearCardsAction())
                 dispatch(push('/'))
 
             }else{

@@ -657,8 +657,10 @@ export const changeTeamAndMap = (teamId,mapId) => {
 
         try{
             const res = await axios.post(`${uri.getMAP}cards_information.php`,cardsParams)
-            if(res.data.result){
-                const cards = res.data.result.data
+            console.log('card_info結果',res.data)
+            if(res.data){
+                const cards = res.data
+                console.log('information_cardsやで',res.data)
                 dispatch(updateCardAction(cards))
             }else{
                 console.log('errorororroororo',res.data.error)
