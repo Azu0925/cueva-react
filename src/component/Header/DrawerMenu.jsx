@@ -5,6 +5,7 @@ import {getTeamId,getMapInfo} from '../../reducks/team/selectors'
 import {getMapId} from '../../reducks/pMap/selectors'
 import {fetchBelongTeams} from '../../reducks/user/operations'
 import {changeMap,fetchMap} from '../../reducks/pMap/operations'
+import {updateTeamAction} from '../../reducks/team/actions'
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -32,11 +33,13 @@ const DrawerMenu = (props) => {
     const mapId = getMapId(selector)
 
     const [selectMapOpen,setSelectMapOpen] = useState(false)
+    const [selectedTeamId,setSelectedTeamId] = useState('変更されとらん')
     const handleSelectMapClose = () => {
         setSelectMapOpen(false)
     }
 
     const  handleAnotherTeam = (teamId) => {
+        setSelectedTeamId(teamId)
         setSelectMapOpen(true)
     }
     const handleAnotherMap = (mapId) => {
@@ -74,12 +77,18 @@ const DrawerMenu = (props) => {
         <List component="nav">
             {mapInfo.map((map,i) => (
                 <ListItem key={i} onClick={() => handleAnotherMap(map.id)} button>
-                    <ListItemText primary={map.name} />
+                    <ListItemText primary={map.map_name} />
                 </ListItem>
             ))}
         </List>
 
-        <SelectTeamInMapDialog isOpen={selectMapOpen} doClose={() => handleSelectMapClose()} />
+        <SelectTeamInMapDialog
+            isOpen={selectMapOpen}
+            doClose={() => handleSelectMapClose()}
+            currentId={teamId}
+            selectedTeamId={selectedTeamId}
+            setSelectedTeamId={setSelectedTeamId}
+        />
         </Drawer>
     )
 

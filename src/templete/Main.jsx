@@ -7,8 +7,9 @@ import {getSelectedCardId} from '../reducks/card/selectors'
 import {updateAxisAction} from '../reducks/pMap/actions'
 import {deselectCardAction,updateCardAction} from '../reducks/card/actions'
 import {updateInvitedNumAction} from '../reducks/user/actions'
-import {CreateTeamDialog} from '../component/UIKit'
+import {CreateTeamDialog,RequestErrorDialog} from '../component/UIKit'
 import {Header} from '../component/Header'
+
 
 export const WebSocketContext = createContext()
 
@@ -23,7 +24,8 @@ const Main = () => {
 
   useEffect(() => {//ポジショニングマップを作成する要素の縦幅と横幅を取得しstoreに保存。ドラッグ可能領域の制御に使う。
     const target = document.getElementById('map')
-
+      console.log('targetHidth',target.clientHeight)
+      console.log('targetWidth',target.clientWidth)
     dispatch(updateMapSize(target.clientWidth,target.clientHeight))
   },[dispatch])
 
@@ -42,7 +44,7 @@ const Main = () => {
     }
 
     connection.onmessage = (e) => {
-
+      console.log('webSocket受信！',e)
       switch(e.data.event){
         case 'update_map':
           const newCards = e.data.data;
@@ -96,6 +98,7 @@ const Main = () => {
           </div>
           </WebSocketContext.Provider>
           <CreateTeamDialog />
+          <RequestErrorDialog />
       </>
     
     )

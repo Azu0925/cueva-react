@@ -150,7 +150,8 @@ export const createMap = (name,detail) => {
 
                 if(res.data.result){
                     console.log('success-createMap',res.data.result)
-                    const map_id = res.data.result.map_id
+                    const map_id = res.data.result[0].map_id
+                    console.log('maptestmaptesutptmaj',map_id)
                     dispatch(updateMapIdAction({map_id:map_id}))
                     dispatch(clearCardsAction())
                 }else{

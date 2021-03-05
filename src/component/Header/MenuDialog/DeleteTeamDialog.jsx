@@ -81,12 +81,12 @@ const decision = () => {
                 <DialogContentText>
                     チーム名：{team_name}<br/>
                     チーム詳細：{team_description}<br/>
-                    チームメンバー：{team_member.map((member) => (
-                        <>　{member}　</>
+                    チームメンバー：{team_member.map((member,i) => (
+                        <span key={i}>　{member}　</span>
                     ))}
                     含有マップ一覧：{map_info.length < 0 && (
-                        map_info.map((map) => (
-                            <>　{map.map_name}　</>
+                        map_info.map((map,i) => (
+                            <span key={i}>　{map.map_name}　</span>
                         ))
                     )}
                 </DialogContentText>

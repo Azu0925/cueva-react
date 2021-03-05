@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import {changeTeam,changeTeamAndMap} from '../../../reducks/user/operations'
+import {getTeamId} from '../../../reducks/team/selectors'
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -25,18 +26,14 @@ const useStyles = makeStyles({
 const SelectTeamInMapDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
+    const selector = useSelector(state => state)
     const isOpen = props.isOpen
     const doClose = props.doClose
-    const teamId = props.teamId
+    const teamId = props.selectedTeamId
 
     const [open, setOpen] = useState(false);
     const [mapInfoList,setMapInfoList] = useState([])
 
-    const demoList = [//デモ
-        {mapId:"1",mapName:"test1test1"},
-        {mapId:"2",mapName:"test2"},
-        {mapId:"3",mapName:"test3test3test3"}
-    ]
 
     useEffect(() => {
     setOpen(isOpen);
@@ -63,12 +60,16 @@ const SelectTeamInMapDialog = (props) => {
                 (async() => {
                     const res = await axios.post(`http://localhost:80/cueva/src/team_info/information.php`,params)
                     if(res.data.result){
-                        console.log('success-teamInfo',res.data.result)
-                        const mapInfo = res.data.result.data
+                        console.log('success-teamInfo',res.data.result.map_info)
+                        const mapInfo = res.data.result.map_info
                         if(mapInfo.length == 0){
-                            dispatch(changeTeam())
-                            setOpen(false);
-                            doClose();
+                            dispatch(changeTeam(teamId))
+                            setTimeout(() => {
+                                props.setSelectedTeamId('')
+                                setOpen(false);
+                                doClose();
+                            }, 2000);
+                            
                         }else{
                             setMapInfoList(mapInfo)
                         }
@@ -89,16 +90,20 @@ const SelectTeamInMapDialog = (props) => {
                 }))
             }
         }
-    }, [isOpen,mapInfoList]);
+    }, [isOpen]);
 
     const handleCancel = () => {
-    setOpen(false);
-    doClose();
+        setMapInfoList([])
+        props.setSelectedTeamId('')
+        setOpen(false);
+        doClose();
     }
 
 
     const handleOnClick = (mapId) => {
         dispatch(changeTeamAndMap(teamId,mapId))
+        setMapInfoList([])
+        props.setSelectedTeamId('')
         setOpen(false);
         doClose();
     }
@@ -112,7 +117,7 @@ const SelectTeamInMapDialog = (props) => {
         keepMounted
         aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">編集するマップを選択してください</DialogTitle>
+            <DialogTitle id="form-dialog-title">{/*}編集するマップを選択してください{*/}{props.selectedTeamId}</DialogTitle>
             <DialogContent className={classes.root}>
                 <List>
                     {mapInfoList.length > 0 && (

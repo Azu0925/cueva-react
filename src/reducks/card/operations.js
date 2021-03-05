@@ -4,6 +4,7 @@ import {setRequestErrorAction} from '../requestError/actions'
 import axios from "axios";
 
 import URI from '../../URI'
+import { HeightOutlined } from "@material-ui/icons";
 
 const uri = new URI()
 
@@ -41,7 +42,7 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
         if(token === "")dispatch(push('/signin'))
 
         const map_id = getState().pMap.map_id
-
+        console.log('token',token,'map_id',map_id,'name',name,'detail',detail,'x',x,'y',y,'height',height,'width',width)
         //リクエストパラメータの準備
         let params = new URLSearchParams()
         params.append('token',token)
@@ -50,13 +51,13 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
         params.append('card_description',detail)
         params.append('card_x',x)
         params.append('card_y',y)
-        params.append('card_hight',height)
+        params.append('card_height',height)
         params.append('card_width',width)
-
+        
         try{
 
             const res = await axios.post(`${uri.getCARD}create_card.php`,params)
-
+            console.log(res.data)
             if(res.data.result){
                 //WebSocketサーバに通知する処理が入る。
                 const cardInfo = JSON.stringify({
@@ -65,11 +66,11 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
                 })
                 ws.send(cardInfo)
             }else{
+                
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの作成に失敗しました',
                     errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
-                return
             }
 
         }catch(e){
@@ -78,7 +79,6 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
                 errorTitle:'カードの作成に失敗しました',
                 errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
             }))
-            return
         }
 
 

@@ -653,13 +653,15 @@ export const changeTeamAndMap = (teamId,mapId) => {
         cardsParams.append('token',token)
         cardsParams.append('team_id',team_id)
         cardsParams.append('map_id',map_id)
+        console.log('cards_information_map_id',map_id)
 
         try{
-            const res = await axios.post(`${uri.getMAP}card_information.php`,cardsParams)
+            const res = await axios.post(`${uri.getMAP}cards_information.php`,cardsParams)
             if(res.data.result){
                 const cards = res.data.result.data
                 dispatch(updateCardAction(cards))
             }else{
+                console.log('errorororroororo',res.data.error)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの取得に失敗しました',
                     errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'

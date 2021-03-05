@@ -72,8 +72,8 @@ const MapDetailDialog = (props) => {
                 <DialogContentText>
                     チーム名：{team_name}<br/>
                     チーム詳細:{team_description}<br/>
-                    チームメンバー{team_member.map((member) => (
-                        <>　{member}　</>
+                    チームメンバー{team_member.map((member,i) => (
+                        <span key={i}>　{member}　</span>
                     ))}
                 
                     マップ名:{map_name}<br/>

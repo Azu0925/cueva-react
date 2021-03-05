@@ -91,14 +91,15 @@ const CreateTeamDialog = (props) => {
         return (teamNameErr) ? true : false
     }
 
-    const handleSendButton = () => {
+    const handleSendButton = async() => {
         if(!teamName || teamName === ""){
             setTeamNameErr('チーム名を入力してください')
             if(!mapName || mapName === "") setMapNameErr('チーム名を入力してください')
             return
         }
 
-        dispatch(createTeam(teamName,teamDetail,mapName,mapDetail,isCreateMap))
+        await dispatch(createTeam(teamName,teamDetail,mapName,mapDetail,isCreateMap))
+        console.log('チームとマップ作成全ての処理が完了！！！！！！')
         setTeamName('')
         setTeamDetail('')
         setMapName('')

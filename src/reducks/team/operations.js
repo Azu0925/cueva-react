@@ -253,6 +253,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
+            console.log('チーム作成完了')
     //--------------------------------------------チーム情報の取得------------------------------------------------------------------------------------------------
             const team_id = getState().team.team_id
 
@@ -282,6 +283,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
+            console.log('チーム情報取得完了')
     //--------------------------------------------マップの作成------------------------------------------------------------------------------------------------
 
             //送信するマップを作成
@@ -305,7 +307,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 
                 if(res.data.result){
                     console.log('success-createMap',res.data.result)
-                    const map_id = res.data.result.map_id
+                    const map_id = res.data.result[0].map_id
                     dispatch(updateMapIdAction({map_id:map_id}))
                 }else{
                     dispatch(setRequestErrorAction({
@@ -322,7 +324,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
-
+            console.log('マップ作成完了')
     //--------------------------------------------マップの情報取得------------------------------------------------------------------------------------------------
 
             const map_id = getState().pMap.map_id
@@ -339,6 +341,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     console.log('success-mapInfo',res.data.result)
                     const mapInfo = res.data.result
                     dispatch(updateMapAction(mapInfo))
+                    console.log('最後のマップ更新処理完了',mapInfo)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップ情報の取得に失敗しました',
@@ -354,7 +357,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
-
+            console.log('マップ情報取得完了')
 
         }else{
             //チームのみ作成
