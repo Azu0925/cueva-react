@@ -514,7 +514,7 @@ export const changeMap = (map_Id) => {
         mapParams.append('token',token)
         mapParams.append('team_id',team_id)
         mapParams.append('map_id',map_id)
-
+        console.log('whyFobbiden',map_id)
         try{
             const res = await axios.post(`${uri.getMAP}information.php`,mapParams)
 
@@ -525,9 +525,10 @@ export const changeMap = (map_Id) => {
                 dispatch(clearCardsAction())
 
             }else{
+                console.log('badError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の取得に失敗しました',
-                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' 
                 }))
                 return
             }
@@ -547,9 +548,9 @@ export const changeMap = (map_Id) => {
         cardsParams.append('map_id',map_id)
 
         try{
-            const res = await axios.post(`${uri.getMAP}card_information.php`,cardsParams)
-            if(res.data.result){
-                const cards = res.data.result.data
+            const res = await axios.post(`${uri.getMAP}cards_information.php`,cardsParams)
+            if(res.data){
+                const cards = res.data
                 dispatch(updateCardAction(cards))
             }else{
                 dispatch(setRequestErrorAction({

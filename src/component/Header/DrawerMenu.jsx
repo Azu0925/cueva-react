@@ -4,7 +4,8 @@ import {getBelongTeamsInfo} from '../../reducks/user/selectors'
 import {getTeamId,getMapInfo} from '../../reducks/team/selectors'
 import {getMapId} from '../../reducks/pMap/selectors'
 import {fetchBelongTeams} from '../../reducks/user/operations'
-import {changeMap,fetchMap} from '../../reducks/pMap/operations'
+import {changeMap} from '../../reducks/user/operations'
+import {fetchTeam} from '../../reducks/team/operations'
 import {updateTeamAction} from '../../reducks/team/actions'
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -41,15 +42,17 @@ const DrawerMenu = (props) => {
     const  handleAnotherTeam = (teamId) => {
         setSelectedTeamId(teamId)
         setSelectMapOpen(true)
+        props.drawerClose()
     }
     const handleAnotherMap = (mapId) => {
         dispatch(changeMap(mapId))
+        props.drawerClose()
     }
     
     useEffect(() => {
         if(open){
             dispatch(fetchBelongTeams())
-            if(teamId && mapId) dispatch(fetchMap())
+            if(teamId) dispatch(fetchTeam()/*fetchMap()*/)
         }
 
     },[open,/*belongTeamsInfo,mapInfo,dispatch,mapId,teamId*/])
@@ -76,7 +79,7 @@ const DrawerMenu = (props) => {
             マップ一覧
         <List component="nav">
             {mapInfo.map((map,i) => (
-                <ListItem key={i} onClick={() => handleAnotherMap(map.id)} button>
+                <ListItem key={i} onClick={() => handleAnotherMap(map.map_id)} button>
                     <ListItemText primary={map.map_name} />
                 </ListItem>
             ))}

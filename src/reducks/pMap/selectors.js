@@ -14,7 +14,7 @@ export const getUnsetRefCurrent = createSelector(
 
 export const getMapNameAndDetail = createSelector(
     [pMapSelector],
-    state => [state.pMap.map_name,state.pMap.map_detail]
+    state => [state.pMap.map_name,state.pMap.map_description]
 )
 
 export const getMapAxis = createSelector(

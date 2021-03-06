@@ -32,22 +32,13 @@ export const updateMapSize = (width,height) => {
 
 }
 
-export const changeMap = (mapId) => {
-    return async(dispatch,getState) => {
-
-        //ここら辺にマップ切り替えの非同期処理
-
-        const map = getState().pMap
-        dispatch(changeMapAction(map))
-    }
-}
-
 export const deleteMap = () => {
     return async(dispatch,getState) => {
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
 
         const map_id = getState().pMap.map_id
+        console.log('deleteMapid',map_id)
 
         //リクエストパラメータの準備
         let params = new URLSearchParams()
@@ -61,12 +52,13 @@ export const deleteMap = () => {
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
             }else{
+                console.log('errorDelete',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップの削除に失敗しました',
                     errorDetail:'マップの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
             }
-
+            
             
         }catch(e){
             console.log('badError',e)

@@ -40,6 +40,7 @@ export const fetchTeam = (teamId) => {
             if (res.data.result){
 
                 const team = res.data.result
+                console.log('UPDATETEAMACTION',team)
                 dispatch(updateTeamAction(team))
 
             }else{

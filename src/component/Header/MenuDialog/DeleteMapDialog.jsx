@@ -80,8 +80,8 @@ const decision = () => {
             <DialogTitle id="form-dialog-title">下記のポジショニングマップを削除します。</DialogTitle>
             <DialogContent className={classes.root}>
                 <DialogContentText>
-                    マップ名<br/>
-                    マップ詳細<br/>
+                    マップ名：{map_name}<br/>
+                    マップ詳細：{map_description}<br/>
                 </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >

@@ -180,10 +180,12 @@ const HeaderMenuArea = () => {
         if(event.type === 'keydown' && (event.key === 'Tab' || event.key === 'shift')){
             return;
         }
-        if(!isOpen){
-        }
         setIsOpen(!isOpen);
     },[isOpen,setIsOpen,dispatch,userId,teamId])
+
+    const drawerClose = () => {
+        setIsOpen(!isOpen)
+    }
 
     return(
         <>
@@ -216,7 +218,7 @@ const HeaderMenuArea = () => {
             <IconButton onClick={(e) => handleDrawer(e)}>
                 <MenuIcon />
             </IconButton>
-            <DrawerMenu open={isOpen} onClose={handleDrawer} />
+            <DrawerMenu open={isOpen} onClose={handleDrawer} drawerClose={drawerClose} />
         </>
 
     )
