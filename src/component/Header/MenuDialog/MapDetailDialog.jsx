@@ -25,7 +25,7 @@ const MapDetailDialog = (props) => {
     const selector = useSelector(state => state)
 
     const team = getTeam(selector)
-    
+    console.log('team',team.team_description)
     const team_name = team.team_name
     const team_description = team.team_description
     const team_member = [...team.member]
@@ -48,10 +48,10 @@ const MapDetailDialog = (props) => {
 
     useEffect(() => {
         if(isOpen)dispatch(fetchTeam())
-    },[isOpen,team_name,team_description,team_member])
+    },[isOpen])
     useEffect(() => {
         if(isOpen)dispatch(fetchMap())
-    },[isOpen,map_name,map_description,parameter_top,parameter_under,parameter_left,parameter_right])
+    },[isOpen])
 
     const handleCancel = () => {
     setOpen(false);

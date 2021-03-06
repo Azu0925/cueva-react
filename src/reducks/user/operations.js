@@ -1,11 +1,12 @@
 import {push} from "connected-react-router";
-import {fetchBelongTeamsAction,changeUserInfoAction,autoAuthAction,fetchInvitedListAction} from './actions';
-import {updateTeamAction} from '../team/actions'
+import {fetchBelongTeamsAction,changeUserInfoAction,autoAuthAction,fetchInvitedListAction,clearUserAction} from './actions';
+import {updateTeamAction,clearTeamAction} from '../team/actions'
 import {clearMapAction,updateMapAction} from '../pMap/actions'
+import { clearCardsAction,updateCardAction } from "../card/actions";
 import {setRequestErrorAction} from '../requestError/actions'
 import axios from 'axios'
 import URI from '../../URI'
-import { clearCardsAction,updateCardAction } from "../card/actions";
+
 
 const uri = new URI()
 
@@ -29,10 +30,10 @@ export const fetchUserInfo = () => {
         if(token === "")dispatch(push('/signin'))
         //パラメータの準備
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
         
         try{
-            const res = await axios.post(`${uri.getUSER}information.php`,params)
+            const res = await axios.post(`${uri.getUSER}user_information.php`,params)
             if(res.data.result){
                 const userInfo = res.data.result
                 dispatch(changeUserInfoAction(userInfo))
@@ -101,10 +102,13 @@ export const logout = () => {
 
         try{
             const res = await axios.post(`${uri.getUSER}logout.php`,params)
-            console.log('通ってる１',res.data)
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
-                console.log('通ってる2')
+                
+                dispatch(clearTeamAction())
+                dispatch(clearMapAction())
+                dispatch(clearCardsAction())
+                dispatch(clearUserAction())
                 dispatch(push('/signin'))
             }else{
                 console.log('handleError',res.data.error)
@@ -123,23 +127,27 @@ export const logout = () => {
     }
 }
 
-export const withdrawal = (email,password) => {
+export const withdrawal = () => {
     return async(dispatch) => {
         //トークンの取得
         const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
 
         try{
             const res = await axios.post(`${uri.getUSER}delete.php`,params)
             
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
+                dispatch(clearTeamAction())
+                dispatch(clearMapAction())
+                dispatch(clearCardsAction())
+                dispatch(clearUserAction())
                 dispatch(push('/signup'))
             }else{
-                console.log('handleError',res.data.error)
+                console.log('handleError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'退会の処理に失敗しました',
                     errorDetail:'退会の処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -160,9 +168,8 @@ export const changeUserInfo = (name,email) => {
 
         const token = getToken();
         if(token === "")dispatch(push('/signin'))
-
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
         params.append('user_name',name)
         params.append('user_address',email)
         
@@ -170,7 +177,7 @@ export const changeUserInfo = (name,email) => {
             const res = await axios.post(`${uri.getUSER}update.php`,params)
             if(res.data.result){
 
-                dispatch(changeUserInfo({name:name,email:email}))
+                dispatch(changeUserInfoAction({user_name:name,user_address:email}))
 
             }else{
                 dispatch(setRequestErrorAction({

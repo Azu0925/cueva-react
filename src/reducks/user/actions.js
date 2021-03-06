@@ -44,3 +44,10 @@ export const autoAuthAction = (userInfo) => {
         payload:userInfo
     }
 }
+
+export const CLEAR_USER_ACTION = 'CLEAR_USER_ACTION'
+export const clearUserAction = () => {
+    return{
+        type:'CLEAR_USER_ACTION'
+    }
+}

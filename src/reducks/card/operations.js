@@ -42,7 +42,6 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
         if(token === "")dispatch(push('/signin'))
 
         const map_id = getState().pMap.map_id
-        console.log('token',token,'map_id',map_id,'name',name,'detail',detail,'x',x,'y',y,'height',height,'width',width)
         //リクエストパラメータの準備
         let params = new URLSearchParams()
         params.append('token',token)
@@ -57,7 +56,7 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
         try{
 
             const res = await axios.post(`${uri.getCARD}create_card.php`,params)
-            console.log(res.data)
+            console.log('create_card叩きました',map_id)
             if(res.data.result){
                 //WebSocketサーバに通知する処理が入る。
                 const cardInfo = JSON.stringify({

@@ -58,7 +58,7 @@ export const deleteMap = () => {
                     errorDetail:'マップの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
             }
-            
+
             
         }catch(e){
             console.log('badError',e)
@@ -116,7 +116,7 @@ export const updateMap = (name,detail) => {
     }
 }
 
-export const createMap = (name,detail) => {
+export const createMap = (name,detail,ws) => {
     return async(dispatch,getState) => {
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
@@ -144,8 +144,10 @@ export const createMap = (name,detail) => {
                     console.log('success-createMap',res.data.result)
                     const map_id = res.data.result[0].map_id
                     console.log('maptestmaptesutptmaj',map_id)
+                    //ws.close()
                     dispatch(updateMapIdAction({map_id:map_id}))
                     dispatch(clearCardsAction())
+                    
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップの作成に失敗しました',

@@ -140,7 +140,6 @@ const DraggableCard = (props) => {
     }
 
     const handleOnBlur = (e) => {
-        console.log('draggableCardOnBuluR!!!!!!!!!')
         if(currentName === e.target.value) return
         dispatch(updateCard(
             cardId,

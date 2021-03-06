@@ -19,7 +19,7 @@ const Main = () => {
   const selector = useSelector(state => state)
 
   const map_id = getMapId(selector)
-  const [wsConnection,setWsConnection] = useState({})
+  const [wsConnection,setWsConnection] = useState("")
   
 
   useEffect(() => {//ポジショニングマップを作成する要素の縦幅と横幅を取得しstoreに保存。ドラッグ可能領域の制御に使う。
@@ -31,56 +31,67 @@ const Main = () => {
 
   useEffect(() => {//Cardsをさーばーから毎回フェッチ。この処理はMainに書いたほうが良いかも{03/01ここにwebSocketだ}
     //socket
-    if(wsConnection === {}) wsConnection.close()
+    
+      /*if(wsConnection !== "") wsConnection.close()
+      if(wsConnection.readyState === 1){
+        console.log('接続中のため切断')
+        wsConnection.close()
+      }*/
+      const channelInfo = JSON.stringify({
+        command:'subscribe',
+        channel:map_id
+      })
 
-    const channelInfo = JSON.stringify({
-      command:'subscribe',
-      channel:map_id
-    })
+      const connection = new WebSocket('ws://localhost:8080')
+      connection.onopen = () => {
+        console.log('オープンしました')
+        connection.send(channelInfo)
+      }
 
-    const connection = new WebSocket('ws://localhost:8080')
-    connection.onopen = () => {
-      connection.send(channelInfo)
-    }
+      connection.onmessage = (e) => {
+        const res = JSON.parse(e.data);
+        console.log('webSocket受信！',res)
+        switch(res.event){
+          case 'update_map':
+            
+            const newCards = res.data;
+            const selectedCardId = getSelectedCardId(selector)
 
-    connection.onmessage = (e) => {
-      const res = JSON.parse(e.data);
-      console.log('webSocket受信！',res)
-      switch(res.event){
-        case 'update_map':
-          console.log('アップデート拾ったよ')
-          const newCards = res.data;
-          const selectedCardId = getSelectedCardId(selector)
-
-          for(let i = 0; i < newCards.length; i++){
-            if(newCards[i].card_id != selectedCardId){
-              dispatch(deselectCardAction())
-              break;
+            for(let i = 0; i < newCards.length; i++){
+              if(newCards[i].card_id != selectedCardId){
+                dispatch(deselectCardAction())
+                break;
+              }
             }
-          }
-          dispatch(updateCardAction(newCards))
-          break;
+            dispatch(updateCardAction(newCards))
+            console.log('カード作成完了！')
+            break;
 
-        case 'update_parameter':
-          const axis = res.data
-          dispatch(updateAxisAction(axis))
-          break;
-        
-        case 'information':
-          const invitedNum = res.data
-          dispatch(updateInvitedNumAction(invitedNum))
-          break;
+          case 'update_parameter':
+            const axis = res.data
+            dispatch(updateAxisAction(axis))
+            break;
+          
+          case 'information':
+            const invitedNum = res.data
+            dispatch(updateInvitedNumAction(invitedNum))
+            break;
 
-        default:
-        break
+          default:
+          break
+
+        }
 
       }
 
-    }
 
+      setWsConnection(connection)
 
-    setWsConnection(connection)
-    
+      return () => {
+        //connection.close()
+        setWsConnection('')
+      }
+  
 },[map_id])
 
 
