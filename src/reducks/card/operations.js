@@ -53,7 +53,7 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
                 console.log('errorororo',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの作成に失敗しました',
-                    errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -120,7 +120,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
                 console.log('updateError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カード情報の変更に失敗しました',
-                    errorDetail:'カード情報の変更に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'カード情報の変更に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -150,6 +150,8 @@ export const deleteCard = (id,ws) => {
         let params = new URLSearchParams()
         params.append('token',token)
         params.append('card_id',id)
+        const deleteCard = getState().cards.cards.filter(card => id === card.id)[0]
+        console.log('さくじょするカードは',deleteCard,'idが',id)
 
         try{
             const res = await axios.post(`${uri.getCARD}card_delete.php`,params)
@@ -163,9 +165,10 @@ export const deleteCard = (id,ws) => {
                 })
                 ws.send(cardInfo)
             }else{
+                console.log('deleteError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの削除に失敗しました',
-                    errorDetail:'カードの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'カードの削除に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }

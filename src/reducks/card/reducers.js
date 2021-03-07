@@ -15,7 +15,7 @@ export const CardReducer = (state = initialState.cards,action) => {
         case Actions.UPDATE_CARD_ACTION:
             return{
                 ...state,
-                cards:[...action.payload]
+                cards:action.payload
             }
         
         case Actions.SELECT_CARD_ACTION:

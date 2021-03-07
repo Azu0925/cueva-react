@@ -63,6 +63,7 @@ const Main = () => {
                 break;
               }
             }
+            console.log('受信した-------------------------------cards',newCards)
             dispatch(updateCardAction(newCards))
             console.log('カード作成完了！')
             break;

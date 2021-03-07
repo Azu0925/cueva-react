@@ -61,7 +61,7 @@ export const deleteMap = (ws) => {
                 console.log('errorDelete',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップの削除に失敗しました',
-                    errorDetail:'マップの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップの削除に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
 
@@ -106,7 +106,7 @@ export const updateMap = (name,detail) => {
             if(!res.data.result){
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の更新に失敗しました',
-                    errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
 
@@ -158,7 +158,7 @@ export const createMap = (name,detail,ws) => {
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップの作成に失敗しました',
-                        errorDetail:'マップの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'マップの作成に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                 }
             }catch(e){
@@ -189,7 +189,7 @@ export const createMap = (name,detail,ws) => {
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップ情報の取得に失敗しました',
-                        errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                 }
             }catch(e){
@@ -241,7 +241,7 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
             else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の更新に失敗しました',
-                    errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -286,7 +286,7 @@ export const fetchMap = () => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の取得に失敗しました',
-                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }

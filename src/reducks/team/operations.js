@@ -50,7 +50,7 @@ export const fetchTeam = (teamId) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'チーム情報の取得に失敗しました',
-                    errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -106,7 +106,7 @@ export const inviteTeam = (userId,ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'ユーザーの招待に失敗しました',
-                    errorDetail:'ユーターの招待に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'ユーターの招待に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -152,7 +152,7 @@ export const deleteTeam = (ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'チームの削除に失敗しました',
-                    errorDetail:'チームの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'チームの削除に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -195,7 +195,7 @@ export const updateTeam = (name,detail) => {
             if(!res.data.result){
                 dispatch(setRequestErrorAction({
                     errorTitle:'チーム情報の更新に失敗しました',
-                    errorDetail:'チーム情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'チーム情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -239,7 +239,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
             teamRegistParams.append('token',token)
             teamRegistParams.append('team_name',team_name)
             teamRegistParams.append('team_description',team_description)
-                
+                console.log('teamCreateのトークンは',token)
             try{
                 const res = await axios.post(`${uri.getTEAM}register.php`,teamRegistParams)
 
@@ -254,9 +254,10 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                     dispatch(clearMapAction())
                     dispatch(clearCardsAction())
                 }else{
+                    console.log('badError',res.data)
                     dispatch(setRequestErrorAction({
                         errorTitle:'チームの作成に失敗しました',
-                        errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                     return
                 }
@@ -286,7 +287,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'チーム情報の取得に失敗しました',
-                        errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                     return
                 }
@@ -327,7 +328,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップの作成に失敗しました',
-                        errorDetail:'マップの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'マップの作成に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                     return
                 }
@@ -360,7 +361,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップ情報の取得に失敗しました',
-                        errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                     return
                 }
@@ -402,7 +403,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'チームの作成に失敗しました',
-                        errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                     return
                 }
@@ -431,7 +432,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'チーム情報の取得に失敗しました',
-                        errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                        errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                     }))
                     return
                 }
