@@ -10,6 +10,9 @@
 .spacer--medium {
   height: 32px;
 }
+#root {
+  background-color: #f1f3f4;;
+}
 #header {
   font-size: 3rem;
   height: 10vh;
@@ -22,7 +25,6 @@
   width: 100%;
   display: flex;
   margin: 0 auto;
-  border: 1px solid pink;
   height: 90vh;
 }
 #editCardArea {
@@ -30,8 +32,14 @@
   margin: 0 auto;
 }
 #map {
-  width: 80%;
-  border: 3px solid black;
+  width: 79%;
+  background-color: white;
+  box-shadow: 0 1.9px 2.5px rgba(0, 0, 0, 0.057),
+              0 5px 6.1px rgba(0, 0, 0, 0.076),
+              0 10.1px 11.4px rgba(0, 0, 0, 0.086),
+              0 19.2px 19.8px rgba(0, 0, 0, 0.092),
+              0 38.4px 34.8px rgba(0, 0, 0, 0.1),
+              0 101px 74px rgba(0, 0, 0, 0.13);
 }
 #authMain {
   display: flex;
