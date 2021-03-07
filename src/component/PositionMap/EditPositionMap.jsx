@@ -91,6 +91,7 @@ const EditPositionMap = () => {
 
     let {propsName,propsDetail} = ""
     let {propsX,propsY,propsWidth,propsHeight} = 0
+    console.log('selectedCardの中身',selectedCard)
     if(selectedCardId !== ""){//選択中カードがある場合は代入
         propsName = selectedCard.card_name
         propsDetail = selectedCard.card_detail

@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         position:'absolute',
         overflow:'auto',
         backgroundColor:'white',
-        border:'solid 1px black',
+        border:'solid 2px black',
         paddingBottom:0
         
     },
@@ -80,8 +80,12 @@ const DraggableCard = (props) => {
     const [currentWidth,setCurrentWidth] = useState(0)
     const [currentHeight,setCurrentHeight] = useState(0)
     
+    const [isDrag,setIsDrag] = useState(false)
+    const [isInput,setIsInput] = useState(false)
+
     const inputCurrentName = useCallback((e) => {
         setCurrentName(e.target.value)
+        setIsInput(true)
     },[setCurrentName])
 
     useEffect(() => {//カードのサイズ変更を検知するResizeObserverAPIの設定と破棄
@@ -108,10 +112,11 @@ const DraggableCard = (props) => {
     const handleOnDrag = (DraggableEvent,DraggableData) => {//ドラッグ操作（要素の移動のみ）に発火
         setCurrentX(prevState => prevState + DraggableData.deltaX)
         setCurrentY(prevState => prevState + DraggableData.deltaY)
+        setIsDrag(true)
     }
 
-    const handleOnStop = () => {
-        console.log('mouseup')
+    const handleOnStop = (e) => {
+        if(!isDrag) return
 
         let x = currentX
         let y = currentY
@@ -129,6 +134,7 @@ const DraggableCard = (props) => {
                             Math.floor(currentHeight),
                             ws
         ))
+        setIsDrag(false)
     }
 
     const handleOnMouseDown = () => {
@@ -140,7 +146,7 @@ const DraggableCard = (props) => {
     }
 
     const handleOnBlur = (e) => {
-        if(currentName === e.target.value) return
+        if(!isInput) return
         dispatch(updateCard(
             cardId,
             e.target.value,
@@ -151,6 +157,8 @@ const DraggableCard = (props) => {
             Math.floor(currentHeight),
             ws
         ))
+        console.log('onBlurからの更新が完了')
+        setIsInput(false)
     }
 
     const handleDeleteIcon = (e) => {
@@ -167,7 +175,7 @@ const DraggableCard = (props) => {
             }}
             onDrag={handleOnDrag}
             onMouseDown={handleOnMouseDown}
-            onStop={handleOnStop}
+            onStop={(e) => handleOnStop(e)}
             //handle=".handleArea"
         >
             <Paper

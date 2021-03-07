@@ -9,7 +9,7 @@ export const getCards = createSelector(
 
 export const getSelectedCard = createSelector(
     [cardSelector],
-    state => state.cards.cards[state.cards.selectedCardId]
+    state => state.cards.cards.filter(card => card.id === state.cards.selectedCardId)[0]
 )
 export const getSelectedCardId = createSelector(
     [cardSelector],

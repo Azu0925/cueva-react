@@ -59,7 +59,6 @@ const PositionMap= () => {
     console.log('mapId',map_id)
     const ws = useContext(WebSocketContext);
 
-    console.log('現在のws',ws)
     //////////マップ上軸のタイトル
     const vaHigh = axis.vaHigh
     const vaLow = axis.vaLow
@@ -81,14 +80,12 @@ const PositionMap= () => {
     const generateCard = (e) => {//ダブルクリックで座標を取得してカードを追加
         console.log('dblClick',e)
         if(map_id === "") return//マップ非選択時にカードを生成してはいけないのでリターン
-        console.log('実行します')
         const newPosition = {
             x:e.offsetX,
             y:e.offsetY
         }
         console.log('渡すオブジェクト→',ws)
         dispatch(addCard("","",newPosition.x,newPosition.y,100,150,ws));
-        console.log('実行しました')
     }
 
     useEffect(() => {//最初にダブルクリックのイベントリスナーを登録。
@@ -181,7 +178,7 @@ const PositionMap= () => {
                             card={card}
                             key={i}
                             id={card.id}//←ここただのiにしてたけど、card自体のIdをdraggableカードの非同期で渡さないといけないから変更してる。
-                            isSelected={i === selectedCardId}
+                            isSelected={card.id === selectedCardId}
                             unsetRefCurrent={unsetRefCurrent}
                         />
                     ))

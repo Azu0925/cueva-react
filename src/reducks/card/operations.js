@@ -91,7 +91,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
         dispatch(updateCardAction(nextCards))*///前のやつ残してる
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
-
+        console.log(name,detail,x,y,height,width)
         const map_id = getState().pMap.map_id
 
         //リクエストパラメータの準備
@@ -103,7 +103,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
         params.append('card_description',detail)
         params.append('card_x',x)
         params.append('card_y',y)
-        params.append('card_hight',height)
+        params.append('card_height',height)
         params.append('card_width',width)
 
         try{
@@ -117,6 +117,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
                 })
                 ws.send(cardInfo)
             }else{
+                console.log('updateError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カード情報の変更に失敗しました',
                     errorDetail:'カード情報の変更に失敗しました。通信環境の良い場所でもう一度お試しください。'
