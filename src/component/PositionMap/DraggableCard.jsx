@@ -63,6 +63,7 @@ const DraggableCard = (props) => {
 
     const cardId = props.id//ここのprops.idをmapのkeyではなくDBに登録されているカード自体のカードIDにしても大丈夫なはず21/03/03
     const card = props.card
+    console.log('propのカード',card)
     const name = card.card_name
     const detail = card.card_description
     const x = Number(card.card_x)
@@ -182,12 +183,11 @@ const DraggableCard = (props) => {
                 ref={cardRef}
                 key={cardId}
                 style={{
-                    width:`${currentWidth}px`,
-                    height:`${currentHeight}px`,
+                    width:`${width}px`,
+                    height:`${height}px`,
                 }}
                 className={(props.isSelected) ? classes.selectedCard : classes.card}
             >
-                
                 <div className={classes.mainArea} >
                     <InputText
                         fullWidth={true}

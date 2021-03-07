@@ -150,6 +150,8 @@ export const deleteCard = (id,ws) => {
         let params = new URLSearchParams()
         params.append('token',token)
         params.append('card_id',id)
+        const deleteCard = getState().cards.cards.filter(card => id === card.id)[0]
+        console.log('さくじょするカードは',deleteCard,'idが',id)
 
         try{
             const res = await axios.post(`${uri.getCARD}card_delete.php`,params)
