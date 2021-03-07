@@ -29,14 +29,14 @@ const Main = () => {
     dispatch(updateMapSize(target.clientWidth,target.clientHeight))
   },[dispatch])
 
+  
   useEffect(() => {//Cardsをさーばーから毎回フェッチ。この処理はMainに書いたほうが良いかも{03/01ここにwebSocketだ}
     //socket
-    
-      /*if(wsConnection !== "") wsConnection.close()
       if(wsConnection.readyState === 1){
         console.log('接続中のため切断')
         wsConnection.close()
-      }*/
+      }
+    if(map_id !== ""){
       const channelInfo = JSON.stringify({
         command:'subscribe',
         channel:map_id
@@ -71,7 +71,7 @@ const Main = () => {
             const axis = res.data
             dispatch(updateAxisAction(axis))
             break;
-          
+
           case 'information':
             const invitedNum = res.data
             dispatch(updateInvitedNumAction(invitedNum))
@@ -91,9 +91,79 @@ const Main = () => {
         //connection.close()
         setWsConnection('')
       }
-  
+    }
 },[map_id])
 
+/*
+  useEffect(() => {
+    const connection = new WebSocket('ws://localhost:8080')//このオブジェクトをずっと使う！！複製closeしないかわりにeffect量産して対応。closeはthunk内で各々実行してここに還る
+
+    connection.onmessage = (e) => {
+      const res = JSON.parse(e.data);
+      console.log('webSocket受信！',res)
+      switch(res.event){
+        case 'update_map':
+          
+          const newCards = res.data;
+          const selectedCardId = getSelectedCardId(selector)
+
+          for(let i = 0; i < newCards.length; i++){
+            if(newCards[i].card_id != selectedCardId){
+              dispatch(deselectCardAction())
+              break;
+            }
+          }
+          dispatch(updateCardAction(newCards))
+          console.log('カード作成完了！')
+          break;
+
+        case 'update_parameter':
+          const axis = res.data
+          dispatch(updateAxisAction(axis))
+          break;
+
+        case 'information':
+          const invitedNum = res.data
+          dispatch(updateInvitedNumAction(invitedNum))
+          break;
+
+        default:
+        break
+
+      }
+
+    }
+
+    setWsConnection(connection)
+    console.log('!!!!!!!!!!!!!!!!webSocket生成!!!!!!!!!!!!!!!!!!!',wsConnection)
+
+
+  },[])
+
+  useEffect( () => {//map_idが変更され、redux内でcloseされたのでopenと同時にチャンネル変更
+    if(map_id !== ""){
+
+      (async() => {
+        if(wsConnection.readyState === 1){
+          console.log('接続中のため切断',wsConnection.readyState)
+            await wsConnection.close()
+        }
+  
+        const channelInfo = JSON.stringify({
+          command:'subscribe',
+          channel:map_id
+        })
+  
+          wsConnection.onopen = () => {
+          console.log('オープンしました')
+          wsConnection.send(channelInfo)
+        }
+        console.log('webSocketチャンネル変更とオープンしました',wsConnection)
+        setWsConnection(wsConnection)
+      })()
+    }
+
+  },[map_id])*/
 
     return(
         <>

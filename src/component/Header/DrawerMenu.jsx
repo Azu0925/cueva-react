@@ -1,4 +1,5 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useContext} from 'react'
+import {WebSocketContext} from '../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux'
 import {getBelongTeamsInfo} from '../../reducks/user/selectors'
 import {getTeamId,getMapInfo} from '../../reducks/team/selectors'
@@ -26,6 +27,7 @@ const DrawerMenu = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    const ws = useContext(WebSocketContext);
     const {container} = props
     const open = props.open
     const belongTeamsInfo = getBelongTeamsInfo(selector)
@@ -45,7 +47,7 @@ const DrawerMenu = (props) => {
         props.drawerClose()
     }
     const handleAnotherMap = (mapId) => {
-        dispatch(changeMap(mapId))
+        dispatch(changeMap(mapId,ws))
         props.drawerClose()
     }
     

@@ -41,7 +41,7 @@ const LogoutDialog = (props) => {
     };
 
     const handleSendButton = () => {
-        dispatch(logout())
+        dispatch(logout(ws))
         setOpen(false);
         doClose();
     }

@@ -19,6 +19,10 @@ const getToken = () => {
     return token
 }
 
+const closeWebSocket = (ws) => {
+    //ws.close()
+}
+
 export const updateMapSize = (width,height) => {
 
     return async(dispatch) => {
@@ -32,7 +36,7 @@ export const updateMapSize = (width,height) => {
 
 }
 
-export const deleteMap = () => {
+export const deleteMap = (ws) => {
     return async(dispatch,getState) => {
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
@@ -51,6 +55,8 @@ export const deleteMap = () => {
             if(res.data.result){
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
+                closeWebSocket(ws)
+                console.log('クローズしました')
             }else{
                 console.log('errorDelete',res.data)
                 dispatch(setRequestErrorAction({
@@ -144,7 +150,8 @@ export const createMap = (name,detail,ws) => {
                     console.log('success-createMap',res.data.result)
                     const map_id = res.data.result[0].map_id
                     console.log('maptestmaptesutptmaj',map_id)
-                    //ws.close()
+                    closeWebSocket(ws)
+                    console.log('クローズしました')
                     dispatch(updateMapIdAction({map_id:map_id}))
                     dispatch(clearCardsAction())
                     
@@ -178,6 +185,7 @@ export const createMap = (name,detail,ws) => {
                     console.log('success-mapInfo',res.data.result)
                     const mapInfo = res.data.result
                     dispatch(updateMapAction(mapInfo))
+                
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップ情報の取得に失敗しました',
@@ -273,6 +281,7 @@ export const fetchMap = () => {
                 console.log('success',res.data.result)
                 const mapInfo = res.data.result
                 dispatch(updateMapAction(mapInfo))
+                
 
             }else{
                 dispatch(setRequestErrorAction({

@@ -21,6 +21,9 @@ const getToken = () => {
     return token
 }
 
+const closeWebSocket = (ws) => {
+    //ws.close()
+}
 
 export const fetchUserInfo = () => {
     return async(dispatch) => {
@@ -90,7 +93,7 @@ export const fetchBelongTeams = () => {
 
 }
 
-export const logout = () => {
+export const logout = (ws) => {
     return async(dispatch,getState) => {
         
         //トークンの取得
@@ -104,7 +107,8 @@ export const logout = () => {
             const res = await axios.post(`${uri.getUSER}logout.php`,params)
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
-                
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 dispatch(clearTeamAction())
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
@@ -127,7 +131,7 @@ export const logout = () => {
     }
 }
 
-export const withdrawal = () => {
+export const withdrawal = (ws) => {
     return async(dispatch) => {
         //トークンの取得
         const token = getToken();
@@ -141,6 +145,8 @@ export const withdrawal = () => {
             
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 dispatch(clearTeamAction())
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
@@ -275,7 +281,8 @@ export const joinTeam = (teamId,ws) => {
         try{
             const res = await axios.post(`${uri.getTEAM}information.php`,TeamParams)
             if (res.data.result){
-
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 const team = res.data.result
                 dispatch(updateTeamAction(team))
                 dispatch(clearMapAction())
@@ -464,7 +471,7 @@ export const tokenAuthentication = () => {
 
 }
 
-export const changeTeam =(teamId,mapId) => {
+export const changeTeam =(teamId,ws) => {
     return async(dispatch,getState) => {
 
         //クッキーからトークンだけ取得
@@ -481,7 +488,8 @@ export const changeTeam =(teamId,mapId) => {
         try{
             const res = await axios.post(`${uri.getTEAM}information.php`,TeamParams)
             if (res.data.result){
-
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 const team = res.data.result
                 dispatch(updateTeamAction(team))
                 dispatch(clearMapAction())
@@ -582,7 +590,7 @@ export const changeMap = (map_Id) => {
 }
 
 
-export const changeTeamAndMap = (teamId,mapId) => {
+export const changeTeamAndMap = (teamId,mapId,ws) => {
     return async(dispatch,getState) => {
          //クッキーからトークンだけ取得
         const token = getToken();
@@ -600,6 +608,8 @@ export const changeTeamAndMap = (teamId,mapId) => {
             if (res.data.result){
 
                 const team = res.data.result
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 dispatch(updateTeamAction(team))
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())

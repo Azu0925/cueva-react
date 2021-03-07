@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch,useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -26,6 +27,7 @@ const DeleteTeamDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    const ws = useContext(WebSocketContext);
 
     const isOpen = props.isOpen
     const doClose = props.doClose
@@ -64,7 +66,7 @@ const handleReconfirmClose = () => {
 //削除自体の非同期処理を関数で作成して確認ダイアログに渡す。
 
 const decision = () => {
-    dispatch(deleteTeam())
+    dispatch(deleteTeam(ws))
 }
 
     return (

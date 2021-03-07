@@ -59,7 +59,7 @@ const PositionMap= () => {
     console.log('mapId',map_id)
     const ws = useContext(WebSocketContext);
 
-    
+    console.log('現在のws',ws)
     //////////マップ上軸のタイトル
     const vaHigh = axis.vaHigh
     const vaLow = axis.vaLow
@@ -78,18 +78,29 @@ const PositionMap= () => {
     }
 
     //////////マップ上カード
-    const generateCard = useCallback((e) => {//ダブルクリックで座標を取得してカードを追加
+    const generateCard = (e) => {//ダブルクリックで座標を取得してカードを追加
+        console.log('dblClick',e)
         if(map_id === "") return//マップ非選択時にカードを生成してはいけないのでリターン
+        console.log('実行します')
         const newPosition = {
             x:e.offsetX,
             y:e.offsetY
         }
+        console.log('渡すオブジェクト→',ws)
         dispatch(addCard("","",newPosition.x,newPosition.y,100,150,ws));
-    },[map_id])
+        console.log('実行しました')
+    }
 
     useEffect(() => {//最初にダブルクリックのイベントリスナーを登録。
+        console.log('リスナー生成されました')
         let target = document.getElementById('generateCardArea');
-        target.addEventListener('dblclick',(e) => generateCard(e));
+        target.addEventListener('dblclick',generateCard);
+
+        return () => {
+            target.removeEventListener('dblclick',generateCard)
+            console.log('破棄しました')
+        }
+
     },[generateCard])
 
     return(

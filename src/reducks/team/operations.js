@@ -19,6 +19,10 @@ const getToken = () => {
     return token
 }
 
+const closeWebSocket = (ws) => {
+    //ws.close()
+}
+
 export const fetchTeam = (teamId) => {
 
     return async(dispatch,getState) => {
@@ -119,7 +123,7 @@ export const inviteTeam = (userId,ws) => {
     }
 }
 
-export const deleteTeam = () => {
+export const deleteTeam = (ws) => {
     return async (dispatch,getState) => {
 
         //トークンの取得
@@ -138,6 +142,8 @@ export const deleteTeam = () => {
             console.log('deleteTeam',res)
             if (res.data.result){
                 console.log('削除成功してるで')
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 dispatch(clearTeamAction())
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
@@ -214,7 +220,7 @@ export const exitTeam = () => {
     }
 }
 
-export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) => {
+export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws) => {
     return async(dispatch,getState) => {
         //トークンの取得
         const token = getToken();
@@ -238,6 +244,10 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 const res = await axios.post(`${uri.getTEAM}register.php`,teamRegistParams)
 
                 if(res.data.result){
+                    console.log(ws)
+                    closeWebSocket(ws)
+                    console.log('クローズした')
+                    
                     console.log('success-createTeam',res.data.result)
                     const team_id = res.data.result.team_id
                     dispatch(updateTeamAction({team_id:team_id}))
@@ -383,6 +393,8 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 
                 if(res.data.result){
                     console.log('success-createTeam',res.data.result)
+                    closeWebSocket(ws)
+                    console.log('クローズしました')
                     const team_id = res.data.result.team_id
                     dispatch(updateTeamAction({team_id:team_id}))
                     dispatch(clearMapAction())
@@ -435,14 +447,14 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
     }
 }
 
-export const test = (ws) => {
+export const test = () => {
     return async(dispatch,getState) => {
     
         try{
             const testSend = JSON.stringify({
                 message:'hello!'
             })
-            await ws.send(testSend)
+            
 
         }catch(e){
             

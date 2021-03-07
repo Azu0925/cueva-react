@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux'
 import {changeTeam,changeTeamAndMap} from '../../../reducks/user/operations'
 import {getTeamId} from '../../../reducks/team/selectors'
@@ -27,6 +28,7 @@ const SelectTeamInMapDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    const ws = useContext(WebSocketContext);
     const isOpen = props.isOpen
     const doClose = props.doClose
     const teamId = props.selectedTeamId
@@ -63,7 +65,7 @@ const SelectTeamInMapDialog = (props) => {
                         console.log('success-teamInfo',res.data.result.map_info)
                         const mapInfo = res.data.result.map_info
                         if(mapInfo.length == 0){
-                            dispatch(changeTeam(teamId))
+                            dispatch(changeTeam(teamId,ws))
                             setTimeout(() => {
                                 props.setSelectedTeamId('')
                                 setOpen(false);
@@ -101,7 +103,7 @@ const SelectTeamInMapDialog = (props) => {
 
 
     const handleOnClick = (mapId) => {
-        dispatch(changeTeamAndMap(teamId,mapId))
+        dispatch(changeTeamAndMap(teamId,mapId,ws))
         setMapInfoList([])
         props.setSelectedTeamId('')
         setOpen(false);
