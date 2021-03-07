@@ -9,8 +9,14 @@ import {deselectCardAction,updateCardAction} from '../reducks/card/actions'
 import {updateInvitedNumAction} from '../reducks/user/actions'
 import {CreateTeamDialog} from '../component/UIKit'
 import {Header} from '../component/Header'
+import { makeStyles } from '@material-ui/styles'
 
 export const WebSocketContext = createContext()
+
+const useStyles = makeStyles({
+  base: {
+  }
+});
 
 const Main = () => {
   console.log('Main再レンダリング')
@@ -19,6 +25,7 @@ const Main = () => {
 
   const map_id = getMapId(selector)
   const [wsConnection,setWsConnection] = useState({})
+  const classes = useStyles()
   
 
   useEffect(() => {//ポジショニングマップを作成する要素の縦幅と横幅を取得しstoreに保存。ドラッグ可能領域の制御に使う。
@@ -86,7 +93,7 @@ const Main = () => {
           <div id="header">
               <Header />
             </div>
-          <div id="main">
+          <div id="main" className={classes.base}>
               <div id="map">
                 <PositionMap />
               </div>
