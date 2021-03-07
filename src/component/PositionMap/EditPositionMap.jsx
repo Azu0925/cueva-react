@@ -205,7 +205,7 @@ const EditPositionMap = () => {
                     <div className="spacer--medium" />
                     <InputText
                         fullWidth={true}
-                        label={"カード詳細（KBF）"}
+                        label={"カード詳細"}
                         multiline={true}
                         required={true}
                         rows={2}

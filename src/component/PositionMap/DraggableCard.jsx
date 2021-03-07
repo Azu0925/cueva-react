@@ -202,8 +202,6 @@ const DraggableCard = (props) => {
                         onKeyDown={(e) => handleOnKeyDown(e)}
                         onChange={(e) => inputCurrentName(e)}
                     />
-                    <p>{detail}</p>
-                    x:{currentX}y:{currentY}
                 </div>
                 
                 <div className={classes.iconWrapper}>
