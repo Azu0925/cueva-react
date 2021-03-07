@@ -163,6 +163,7 @@ export const deleteCard = (id,ws) => {
                 })
                 ws.send(cardInfo)
             }else{
+                console.log('deleteError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの削除に失敗しました',
                     errorDetail:'カードの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'

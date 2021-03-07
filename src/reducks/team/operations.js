@@ -239,7 +239,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
             teamRegistParams.append('token',token)
             teamRegistParams.append('team_name',team_name)
             teamRegistParams.append('team_description',team_description)
-                
+                console.log('teamCreateのトークンは',token)
             try{
                 const res = await axios.post(`${uri.getTEAM}register.php`,teamRegistParams)
 
@@ -254,6 +254,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws)
                     dispatch(clearMapAction())
                     dispatch(clearCardsAction())
                 }else{
+                    console.log('badError',res.data)
                     dispatch(setRequestErrorAction({
                         errorTitle:'チームの作成に失敗しました',
                         errorDetail:'チームの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
