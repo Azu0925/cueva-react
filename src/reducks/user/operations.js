@@ -44,7 +44,7 @@ export const fetchUserInfo = () => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'チーム情報の取得に失敗しました',
-                    errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'チーム情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
         }catch(e){
@@ -78,7 +78,7 @@ export const fetchBelongTeams = () => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'ユーザー情報の取得に失敗しました',
-                    errorDetail:'ユーザー情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'ユーザー情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
         }catch(e){
@@ -118,7 +118,7 @@ export const logout = (ws) => {
                 console.log('handleError',res.data.error)
                 dispatch(setRequestErrorAction({
                     errorTitle:'ログアウトに失敗しました',
-                    errorDetail:'ログアウトの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'ログアウトの取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
         }catch(e){
@@ -156,7 +156,7 @@ export const withdrawal = (ws) => {
                 console.log('handleError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'退会の処理に失敗しました',
-                    errorDetail:'退会の処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'退会の処理に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
         }catch(e){
@@ -188,7 +188,7 @@ export const changeUserInfo = (name,email) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:"ユーザー情報の更新に失敗しました",
-                    errorDetail:"ユーザー情報の更新に失敗しました"
+                    errorDetail:"ユーザー情報の更新に失敗しました" + res.data.error[0].code + res.data.error[0].message
                 }))
             }
 
@@ -223,7 +223,7 @@ export const fetchInvitedList = () => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'招待の取得に失敗しました',
-                    errorDetail:'招待の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'招待の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
             }
 
@@ -261,7 +261,7 @@ export const joinTeam = (teamId,ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'招待の承諾処理に失敗しました',
-                    errorDetail:'招待の承諾処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'招待の承諾処理に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return;
             }
@@ -291,7 +291,7 @@ export const joinTeam = (teamId,ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'選択したチームの取得に失敗しました',
-                    errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -332,7 +332,7 @@ export const rejectInvitation = (teamId,ws) => {
         }else{
             dispatch(setRequestErrorAction({
                 errorTitle:'招待の拒否処理に失敗しました',
-                errorDetail:'招待の拒否処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                errorDetail:'招待の拒否処理に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
             }))
             return;
         }
@@ -498,7 +498,7 @@ export const changeTeam =(teamId,ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'選択したチームの取得に失敗しました',
-                    errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -543,7 +543,7 @@ export const changeMap = (map_Id) => {
                 console.log('badError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の取得に失敗しました',
-                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' 
+                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -570,7 +570,7 @@ export const changeMap = (map_Id) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの取得に失敗しました',
-                    errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -617,7 +617,7 @@ export const changeTeamAndMap = (teamId,mapId,ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'選択したチームの取得に失敗しました',
-                    errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'選択したチームの取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -651,7 +651,7 @@ export const changeTeamAndMap = (teamId,mapId,ws) => {
             }else{
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の取得に失敗しました',
-                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
@@ -684,7 +684,7 @@ export const changeTeamAndMap = (teamId,mapId,ws) => {
                 console.log('errorororroororo',res.data.error)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの取得に失敗しました',
-                    errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return
             }
