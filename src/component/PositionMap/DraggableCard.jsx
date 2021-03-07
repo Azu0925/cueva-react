@@ -29,7 +29,8 @@ const useStyles = makeStyles({
         height:'20%'
     },
     mainArea:{
-        height:'70%'
+        height:'70%',
+        display: 'flex'
     },
     footer:{
         height:'10%',
@@ -48,6 +49,10 @@ const useStyles = makeStyles({
     icon:{
         width:'1rem',
         height:'1rem'
+    },
+    inputTextArea: {
+        outline: '0',
+        border: 'white'
     }
 })
 
@@ -201,15 +206,14 @@ const DraggableCard = (props) => {
                         onBlur={(e) => handleOnBlur(e)}
                         onKeyDown={(e) => handleOnKeyDown(e)}
                         onChange={(e) => inputCurrentName(e)}
+                        className={classes.inputTextArea}
                     />
-                </div>
-                
-                <div className={classes.iconWrapper}>
-                <IconButton className={classes.iconButton} onClick={(e) => handleDeleteIcon(e)} >
-                    <DeleteOutlineOutlinedIcon className={classes.icon} />
-                </IconButton>
-                </div>
-                
+                    <div className={classes.iconWrapper}>
+                        <IconButton className={classes.iconButton} onClick={(e) => handleDeleteIcon(e)} >
+                            <DeleteOutlineOutlinedIcon className={classes.icon} />
+                        </IconButton>
+                    </div>
+                </div>                
             </Paper>
         </Draggable>
 
