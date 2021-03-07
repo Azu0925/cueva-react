@@ -31,3 +31,8 @@ export const getMap = createSelector(
     [pMapSelector],
     state => state.pMap
 )
+
+export const getMapName = createSelector(
+    [pMapSelector],
+    state => state.pMap.map_name
+)

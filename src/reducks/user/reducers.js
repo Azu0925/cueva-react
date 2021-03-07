@@ -25,6 +25,7 @@ export const UserReducer = (state = initialState.user,action) => {
             return{
                 ...state,
                 isSignedIn:true,
+                user_id:action.payload.user_id,
                 user_name:action.payload.user_name,
                 user_address:action.payload.user_address,
                 belongTeamInfo:[...action.payload.team_info]

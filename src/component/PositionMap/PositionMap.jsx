@@ -133,7 +133,7 @@ const PositionMap= () => {
                         shrink={true}
                         variant={"outlined"}
                         defaultValue={vaLow}
-                        onBulur={(e) => handleOnBlurOfVaLow(e)}
+                        onBlur={(e) => handleOnBlurOfVaLow(e)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     />
                 </div>

@@ -7,6 +7,11 @@ export const getTeamId = createSelector(
     state => state.team.team_id
 )
 
+export const getTeamName = createSelector(
+    [teamSelector],
+    state => state.team.team_name
+)
+
 export const getInTeamMaps = createSelector(
     [teamSelector],
     state => state.team.inTeamPMaps
