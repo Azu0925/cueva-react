@@ -6,9 +6,14 @@ import {getUserName,getUserId} from '../../reducks/user/selectors'
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/styles';
 
-const useStyles = makeStyles(() => {
-
-})
+const useStyles = makeStyles({
+    root: {
+        margin: '0 0 15px 0'
+    },
+    info: {
+        padding: '20px'
+    }
+});
 
 const UserDetailArea = () => {
     const selector = useSelector(state => state)
@@ -20,12 +25,16 @@ const UserDetailArea = () => {
     const user_name = getUserName(selector)
 
     return(
-        <Paper elevation={3}>
-            {team_name}
-            {map_name}
-            {user_id}
-            {user_name}
-        </Paper>
+        <div className={classes.root}>
+            <Paper elevation={3}>
+                <div className={classes.info}>
+                    <p>チーム名：{team_name}</p>
+                    <p>マップ名：{map_name}</p>
+                    <p>ユーザーID:{user_id}</p>
+                    <p>ユーザー名：{user_name}</p>
+                </div>
+            </Paper>
+        </div>
     )
 }
 
