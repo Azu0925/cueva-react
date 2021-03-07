@@ -206,7 +206,8 @@ export const createMap = (name,detail,ws) => {
 
 export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
     return async(dispatch,getState) => {
-        if(getState().pMap.mapId === "") return
+        if(getState().pMap.map_id === "") return
+
         dispatch(fetchMap())
 
         //トークンの取得
@@ -227,6 +228,7 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
         params.append('parameter_under',vaLow)
         params.append('parameter_left',haLow)
         params.append('parameter_right',haHigh)
+        console.log('axisLowTest',vaLow)
 
         try{
             const res = await axios.post(`${uri.getMAP}map_update.php`,params)
@@ -240,7 +242,7 @@ export const updateMapAxis = (vaHigh,vaLow,haHigh,haLow,ws) => {
             }
             else{
                 dispatch(setRequestErrorAction({
-                    errorTitle:'マップ情報の更新に失敗しました',
+                    errorTitle:'マップ情報の更新に失敗しました' + 'updateaxis',
                     errorDetail:'マップ情報の更新に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
                 }))
                 return

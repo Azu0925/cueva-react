@@ -57,6 +57,8 @@ const Main = () => {
             const newCards = res.data;
             const selectedCardId = getSelectedCardId(selector)
 
+            if(newCards.length === 0) dispatch(deselectCardAction())
+
             for(let i = 0; i < newCards.length; i++){
               if(newCards[i].card_id != selectedCardId){
                 dispatch(deselectCardAction())

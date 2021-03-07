@@ -221,9 +221,10 @@ export const fetchInvitedList = () => {
                 dispatch(fetchInvitedListAction(invitedList))
 
             }else{
+                console.log('handleError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'招待の取得に失敗しました',
-                    errorDetail:'招待の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' + res.data.error[0].code + res.data.error[0].message
+                    errorDetail:'招待の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
                 }))
             }
 
