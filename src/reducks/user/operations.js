@@ -1,11 +1,12 @@
 import {push} from "connected-react-router";
-import {fetchBelongTeamsAction,changeUserInfoAction,autoAuthAction,fetchInvitedListAction} from './actions';
-import {updateTeamAction} from '../team/actions'
+import {fetchBelongTeamsAction,changeUserInfoAction,autoAuthAction,fetchInvitedListAction,clearUserAction} from './actions';
+import {updateTeamAction,clearTeamAction} from '../team/actions'
 import {clearMapAction,updateMapAction} from '../pMap/actions'
+import { clearCardsAction,updateCardAction } from "../card/actions";
 import {setRequestErrorAction} from '../requestError/actions'
 import axios from 'axios'
 import URI from '../../URI'
-import { clearCardsAction,updateCardAction } from "../card/actions";
+
 
 const uri = new URI()
 
@@ -20,6 +21,9 @@ const getToken = () => {
     return token
 }
 
+const closeWebSocket = (ws) => {
+    //ws.close()
+}
 
 export const fetchUserInfo = () => {
     return async(dispatch) => {
@@ -29,10 +33,10 @@ export const fetchUserInfo = () => {
         if(token === "")dispatch(push('/signin'))
         //パラメータの準備
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
         
         try{
-            const res = await axios.post(`${uri.getUSER}information.php`,params)
+            const res = await axios.post(`${uri.getUSER}user_information.php`,params)
             if(res.data.result){
                 const userInfo = res.data.result
                 dispatch(changeUserInfoAction(userInfo))
@@ -89,7 +93,7 @@ export const fetchBelongTeams = () => {
 
 }
 
-export const logout = () => {
+export const logout = (ws) => {
     return async(dispatch,getState) => {
         
         //トークンの取得
@@ -101,10 +105,14 @@ export const logout = () => {
 
         try{
             const res = await axios.post(`${uri.getUSER}logout.php`,params)
-            console.log('通ってる１',res.data)
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
-                console.log('通ってる2')
+                closeWebSocket(ws)
+                console.log('クローズしました')
+                dispatch(clearTeamAction())
+                dispatch(clearMapAction())
+                dispatch(clearCardsAction())
+                dispatch(clearUserAction())
                 dispatch(push('/signin'))
             }else{
                 console.log('handleError',res.data.error)
@@ -123,23 +131,29 @@ export const logout = () => {
     }
 }
 
-export const withdrawal = (email,password) => {
+export const withdrawal = (ws) => {
     return async(dispatch) => {
         //トークンの取得
         const token = getToken();
         if(token === "")dispatch(push('/signin'))
 
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
 
         try{
             const res = await axios.post(`${uri.getUSER}delete.php`,params)
             
             if(res.data.result){
                 document.cookie = "token=; max-age=0";
+                closeWebSocket(ws)
+                console.log('クローズしました')
+                dispatch(clearTeamAction())
+                dispatch(clearMapAction())
+                dispatch(clearCardsAction())
+                dispatch(clearUserAction())
                 dispatch(push('/signup'))
             }else{
-                console.log('handleError',res.data.error)
+                console.log('handleError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'退会の処理に失敗しました',
                     errorDetail:'退会の処理に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -160,9 +174,8 @@ export const changeUserInfo = (name,email) => {
 
         const token = getToken();
         if(token === "")dispatch(push('/signin'))
-
         let params = new URLSearchParams()
-        params.append('token',params)
+        params.append('token',token)
         params.append('user_name',name)
         params.append('user_address',email)
         
@@ -170,7 +183,7 @@ export const changeUserInfo = (name,email) => {
             const res = await axios.post(`${uri.getUSER}update.php`,params)
             if(res.data.result){
 
-                dispatch(changeUserInfo({name:name,email:email}))
+                dispatch(changeUserInfoAction({user_name:name,user_address:email}))
 
             }else{
                 dispatch(setRequestErrorAction({
@@ -268,7 +281,8 @@ export const joinTeam = (teamId,ws) => {
         try{
             const res = await axios.post(`${uri.getTEAM}information.php`,TeamParams)
             if (res.data.result){
-
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 const team = res.data.result
                 dispatch(updateTeamAction(team))
                 dispatch(clearMapAction())
@@ -457,7 +471,7 @@ export const tokenAuthentication = () => {
 
 }
 
-export const changeTeam =(teamId,mapId) => {
+export const changeTeam =(teamId,ws) => {
     return async(dispatch,getState) => {
 
         //クッキーからトークンだけ取得
@@ -474,7 +488,8 @@ export const changeTeam =(teamId,mapId) => {
         try{
             const res = await axios.post(`${uri.getTEAM}information.php`,TeamParams)
             if (res.data.result){
-
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 const team = res.data.result
                 dispatch(updateTeamAction(team))
                 dispatch(clearMapAction())
@@ -514,7 +529,7 @@ export const changeMap = (map_Id) => {
         mapParams.append('token',token)
         mapParams.append('team_id',team_id)
         mapParams.append('map_id',map_id)
-
+        console.log('whyFobbiden',map_id)
         try{
             const res = await axios.post(`${uri.getMAP}information.php`,mapParams)
 
@@ -525,9 +540,10 @@ export const changeMap = (map_Id) => {
                 dispatch(clearCardsAction())
 
             }else{
+                console.log('badError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップ情報の取得に失敗しました',
-                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。'
+                    errorDetail:'マップ情報の取得に失敗しました。通信環境の良い場所でもう一度お試しください。' 
                 }))
                 return
             }
@@ -547,9 +563,9 @@ export const changeMap = (map_Id) => {
         cardsParams.append('map_id',map_id)
 
         try{
-            const res = await axios.post(`${uri.getMAP}card_information.php`,cardsParams)
-            if(res.data.result){
-                const cards = res.data.result.data
+            const res = await axios.post(`${uri.getMAP}cards_information.php`,cardsParams)
+            if(res.data){
+                const cards = res.data
                 dispatch(updateCardAction(cards))
             }else{
                 dispatch(setRequestErrorAction({
@@ -574,7 +590,7 @@ export const changeMap = (map_Id) => {
 }
 
 
-export const changeTeamAndMap = (teamId,mapId) => {
+export const changeTeamAndMap = (teamId,mapId,ws) => {
     return async(dispatch,getState) => {
          //クッキーからトークンだけ取得
         const token = getToken();
@@ -592,6 +608,8 @@ export const changeTeamAndMap = (teamId,mapId) => {
             if (res.data.result){
 
                 const team = res.data.result
+                closeWebSocket(ws)
+                console.log('クローズしました')
                 dispatch(updateTeamAction(team))
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
@@ -653,13 +671,17 @@ export const changeTeamAndMap = (teamId,mapId) => {
         cardsParams.append('token',token)
         cardsParams.append('team_id',team_id)
         cardsParams.append('map_id',map_id)
+        console.log('cards_information_map_id',map_id)
 
         try{
-            const res = await axios.post(`${uri.getMAP}card_information.php`,cardsParams)
-            if(res.data.result){
-                const cards = res.data.result.data
+            const res = await axios.post(`${uri.getMAP}cards_information.php`,cardsParams)
+            console.log('card_info結果',res.data)
+            if(res.data){
+                const cards = res.data
+                console.log('information_cardsやで',res.data)
                 dispatch(updateCardAction(cards))
             }else{
+                console.log('errorororroororo',res.data.error)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの取得に失敗しました',
                     errorDetail:'カードの取得に失敗しました。通信環境の良い場所でもう一度お試しください。'

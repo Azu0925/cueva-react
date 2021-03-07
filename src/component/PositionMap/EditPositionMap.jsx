@@ -91,13 +91,14 @@ const EditPositionMap = () => {
 
     let {propsName,propsDetail} = ""
     let {propsX,propsY,propsWidth,propsHeight} = 0
+    console.log('selectedCardの中身',selectedCard)
     if(selectedCardId !== ""){//選択中カードがある場合は代入
-        propsName = selectedCard.name
-        propsDetail = selectedCard.detail
-        propsX = selectedCard.x
-        propsY = selectedCard.y
-        propsWidth = selectedCard.width
-        propsHeight = selectedCard.height
+        propsName = selectedCard.card_name
+        propsDetail = selectedCard.card_detail
+        propsX = Number(selectedCard.card_x)
+        propsY = Number(selectedCard.card_y)
+        propsWidth = Number(selectedCard.card_width)
+        propsHeight = Number(selectedCard.card_height)
     }
 
     useEffect(() => {

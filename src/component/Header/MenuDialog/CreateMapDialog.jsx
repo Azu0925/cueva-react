@@ -1,4 +1,5 @@
-import React, { useState,useEffect,useCallback } from "react";
+import React, { useState,useEffect,useCallback,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch} from 'react-redux'
 import {createMap} from '../../../reducks/pMap/operations'
 import Button from "@material-ui/core/Button";
@@ -25,6 +26,7 @@ const CreateMapDialog = (props) => {
     const dispatch = useDispatch()
     const isOpen = props.isOpen
     const doClose = props.doClose
+    const ws = useContext(WebSocketContext);
 
     const [open, setOpen] = useState(false);
     const [mapName,setMapName] = useState("")
@@ -63,7 +65,7 @@ const CreateMapDialog = (props) => {
             setMapNameErr('マップ名を入力してください')
             return
         }
-        dispatch(createMap(mapName,mapDetail))
+        dispatch(createMap(mapName,mapDetail,ws))
         setMapName('')
         setMapDetail('')
         setOpen(false);

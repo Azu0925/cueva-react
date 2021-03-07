@@ -42,8 +42,8 @@ const UpdateMapDialog = (props) => {
         setNewDetail(e.target.value)
     },[])
 
-    const name = map.mapName
-    const detail = map.mapDetail
+    const name = map[0]
+    const detail = map[1]
 
     const handleOnBlue = (e) => {
         const checkName = e.target.value

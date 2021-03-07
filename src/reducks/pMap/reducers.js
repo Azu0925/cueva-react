@@ -13,7 +13,8 @@ export const PMapReducer = (state = initialState.pMap,action) => {
     
         case Actions.CHANGE_MAP_ACTION:
             return{
-                ...action.payload
+                ...action.payload,
+                size:{...state.size}
             }
         case Actions.FETCH_MAP_DETAIL_ACTION:
             return{
@@ -71,7 +72,7 @@ export const PMapReducer = (state = initialState.pMap,action) => {
                     haHigh:"",
                     haLow:"",
                 },
-                size:{},
+                size:{...state.size},
                 unsetRefCurrent:""
             }
 

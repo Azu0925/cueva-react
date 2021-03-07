@@ -21,3 +21,10 @@ export const updateTeamAction = (team) => {
         payload:team
     }
 }
+
+export const CLEAR_TEAM_ACTION = 'CLEAR_TEAM_ACTION'
+export const clearTeamAction = () => {
+    return{
+        type:'CLEAR_TEAM_ACTION'
+    }
+}

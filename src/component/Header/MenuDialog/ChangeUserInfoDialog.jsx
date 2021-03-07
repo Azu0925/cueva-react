@@ -28,6 +28,7 @@ const ChangeUserInfoDialog = (props) => {
     const selector = useSelector(state => state)
     const name = getUserName(selector)
     const email = getUserEmail(selector)
+
     const isOpen = props.isOpen
     const doClose = props.doClose
 
@@ -66,20 +67,17 @@ const ChangeUserInfoDialog = (props) => {
     }
 
     useEffect(() => {
-        if(isOpen){
-            dispatch(fetchUserInfo())
-        }
         setOpen(isOpen);
     }, [isOpen]);
 
 
     useEffect(() => {
         if(isOpen){
+            dispatch(fetchUserInfo())
             setNewUserName(name)
             setNewUserEmail(email)
         }
-        setOpen(isOpen);
-    }, [isOpen,name,email]);
+    }, [isOpen]);
 
     const handleCancel = () => {
         setOpen(false);
@@ -112,7 +110,7 @@ const ChangeUserInfoDialog = (props) => {
         TransitionComponent={Transition}
         keepMounted
         >
-            <DialogTitle>ユーザー情報の変更</DialogTitle>
+            <DialogTitle>ユーザー情報の変更{newUserName}</DialogTitle>
             <DialogContent className={classes.root}>
                 <InputText
                         fullWidth={true}

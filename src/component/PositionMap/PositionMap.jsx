@@ -1,11 +1,11 @@
-import React,{useEffect,useCallback,useContext} from 'react'
+import React,{useState,useEffect,useCallback,useContext} from 'react'
 import {WebSocketContext} from '../../templete/Main'
 import {useDispatch,useSelector} from 'react-redux';
-import Button from "@material-ui/core/Button";
 import {DraggableCard} from './index'
 import {makeStyles} from '@material-ui/styles';
 import {addCard} from '../../reducks/card/operations';
 import {getCards,getSelectedCardId} from '../../reducks/card/selectors'
+import {getTeamId} from '../../reducks/team/selectors';
 import {updateMapAxis} from '../../reducks/pMap/operations';
 import {getUnsetRefCurrent,getMapAxis,getMapId} from '../../reducks/pMap/selectors'
 import {InputText} from '../../component/UIKit'
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
         height:'100%',
     },
     axis:{
-        
+    
     },
     verticalAxis:{
         position: 'absolute',
@@ -53,8 +53,10 @@ const PositionMap= () => {
     const Cards = getCards(selector);//storeのcardsを取得
     const selectedCardId = getSelectedCardId(selector)//storeのselectedCardIdを取得
     const unsetRefCurrent = getUnsetRefCurrent(selector)
-    const mapId = getMapId(selector)
-
+    const map_id = getMapId(selector)
+    const team_id = getTeamId(selector)
+    console.log('teamId',team_id)
+    console.log('mapId',map_id)
     const ws = useContext(WebSocketContext);
 
     //////////マップ上軸のタイトル
@@ -63,10 +65,6 @@ const PositionMap= () => {
     const haHigh = axis.haHigh
     const haLow = axis.haLow
 
-    useEffect(() => {
-        //console.log('Axis_effect')//ここローカルstate入れる
-    },[vaHigh,vaLow,haHigh,haLow])
-
     const handleOnBlurOfVaHigh = (e) => dispatch(updateMapAxis(e.target.value,vaLow,haHigh,haLow,ws))
     const handleOnBlurOfVaLow = (e) => dispatch(updateMapAxis(vaHigh,e.target.value,haHigh,haLow,ws))
     const handleOnBlurOfHaHigh = (e) => dispatch(updateMapAxis(vaHigh,vaLow,e.target.value,haLow,ws))
@@ -74,27 +72,37 @@ const PositionMap= () => {
 
     const handleKeyDown =(e) => {
         if(e.keyCode === 13) e.target.blur()
+
+
     }
 
     //////////マップ上カード
-    const generateCard = useCallback((e) => {//ダブルクリックで座標を取得してカードを追加
-        if(mapId === "") return//マップ非選択時にカードを生成してはいけないのでリターン
+    const generateCard = (e) => {//ダブルクリックで座標を取得してカードを追加
+        console.log('dblClick',e)
+        if(map_id === "") return//マップ非選択時にカードを生成してはいけないのでリターン
         const newPosition = {
             x:e.offsetX,
             y:e.offsetY
         }
+        console.log('渡すオブジェクト→',ws)
         dispatch(addCard("","",newPosition.x,newPosition.y,100,150,ws));
-    },[dispatch])
+    }
 
     useEffect(() => {//最初にダブルクリックのイベントリスナーを登録。
+        console.log('リスナー生成されました')
         let target = document.getElementById('generateCardArea');
-        target.addEventListener('dblclick',(e) => generateCard(e));
+        target.addEventListener('dblclick',generateCard);
+
+        return () => {
+            target.removeEventListener('dblclick',generateCard)
+            console.log('破棄しました')
+        }
+
     },[generateCard])
 
     return(
         <>
             <div id="generateCardArea">
-                
                 {
                     //縦軸(高)///////////////////////////////////////////
                 }
@@ -170,7 +178,7 @@ const PositionMap= () => {
                             card={card}
                             key={i}
                             id={card.id}//←ここただのiにしてたけど、card自体のIdをdraggableカードの非同期で渡さないといけないから変更してる。
-                            isSelected={i === selectedCardId}
+                            isSelected={card.id === selectedCardId}
                             unsetRefCurrent={unsetRefCurrent}
                         />
                     ))

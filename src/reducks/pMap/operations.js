@@ -19,6 +19,10 @@ const getToken = () => {
     return token
 }
 
+const closeWebSocket = (ws) => {
+    //ws.close()
+}
+
 export const updateMapSize = (width,height) => {
 
     return async(dispatch) => {
@@ -32,22 +36,13 @@ export const updateMapSize = (width,height) => {
 
 }
 
-export const changeMap = (mapId) => {
-    return async(dispatch,getState) => {
-
-        //ここら辺にマップ切り替えの非同期処理
-
-        const map = getState().pMap
-        dispatch(changeMapAction(map))
-    }
-}
-
-export const deleteMap = () => {
+export const deleteMap = (ws) => {
     return async(dispatch,getState) => {
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
 
         const map_id = getState().pMap.map_id
+        console.log('deleteMapid',map_id)
 
         //リクエストパラメータの準備
         let params = new URLSearchParams()
@@ -60,7 +55,10 @@ export const deleteMap = () => {
             if(res.data.result){
                 dispatch(clearMapAction())
                 dispatch(clearCardsAction())
+                closeWebSocket(ws)
+                console.log('クローズしました')
             }else{
+                console.log('errorDelete',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'マップの削除に失敗しました',
                     errorDetail:'マップの削除に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -124,7 +122,7 @@ export const updateMap = (name,detail) => {
     }
 }
 
-export const createMap = (name,detail) => {
+export const createMap = (name,detail,ws) => {
     return async(dispatch,getState) => {
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
@@ -150,9 +148,13 @@ export const createMap = (name,detail) => {
 
                 if(res.data.result){
                     console.log('success-createMap',res.data.result)
-                    const map_id = res.data.result.map_id
+                    const map_id = res.data.result[0].map_id
+                    console.log('maptestmaptesutptmaj',map_id)
+                    closeWebSocket(ws)
+                    console.log('クローズしました')
                     dispatch(updateMapIdAction({map_id:map_id}))
                     dispatch(clearCardsAction())
+                    
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップの作成に失敗しました',
@@ -183,6 +185,7 @@ export const createMap = (name,detail) => {
                     console.log('success-mapInfo',res.data.result)
                     const mapInfo = res.data.result
                     dispatch(updateMapAction(mapInfo))
+                
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップ情報の取得に失敗しました',
@@ -278,6 +281,7 @@ export const fetchMap = () => {
                 console.log('success',res.data.result)
                 const mapInfo = res.data.result
                 dispatch(updateMapAction(mapInfo))
+                
 
             }else{
                 dispatch(setRequestErrorAction({

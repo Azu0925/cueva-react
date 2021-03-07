@@ -20,28 +20,12 @@ const getToken = () => {
 
 export const addCard = (name,detail,x,y,height,width,ws) => {
     return async(dispatch,getState) => {
-        /*const prevCards = getState().cards.cards;
-        const card = {
-            name:name,
-            detail:detail,
-            x:x,
-            y:y,
-            height:height,
-            width:width,
-        }
-        const nextCards = [...prevCards,{...card}]
-        const selectedCardId = nextCards.length - 1
-        const pMapCards = {
-            cards:nextCards,
-            selectedCardId:selectedCardId
-        }
-        dispatch(addCardAction(pMapCards));*///今までの非同期未実装バージョン一応残しておきます。
+        
 
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
 
         const map_id = getState().pMap.map_id
-
         //リクエストパラメータの準備
         let params = new URLSearchParams()
         params.append('token',token)
@@ -50,21 +34,23 @@ export const addCard = (name,detail,x,y,height,width,ws) => {
         params.append('card_description',detail)
         params.append('card_x',x)
         params.append('card_y',y)
-        params.append('card_hight',height)
+        params.append('card_height',height)
         params.append('card_width',width)
-
+        
         try{
-
+            console.log('addcardに送るmap_idとtoken',map_id,'---',token)
             const res = await axios.post(`${uri.getCARD}create_card.php`,params)
-
+            console.log('create_card叩きました',map_id)
             if(res.data.result){
                 //WebSocketサーバに通知する処理が入る。
                 const cardInfo = JSON.stringify({
                     command:'update_data',
                     message:map_id
                 })
+                console.log('送るデータ',cardInfo)
                 ws.send(cardInfo)
             }else{
+                console.log('errorororo',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カードの作成に失敗しました',
                     errorDetail:'カードの作成に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -105,7 +91,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
         dispatch(updateCardAction(nextCards))*///前のやつ残してる
         const token = getToken()
         if(token === "")dispatch(push('/signin'))
-
+        console.log(name,detail,x,y,height,width)
         const map_id = getState().pMap.map_id
 
         //リクエストパラメータの準備
@@ -117,11 +103,12 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
         params.append('card_description',detail)
         params.append('card_x',x)
         params.append('card_y',y)
-        params.append('card_hight',height)
+        params.append('card_height',height)
         params.append('card_width',width)
 
         try{
             const res = await axios.post(`${uri.getCARD}card_update.php`,params)
+            console.log('カード変更')
             if(res.data.result){
                 //
                 const cardInfo = JSON.stringify({
@@ -130,6 +117,7 @@ export const updateCard = (id,name,detail,x,y,width,height,ws) => {
                 })
                 ws.send(cardInfo)
             }else{
+                console.log('updateError',res.data)
                 dispatch(setRequestErrorAction({
                     errorTitle:'カード情報の変更に失敗しました',
                     errorDetail:'カード情報の変更に失敗しました。通信環境の良い場所でもう一度お試しください。'
@@ -223,3 +211,21 @@ export const deselectCard = () => {
         dispatch(deselectCardAction())
     }
 }
+
+
+/*const prevCards = getState().cards.cards;
+        const card = {
+            name:name,
+            detail:detail,
+            x:x,
+            y:y,
+            height:height,
+            width:width,
+        }
+        const nextCards = [...prevCards,{...card}]
+        const selectedCardId = nextCards.length - 1
+        const pMapCards = {
+            cards:nextCards,
+            selectedCardId:selectedCardId
+        }
+        dispatch(addCardAction(pMapCards));*///今までの非同期未実装バージョン一応残しておきます。

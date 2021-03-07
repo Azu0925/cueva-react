@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch,useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -26,6 +27,7 @@ const DeleteMapDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    const ws = useContext(WebSocketContext);
 
     const map = getMapNameAndDetail(selector)
     const map_name = map[0]
@@ -65,7 +67,7 @@ const handleReconfirmClose = () => {
 //削除自体の非同期処理を関数で作成して確認ダイアログに渡す。
 
 const decision = () => {
-    dispatch(deleteMap())
+    dispatch(deleteMap(ws))
 }
 
     return (
@@ -80,8 +82,8 @@ const decision = () => {
             <DialogTitle id="form-dialog-title">下記のポジショニングマップを削除します。</DialogTitle>
             <DialogContent className={classes.root}>
                 <DialogContentText>
-                    マップ名<br/>
-                    マップ詳細<br/>
+                    マップ名：{map_name}<br/>
+                    マップ詳細：{map_description}<br/>
                 </DialogContentText>
             </DialogContent>
             <DialogActions className={classes.buttonGroup} >

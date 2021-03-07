@@ -26,7 +26,7 @@ const UpdateTeamDialog = (props) => {
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
     const team = getTeam(selector)
-    const team_name = team.name
+    const team_name = team.team_name
     const team_description = team.team_description
     const isOpen = props.isOpen
     const doClose = props.doClose

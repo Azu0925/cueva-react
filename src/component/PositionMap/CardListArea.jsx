@@ -25,7 +25,7 @@ const CardListArea = () => {
         <div className={classes.root}>
             {cards.length > 0 && (
                 cards.map((card,i) => (
-                    <CardTitle id={i} name={card.name} selectedCardId={selectedCardId}  key={i} />
+                    <CardTitle id={card.id} name={card.card_name} selectedCardId={selectedCardId}  key={i} />
                 ))
             )}
         </div>

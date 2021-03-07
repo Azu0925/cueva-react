@@ -21,6 +21,15 @@ export const TeamReducer = (state = initialState.team,action) => {
                 ...action.payload
             }
 
+        case Actions.CLEAR_TEAM_ACTION:
+            return{
+                team_id:"",
+                team_name:"",
+                team_description:"",
+                member:[],
+                map_info:[]
+            }
+
         default:
             return state
     }

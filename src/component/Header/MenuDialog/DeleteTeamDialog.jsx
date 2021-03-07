@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch,useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -26,6 +27,7 @@ const DeleteTeamDialog = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    const ws = useContext(WebSocketContext);
 
     const isOpen = props.isOpen
     const doClose = props.doClose
@@ -64,7 +66,7 @@ const handleReconfirmClose = () => {
 //削除自体の非同期処理を関数で作成して確認ダイアログに渡す。
 
 const decision = () => {
-    dispatch(deleteTeam())
+    dispatch(deleteTeam(ws))
 }
 
     return (
@@ -81,12 +83,12 @@ const decision = () => {
                 <DialogContentText>
                     チーム名：{team_name}<br/>
                     チーム詳細：{team_description}<br/>
-                    チームメンバー：{team_member.map((member) => (
-                        <>　{member}　</>
+                    チームメンバー：{team_member.map((member,i) => (
+                        <span key={i}>　{member}　</span>
                     ))}
                     含有マップ一覧：{map_info.length < 0 && (
-                        map_info.map((map) => (
-                            <>　{map.map_name}　</>
+                        map_info.map((map,i) => (
+                            <span key={i}>　{map.map_name}　</span>
                         ))
                     )}
                 </DialogContentText>

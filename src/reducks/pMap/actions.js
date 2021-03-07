@@ -24,6 +24,7 @@ export const fetchMapDetailAction = (detail) => {
 
 export const UPDATE_MAP_ACTION = 'UPDATE_MAP_ACTION';
 export const updateMapAction = (mapInfo) => {
+    console.log('マップ更新処理アクション発酵')
     return{
         type:'UPDATE_MAP_ACTION',
         payload:mapInfo

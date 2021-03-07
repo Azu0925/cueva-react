@@ -1,4 +1,5 @@
-import React, { useState,useEffect,useCallback } from "react";
+import React, { useState,useEffect,useCallback,useContext } from "react";
+import {WebSocketContext} from '../../../templete/Main'
 import {useDispatch} from 'react-redux'
 import {createTeam} from '../../../reducks/team/operations'
 import Button from "@material-ui/core/Button";
@@ -27,6 +28,7 @@ const CreateTeamDialog = (props) => {
     const dispatch = useDispatch()
     const isOpen = props.isOpen
     const doClose = props.doClose
+    const ws = useContext(WebSocketContext);
 
     const [open, setOpen] = useState(false);
 
@@ -98,7 +100,8 @@ const CreateTeamDialog = (props) => {
             return
         }
 
-        dispatch(createTeam(teamName,teamDetail,mapName,mapDetail,isCreateMap))
+        dispatch(createTeam(teamName,teamDetail,mapName,mapDetail,isCreateMap,ws))
+        console.log('チームとマップ作成全ての処理が完了！！！！！！')
         setTeamName('')
         setTeamDetail('')
         setMapName('')

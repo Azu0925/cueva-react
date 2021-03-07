@@ -1,5 +1,5 @@
 import {push} from "connected-react-router";
-import {fetchTeamMapsAction,changeTeamAction,updateTeamAction} from './actions';
+import {fetchTeamMapsAction,changeTeamAction,updateTeamAction,clearTeamAction} from './actions';
 import {updateMapAction,updateMapIdAction,clearMapAction} from '../pMap/actions'
 import {clearCardsAction} from '../card/actions'
 import {setRequestErrorAction} from '../requestError/actions'
@@ -17,6 +17,10 @@ const getToken = () => {
         if(cookie[0] == 'token') token = cookie[1]
     }
     return token
+}
+
+const closeWebSocket = (ws) => {
+    //ws.close()
 }
 
 export const fetchTeam = (teamId) => {
@@ -40,6 +44,7 @@ export const fetchTeam = (teamId) => {
             if (res.data.result){
 
                 const team = res.data.result
+                console.log('UPDATETEAMACTION',team)
                 dispatch(updateTeamAction(team))
 
             }else{
@@ -118,7 +123,7 @@ export const inviteTeam = (userId,ws) => {
     }
 }
 
-export const deleteTeam = () => {
+export const deleteTeam = (ws) => {
     return async (dispatch,getState) => {
 
         //トークンの取得
@@ -134,8 +139,14 @@ export const deleteTeam = () => {
         
         try{
             const res = await axios.post(`${uri.getTEAM}delete.php`,params)
+            console.log('deleteTeam',res)
             if (res.data.result){
-                //リダイレクトした時点でstoreは初期化されるはずだから初期化の処理は記述していない。初期化されなかったら初期用actionを追加すること。
+                console.log('削除成功してるで')
+                closeWebSocket(ws)
+                console.log('クローズしました')
+                dispatch(clearTeamAction())
+                dispatch(clearMapAction())
+                dispatch(clearCardsAction())
                 dispatch(push('/'))
 
             }else{
@@ -209,7 +220,7 @@ export const exitTeam = () => {
     }
 }
 
-export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) => {
+export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap,ws) => {
     return async(dispatch,getState) => {
         //トークンの取得
         const token = getToken();
@@ -233,6 +244,10 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 const res = await axios.post(`${uri.getTEAM}register.php`,teamRegistParams)
 
                 if(res.data.result){
+                    console.log(ws)
+                    closeWebSocket(ws)
+                    console.log('クローズした')
+                    
                     console.log('success-createTeam',res.data.result)
                     const team_id = res.data.result.team_id
                     dispatch(updateTeamAction({team_id:team_id}))
@@ -253,6 +268,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
+            console.log('チーム作成完了')
     //--------------------------------------------チーム情報の取得------------------------------------------------------------------------------------------------
             const team_id = getState().team.team_id
 
@@ -282,6 +298,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
+            console.log('チーム情報取得完了')
     //--------------------------------------------マップの作成------------------------------------------------------------------------------------------------
 
             //送信するマップを作成
@@ -305,7 +322,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 
                 if(res.data.result){
                     console.log('success-createMap',res.data.result)
-                    const map_id = res.data.result.map_id
+                    const map_id = res.data.result[0].map_id
                     dispatch(updateMapIdAction({map_id:map_id}))
                 }else{
                     dispatch(setRequestErrorAction({
@@ -322,7 +339,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
-
+            console.log('マップ作成完了')
     //--------------------------------------------マップの情報取得------------------------------------------------------------------------------------------------
 
             const map_id = getState().pMap.map_id
@@ -339,6 +356,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                     console.log('success-mapInfo',res.data.result)
                     const mapInfo = res.data.result
                     dispatch(updateMapAction(mapInfo))
+                    console.log('最後のマップ更新処理完了',mapInfo)
                 }else{
                     dispatch(setRequestErrorAction({
                         errorTitle:'マップ情報の取得に失敗しました',
@@ -354,7 +372,7 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
                 }))
                 return
             }
-
+            console.log('マップ情報取得完了')
 
         }else{
             //チームのみ作成
@@ -375,6 +393,8 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
 
                 if(res.data.result){
                     console.log('success-createTeam',res.data.result)
+                    closeWebSocket(ws)
+                    console.log('クローズしました')
                     const team_id = res.data.result.team_id
                     dispatch(updateTeamAction({team_id:team_id}))
                     dispatch(clearMapAction())
@@ -427,14 +447,14 @@ export const createTeam = (teamName,teamDetail,mapName,mapDetail,isCreateMap) =>
     }
 }
 
-export const test = (ws) => {
+export const test = () => {
     return async(dispatch,getState) => {
     
         try{
             const testSend = JSON.stringify({
                 message:'hello!'
             })
-            await ws.send(testSend)
+            
 
         }catch(e){
             
