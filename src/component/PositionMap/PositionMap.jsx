@@ -85,7 +85,7 @@ const PositionMap= () => {
             y:e.offsetY
         }
         console.log('渡すオブジェクト→',ws)
-        dispatch(addCard("","",newPosition.x,newPosition.y,100,150,ws));
+        dispatch(addCard("","",newPosition.x,newPosition.y,40,150,ws));
     }
 
     useEffect(() => {//最初にダブルクリックのイベントリスナーを登録。
