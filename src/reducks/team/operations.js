@@ -94,7 +94,7 @@ export const inviteTeam = (userId,ws) => {
         params.append('user_id',opponent_id)
         
         try{
-            const res = await axios.post(`${uri.getTEAM}delete.php`,params)
+            const res = await axios.post(`${uri.getTEAM}invite.php`,params)
 
             if(res.data.result){
                 //招待完了ダイアログとかあれば良いかも
