@@ -16,13 +16,19 @@ const useStyles = makeStyles({
         backgroundColor:'white',
         border:'solid 1px gray',
         paddingBottom:0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     selectedCard:{
         position:'absolute',
         overflow:'auto',
         backgroundColor:'white',
         border:'solid 2px black',
-        paddingBottom:0
+        paddingBottom:0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
         
     },
     handleArea:{
