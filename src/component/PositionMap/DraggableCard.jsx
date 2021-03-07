@@ -29,7 +29,9 @@ const useStyles = makeStyles({
         height:'20%'
     },
     mainArea:{
-        height:'70%'
+        height:'70%',
+        display: 'flex',
+        overflow: 'hidden'
     },
     footer:{
         height:'10%',
@@ -202,16 +204,12 @@ const DraggableCard = (props) => {
                         onKeyDown={(e) => handleOnKeyDown(e)}
                         onChange={(e) => inputCurrentName(e)}
                     />
-                    <p>{detail}</p>
-                    x:{currentX}y:{currentY}
-                </div>
-                
-                <div className={classes.iconWrapper}>
-                <IconButton className={classes.iconButton} onClick={(e) => handleDeleteIcon(e)} >
-                    <DeleteOutlineOutlinedIcon className={classes.icon} />
-                </IconButton>
-                </div>
-                
+                    <div className={classes.iconWrapper}>
+                        <IconButton className={classes.iconButton} onClick={(e) => handleDeleteIcon(e)} >
+                            <DeleteOutlineOutlinedIcon className={classes.icon} />
+                        </IconButton>
+                    </div>
+                </div>                
             </Paper>
         </Draggable>
 
