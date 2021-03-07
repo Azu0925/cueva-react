@@ -41,14 +41,6 @@ const Header = () => {
             <AppBar className={classes.headerColor}>
                 <Toolbar className={classes.contents}>
                     <HeaderLogoArea className={classes.logo} />
-                    <div>
-                    <p className={classes.detail}>あなたのID:{user_id}</p>
-                        <p className={classes.detail}>あなたの名前：{user_name}</p>
-                    </div>
-                    <div>
-                        <p className={classes.detail}>選択中チーム名：{team_name}</p>
-                        <p className={classes.detail}>選択中マップ名:{map_name}</p>
-                    </div>
                     <div className={classes.tool}>
                         {IsSignedIn && (//サインインしていないなら各種ツールは全て使用不可にする
                             <HeaderMenuArea />
