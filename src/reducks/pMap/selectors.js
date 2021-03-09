@@ -2,20 +2,6 @@ import {createSelector} from 'reselect';
 
 const pMapSelector = state => state;
 
-export const getCards = createSelector(
-    [pMapSelector],
-    state => state.pMap.cards
-)
-
-export const getSelectedCard = createSelector(
-    [pMapSelector],
-    state => state.pMap.cards[state.pMap.selectedCardId]
-)
-export const getSelectedCardId = createSelector(
-    [pMapSelector],
-    state => state.pMap.selectedCardId
-)
-
 export const getMapSize = createSelector(
     [pMapSelector],
     state => state.pMap.size
@@ -24,4 +10,29 @@ export const getMapSize = createSelector(
 export const getUnsetRefCurrent = createSelector(
     [pMapSelector],
     state => state.pMap.unsetRefCurrent
+)
+
+export const getMapNameAndDetail = createSelector(
+    [pMapSelector],
+    state => [state.pMap.map_name,state.pMap.map_description]
+)
+
+export const getMapAxis = createSelector(
+    [pMapSelector],
+    state => state.pMap.axis
+)
+
+export const getMapId = createSelector(
+    [pMapSelector],
+    state => state.pMap.map_id
+)
+
+export const getMap = createSelector(
+    [pMapSelector],
+    state => state.pMap
+)
+
+export const getMapName = createSelector(
+    [pMapSelector],
+    state => state.pMap.map_name
 )

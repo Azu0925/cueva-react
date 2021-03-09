@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useCallback} from 'react';
 import {useDispatch} from 'react-redux'
 import {useInteractJS} from '../../hooks/hooks'
-import {updateCard,selectCard,deleteCard} from '../../reducks/pMap/operations'
+import {updateCard,selectCard,deleteCard} from '../../reducks/card/operations'
 import {InputText} from '../UIKit'
 import {makeStyles} from '@material-ui/styles';
 import Divider from '@material-ui/core/Divider';
@@ -43,7 +43,6 @@ const PositionCard = (props) => {
     const classes = useStyles()
     
     const unsetRefCurrent = props.unsetRefCurrent
-    console.log('pcCurrent',unsetRefCurrent)
     const interact = useInteractJS(props.card,unsetRefCurrent);//props受け取ったcardの位置情報をinteract.jsのカスタムフックに渡す。
     const dispatch = useDispatch()
     //interact.jsにより作成された動く要素の情報をinteractのオブジェクトから取得
@@ -65,6 +64,13 @@ const PositionCard = (props) => {
         setDetail(d)
     },[n,d])
 
+    useEffect(() => {
+        console.log('didmount')
+        return () => {
+            console.log('unmount')
+        }
+    },[])
+
     const inputName = useCallback((e) => {
         setName(e.target.value)
     },[])
@@ -74,6 +80,7 @@ const PositionCard = (props) => {
     }
 
     const handleMouseUp = () => {//要素をドラッグして離した時に新しい座標またはサイズをstoreに更新
+
         dispatch(updateCard(cardId,name,detail,Math.floor(x),Math.floor(y),Math.floor(width),Math.floor(height)))
     }
 
@@ -88,7 +95,6 @@ const PositionCard = (props) => {
 
     const handleDeleteIcon = (e) => {
         e.stopPropagation()
-        console.log('押された！！！！！')
         //interact.disable()
         dispatch(deleteCard(cardId,interact.ref.current))
     }

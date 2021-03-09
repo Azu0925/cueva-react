@@ -1,14 +1,19 @@
 import React from 'react';
 import "./assets/reset.css";
 import "./assets/style.css";
-import {Main} from './templete';
+import Router from './Router'
 
 const App = () => {
 
 
   return(
     <>
-      <Main />
+    {/*}
+      <div id="header">
+        <Header />
+      </div>
+  {*/}
+      <Router />
     </>
   )
 }
